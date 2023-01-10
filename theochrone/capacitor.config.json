@@ -1,0 +1,9 @@
+{
+  "appId": "com.benoiteirik.theochrone",
+  "appName": "Theochrone",
+  "webDir": ".output/public",
+  "bundledWebRuntime": false,
+  "android": {
+    "path": "../android"
+  }
+}
