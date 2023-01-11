@@ -1,18 +1,31 @@
 /** @type {import('tailwindcss').Config} */
+
+// tailwind.config.js
+const colors = require('tailwindcss/colors')
+const indielayer = require('@indielayer/ui/tailwind.preset')
+
 module.exports = {
+  darkMode: 'class',
+  // load indielayer ui presets
+  presets: [indielayer()],
+  // allow PurgeCSS to analyze components
   content: [
-    `./components/**/*.{vue,js,ts}`,
-    `./layouts/**/*.vue`,
-    `./pages/**/*.vue`,
-    `./composables/**/*.{js,ts}`,
-    `./plugins/**/*.{js,ts}`,
-    `./App.{js,ts,vue}`,
-    `./app.{js,ts,vue}`,
-    `./Error.{js,ts,vue}`,
-    `./error.{js,ts,vue}`
+    './index.html',
+    './**/*.vue',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+    'node_modules/@indielayer/ui/**/*',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: colors.emerald,
+        secondary: colors.slate,
+        success: colors.green,
+        warning: colors.yellow,
+        error: colors.red,
+        'blue-light': '#55acee'
+      },
+    },
   },
   plugins: [],
 }
