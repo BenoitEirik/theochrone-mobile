@@ -1,0 +1,12 @@
+{
+  "name": "com.benoiteirik.theochrone",
+  "version": "0.0.1",
+  "description": "Le Théochrone, un calendrier liturgique perpétuel selon le rit tridentin (missel de 1962).",
+  "author": "BenoitEirik <olafsergent@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "@capacitor/android": "^2.5.0",
+    "@capacitor/cli": "^2.0.0",
+    "@capacitor/core": "^2.0.0"
+  }
+}

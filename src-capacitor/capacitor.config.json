@@ -1,0 +1,7 @@
+{
+  "appId": "com.benoiteirik.theochrone",
+  "appName": "Theochrone",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}
