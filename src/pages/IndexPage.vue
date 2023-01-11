@@ -1,71 +1,31 @@
 <template>
-<q-page class="q-pa-md row items-start justify-evenly">
-  <q-img src="~assets/images/image_not_found.png" fit="fill" />
-
-  <q-list bordered separator>
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Propre</q-item-section>
-      <q-item-section>Romain</q-item-section>
-    </q-item>
-
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Édition</q-item-section>
-      <q-item-section>1962</q-item-section>
-    </q-item>
-
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Célébration</q-item-section>
-      <q-item-section>Cette fête peut être célébrée.</q-item-section>
-    </q-item>
-
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Classe</q-item-section>
-      <q-item-section>4</q-item-section>
-    </q-item>
-
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Couleur liturgique</q-item-section>
-      <q-item-section>Blanc</q-item-section>
-    </q-item>
-
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Temporal</q-item-section>
-      <q-item-section>Oui</q-item-section>
-    </q-item>
-
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Sanctoral</q-item-section>
-      <q-item-section>Non</q-item-section>
-    </q-item>
-
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Temps liturgique</q-item-section>
-      <q-item-section>Temps de l'Épiphanie (Temps de Noël)</q-item-section>
-    </q-item>
-
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Fête transférée</q-item-section>
-      <q-item-section>Non</q-item-section>
-    </q-item>
-  </q-list>
+<q-page class="q-pa-md">
+  <q-date v-model="date" minimal class="full-width no-shadow" />
 </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-
-const rows = [
-  {
-    name: 'Frozen Yogurt',
-    calories: 159
-  }
-]
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
+    function formatDate(date: Date) {
+      var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2)
+        month = '0' + month;
+      if (day.length < 2)
+        day = '0' + day;
+
+      return [year, month, day].join('/');
+    }
+
     return {
-      rows
+      date: ref(formatDate(new Date()))
     }
   }
 });
