@@ -1,5 +1,9 @@
 <template>
-  <div class="h-14 flex justify-between items-center bg-[#55acee]">
-    <h1 class="text-white text-xl">Theochrone</h1>
+  <div>
+    <q-toolbar class="bg-primary text-white">
+      <q-btn flat round dense icon="menu" class="q-mr-sm" />
+      <q-toolbar-title class="text-center">Theochrone</q-toolbar-title>
+      <q-btn flat round dense icon="whatshot" />
+    </q-toolbar>
   </div>
 </template>

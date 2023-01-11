@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Mardi de la férie du temps de l'Épiphanie (Temps de Noël)</h1>
+    <h2>Mardi de la férie du temps de l'Épiphanie (Temps de Noël)</h2>
     <div class="pb-2 flex flex-col">
       <img src="@/assets/images/image_not_found.png">
       <table>
