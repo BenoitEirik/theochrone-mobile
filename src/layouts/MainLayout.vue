@@ -1,55 +1,31 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+<q-layout view="lHh Lpr lFf">
+  <q-header elevated>
+    <q-toolbar>
+      <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title class="text-center">
-          Theochrone
-        </q-toolbar-title>
+      <q-toolbar-title class="text-center raleway">
+        Theochrone
+      </q-toolbar-title>
 
-        <q-btn
-          flat
-          dense
-          round
-          icon="search"
-          aria-label="Search"
-          @click="toggleLeftDrawer"
-        />
-      </q-toolbar>
-    </q-header>
+      <q-btn flat dense round icon="search" aria-label="Search" @click="toggleLeftDrawer" />
+    </q-toolbar>
+  </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+  <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-list>
+      <q-item-label header>
+        Essential Links
+      </q-item-label>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
+      <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+    </q-list>
+  </q-drawer>
 
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+  <q-page-container>
+    <router-view />
+  </q-page-container>
+</q-layout>
 </template>
 
 <script lang="ts">
@@ -108,13 +84,13 @@ export default defineComponent({
     EssentialLink
   },
 
-  setup () {
+  setup() {
     const leftDrawerOpen = ref(false)
 
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
-      toggleLeftDrawer () {
+      toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
     }

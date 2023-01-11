@@ -1,1 +1,9 @@
 // app global css in SCSS form
+@font-face {
+  font-family: 'raleway';
+  src: url(../assets/fonts/raleway/Raleway-Medium.ttf);
+}
+
+.raleway {
+  font-family: 'raleway';
+}

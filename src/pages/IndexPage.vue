@@ -1,49 +1,72 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
-  </q-page>
+<q-page class="q-pa-md row items-start justify-evenly">
+  <q-img src="~assets/images/image_not_found.png" fit="fill" />
+
+  <q-list bordered separator>
+    <q-item clickable v-ripple>
+      <q-item-section class="text-bold">Propre</q-item-section>
+      <q-item-section>Romain</q-item-section>
+    </q-item>
+
+    <q-item clickable v-ripple>
+      <q-item-section class="text-bold">Édition</q-item-section>
+      <q-item-section>1962</q-item-section>
+    </q-item>
+
+    <q-item clickable v-ripple>
+      <q-item-section class="text-bold">Célébration</q-item-section>
+      <q-item-section>Cette fête peut être célébrée.</q-item-section>
+    </q-item>
+
+    <q-item clickable v-ripple>
+      <q-item-section class="text-bold">Classe</q-item-section>
+      <q-item-section>4</q-item-section>
+    </q-item>
+
+    <q-item clickable v-ripple>
+      <q-item-section class="text-bold">Couleur liturgique</q-item-section>
+      <q-item-section>Blanc</q-item-section>
+    </q-item>
+
+    <q-item clickable v-ripple>
+      <q-item-section class="text-bold">Temporal</q-item-section>
+      <q-item-section>Oui</q-item-section>
+    </q-item>
+
+    <q-item clickable v-ripple>
+      <q-item-section class="text-bold">Sanctoral</q-item-section>
+      <q-item-section>Non</q-item-section>
+    </q-item>
+
+    <q-item clickable v-ripple>
+      <q-item-section class="text-bold">Temps liturgique</q-item-section>
+      <q-item-section>Temps de l'Épiphanie (Temps de Noël)</q-item-section>
+    </q-item>
+
+    <q-item clickable v-ripple>
+      <q-item-section class="text-bold">Fête transférée</q-item-section>
+      <q-item-section>Non</q-item-section>
+    </q-item>
+  </q-list>
+</q-page>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
+
+const rows = [
+  {
+    name: 'Frozen Yogurt',
+    calories: 159
+  }
+]
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ExampleComponent },
-  setup () {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1'
-      },
-      {
-        id: 2,
-        content: 'ct2'
-      },
-      {
-        id: 3,
-        content: 'ct3'
-      },
-      {
-        id: 4,
-        content: 'ct4'
-      },
-      {
-        id: 5,
-        content: 'ct5'
-      }
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200
-    });
-    return { todos, meta };
+  setup() {
+    return {
+      rows
+    }
   }
 });
 </script>
