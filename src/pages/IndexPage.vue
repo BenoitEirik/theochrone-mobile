@@ -96,3 +96,9 @@ export default defineComponent({
   border-radius: 8px;
 }
 </style>
+
+<style>
+.swiper-pagination-bullet-active {
+  background-color: #55acee;
+}
+</style>
