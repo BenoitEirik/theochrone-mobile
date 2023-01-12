@@ -1,10 +1,10 @@
 {
-  "appId": "com.benoiteirik.theochrone",
-  "appName": "Theochrone",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www",
-  "server": {
-    "url": "http://192.168.27.109:9500"
-  }
+	"appId": "com.benoiteirik.theochrone",
+	"appName": "Theochrone",
+	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "www",
+	"server": {
+		"url": "http://192.168.27.109:9500"
+	}
 }
