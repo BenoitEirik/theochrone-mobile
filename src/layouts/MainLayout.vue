@@ -4,7 +4,7 @@
     <q-toolbar>
       <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-      <q-toolbar-title class="text-center raleway">
+      <q-toolbar-title class="text-center">
         Theochrone
       </q-toolbar-title>
 
@@ -31,6 +31,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
+import { StatusBar, Style } from '@capacitor/status-bar'
 
 const linksList = [
   {
@@ -86,6 +87,11 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false)
+
+    async () => {
+      await StatusBar.setStyle({ style: Style.Light })
+      await StatusBar.setBackgroundColor({ color: '#55acee' })
+    }
 
     return {
       essentialLinks: linksList,
