@@ -20,6 +20,8 @@
     </swiper-slide>
   </swiper>
 
+  <pre>{{ data }}</pre>
+
   <div class="q-pa-md">
     <div class="q-pa-sm full-width row jutify-between items-center no-wrap box-title">
       <div class="row justify-start items-center full-height" style="width: 60px">
@@ -40,12 +42,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { EffectCoverflow, Pagination } from 'swiper';
 import 'swiper/css/pagination';
 import 'swiper/css';
+
+import { Http } from '@capacitor-community/http';
 
 export default defineComponent({
   name: 'IndexPage',
@@ -54,6 +58,21 @@ export default defineComponent({
     SwiperSlide,
   },
   setup() {
+    var data = ref('Wait...')
+
+    onMounted(async () => {
+      const options = {
+        url: 'http://ip.jsontest.com',
+        headers: { 'Content-Type': 'application/json' },
+      };
+
+      const response = await Http.get(options)
+      data.value = response.data
+      console.log('testt:', data.value)
+      data.value = 'teste'
+    })
+
+
     function formatDate(date: Date) {
       var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -69,6 +88,7 @@ export default defineComponent({
     }
 
     return {
+      data,
       date: ref(formatDate(new Date())),
       modules: [EffectCoverflow, Pagination],
     }
