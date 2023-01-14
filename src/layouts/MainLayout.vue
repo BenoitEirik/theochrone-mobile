@@ -23,11 +23,26 @@
     </div>
 
     <q-list>
-      <q-item-label header>
-        Essential Links
-      </q-item-label>
+      <q-item clickable target="_blank" href="https://theochrone.fr">
+        <q-item-section avatar>
+          <q-icon name="public" />
+        </q-item-section>
 
-      <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+        <q-item-section>
+          <q-item-label>Site internet</q-item-label>
+          <q-item-label caption>https://theochrone.fr</q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable @click="async () => { await app.exitApp() }">
+        <q-item-section avatar>
+          <q-icon name="logout" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label>Quitter</q-item-label>
+        </q-item-section>
+      </q-item>
     </q-list>
   </q-drawer>
 
@@ -39,8 +54,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
 import { StatusBar, Style } from '@capacitor/status-bar'
+import { App } from '@capacitor/app';
 
 const linksList = [
   {
@@ -54,10 +69,6 @@ const linksList = [
 export default defineComponent({
   name: 'MainLayout',
 
-  components: {
-    EssentialLink
-  },
-
   setup() {
     const leftDrawerOpen = ref(false)
 
@@ -67,6 +78,7 @@ export default defineComponent({
     })
 
     return {
+      app: App,
       essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer() {

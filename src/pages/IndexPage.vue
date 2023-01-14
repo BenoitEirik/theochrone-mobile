@@ -62,13 +62,11 @@ export default defineComponent({
 
     onMounted(async () => {
       const options = {
-        url: 'http://ip.jsontest.com',
-        headers: { 'Content-Type': 'application/json' },
+        url: 'https://theochrone.fr'
       };
 
       const response = await Http.get(options)
       data.value = response.data
-      console.log('testt:', data.value)
     })
 
 
