@@ -58,7 +58,8 @@ export default defineComponent({
     SwiperSlide,
   },
   setup() {
-    var data = ref('Wait...')
+    var data = ref()
+    const fests: Array<object> = []
 
     onMounted(async () => {
       const options = {
@@ -68,9 +69,30 @@ export default defineComponent({
       const response = await Http.get(options)
       data.value = response.data
 
+      // Init virtual DOM from theochrone.fr
       const parser = new DOMParser();
       const HTMLDocument = parser.parseFromString(data.value, 'text/html')
-      data.value = HTMLDocument.body.innerHTML;
+      const festsElement = HTMLDocument.body.querySelector('#resultup .container .row div div .panel-group')
+
+      // Get list fest
+      for (let i = 0; i < Number(festsElement?.childElementCount); i++) {
+        const attributesQueryPath = '.panel-collapse .panel-body .container .row .col-md-6 table tbody'
+
+        fests.push({
+          title: festsElement?.children[i].querySelector('.panel-heading .panel-title a')?.innerHTML || '',
+          proper: festsElement?.children[i].querySelector(attributesQueryPath)?.children[0].children[1].innerHTML || '',
+          edition: festsElement?.children[i].querySelector(attributesQueryPath)?.children[1].children[1].innerHTML || '',
+          celebration: festsElement?.children[i].querySelector(attributesQueryPath)?.children[2].children[1].innerHTML || '',
+          class: festsElement?.children[i].querySelector(attributesQueryPath)?.children[3].children[1].innerHTML || '',
+          color: festsElement?.children[i].querySelector(attributesQueryPath)?.children[4].children[1].innerHTML || '',
+          temporal: festsElement?.children[i].querySelector(attributesQueryPath)?.children[5].children[1].innerHTML || '',
+          sanctoral: festsElement?.children[i].querySelector(attributesQueryPath)?.children[6].children[1].innerHTML || '',
+          liturgicalTime: festsElement?.children[i].querySelector(attributesQueryPath)?.children[7].children[1].innerHTML || '',
+          transferedFest: festsElement?.children[i].querySelector(attributesQueryPath)?.children[8].children[1].innerHTML || ''
+        })
+      }
+
+      data.value = fests
     })
 
 
