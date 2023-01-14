@@ -67,6 +67,10 @@ export default defineComponent({
 
       const response = await Http.get(options)
       data.value = response.data
+
+      const parser = new DOMParser();
+      const HTMLDocument = parser.parseFromString(data.value, 'text/html')
+      data.value = HTMLDocument.body.innerHTML;
     })
 
 
