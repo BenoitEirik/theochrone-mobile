@@ -69,7 +69,6 @@ export default defineComponent({
       const response = await Http.get(options)
       data.value = response.data
       console.log('testt:', data.value)
-      data.value = 'teste'
     })
 
 
