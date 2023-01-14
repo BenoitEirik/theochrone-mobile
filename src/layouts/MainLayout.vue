@@ -13,6 +13,15 @@
   </q-header>
 
   <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <div class="relative-position">
+      <q-img src="~assets/images/drawer/banner.jpg" class="full-width" fit="contain" />
+      <q-img src="~assets/images/logo.png" width="50%" class="absolute-center logo-dropshadow" />
+    </div>
+
+    <div class="q-pa-md text-center quote">
+      Ad majorem Dei gloriam
+    </div>
+
     <q-list>
       <q-item-label header>
         Essential Links
@@ -67,3 +76,14 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped lang="scss">
+.logo-dropshadow {
+  filter: drop-shadow(0px 0px 4px #fff);
+}
+
+.quote {
+  background-color: $primary;
+  color: white;
+}
+</style>
