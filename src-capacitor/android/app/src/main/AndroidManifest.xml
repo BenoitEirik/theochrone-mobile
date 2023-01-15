@@ -3,8 +3,10 @@
     package="com.benoiteirik.theochrone">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
-    <application
+
+  <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,8 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name=".BootNotification"
-          android:exported="true">
+        <receiver android:name=".BootNotification">
           <intent-filter>
             <action android:name="android.intent.action.BOOT_COMPLETED" />
           </intent-filter>
