@@ -8,11 +8,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+
+import java.util.ArrayList;
 
 public class BootNotification extends BroadcastReceiver {
 
@@ -41,23 +43,46 @@ public class BootNotification extends BroadcastReceiver {
         Log.d("BOOT", "Notification starting...");
       }
 
-      // Create a Notification with the intent
-      NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CHANNEL_ID")
-        .setSmallIcon(R.mipmap.ic_launcher_foreground)
-        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_foreground))
-        .setStyle(new NotificationCompat.BigPictureStyle()
-          .bigLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_foreground)))
-        .setContentTitle("Dimanche 15 Janvier 2023")
-        .setContentText("• Deuxième Dimanche après l'Épiphanie\n• Saint Paul, premier ermite et Confesseur\n• Saint Maur, abbé")
-        .setStyle(new NotificationCompat.BigTextStyle()
-          .bigText("• Deuxième Dimanche après l'Épiphanie\n• Saint Paul, premier ermite et Confesseur\n• Saint Maur, abbé"))
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-        .setContentIntent(pendingIntent);
+      class ThreadTask extends AsyncTask<Void, Void, ArrayList<String>> {
+        @Override
+        protected ArrayList<String> doInBackground(Void... voids) {
+          // Get fests of the day
+          Fests fests = new Fests();
+          ArrayList<String> arrayFests = fests.getDayFests();
+          String parsedContent = "";
+          for( int i = 0; i < arrayFests.size(); i++) {
+            parsedContent += "• "+ arrayFests.get(i) + "\n";
+          }
 
-      // Show the notification
-      NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-      notificationManager.notify(0, builder.build());
+          ArrayList<String> ret = new ArrayList<>();
+          ret.add(fests.getDay());
+          ret.add(parsedContent);
+          return ret;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> result) {
+          // Create a Notification with the intent
+          NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CHANNEL_ID")
+            .setSmallIcon(R.mipmap.ic_launcher_foreground)
+            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_foreground))
+            .setStyle(new NotificationCompat.BigPictureStyle()
+              .bigLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_foreground)))
+            .setContentTitle(result.get(0))
+            .setContentText(result.get(1))
+            .setStyle(new NotificationCompat.BigTextStyle()
+              .bigText(result.get(1)))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setContentIntent(pendingIntent);
+
+          // Show the notification
+          NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+          notificationManager.notify(0, builder.build());
+        }
+      }
+
+      AsyncTask<Void, Void, ArrayList<String>> task = new ThreadTask().execute();
     }
   }
 }
