@@ -20,7 +20,8 @@
   <div class="q-pa-md">
     <div class="q-pa-sm full-width row jutify-between items-center no-wrap box-title">
       <div class="row justify-start items-center full-height col-2">
-        <q-img :src="getOrnamentImg(fests[swiperIndex].color)" class="full-height" fit="contain" />
+        <q-img :src="getOrnamentImg[fests[swiperIndex].color as keyof typeof getOrnamentImg]" class="full-height"
+          fit="contain" />
       </div>
 
       <div class="q-px-sm full-height col-8 column justify-center items-center no-wrap">
@@ -37,13 +38,11 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { EffectCoverflow, Pagination } from 'swiper';
 import 'swiper/css/pagination';
 import 'swiper/css';
-
-import { Http } from '@capacitor-community/http';
+import { Http } from '../../src-capacitor/node_modules/@capacitor-community/http';
 
 export default defineComponent({
   name: 'IndexPage',
@@ -67,18 +66,17 @@ export default defineComponent({
       liturgicalTime: '',
       transferedFest: ''
     }])
-    enum ColorOrnaments {
-      'Noir' = '/images/ornements/black.png',
-      Blanc = '/images/ornements/white.png',
-      Or = '/images/ornements/gold.png',
-      Vert = '/images/ornements/green.png',
-      Rose = '/images/ornements/pink.png',
-      Violet = '/images/ornements/purple.png',
-      Red = '/images/ornements/red.png'
+    const getOrnamentImg = {
+      Noir: '/images/ornements/black.png',
+      Blanc: '/images/ornements/white.png',
+      Or: '/images/ornements/gold.png',
+      Vert: '/images/ornements/green.png',
+      Rose: '/images/ornements/pink.png',
+      Violet: '/images/ornements/purple.png',
+      Rouge: '/images/ornements/red.png'
     }
-    function getOrnamentImg(color: string) {
-      return ColorOrnaments[String(color)]
-    }
+
+
 
     onMounted(async () => {
       const options = {
@@ -123,7 +121,7 @@ export default defineComponent({
       }
     })
 
-
+    // Methods
     function formatDate(date: Date) {
       var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -137,6 +135,7 @@ export default defineComponent({
 
       return [year, month, day].join('/');
     }
+
 
     return {
       date: ref(formatDate(new Date())),
