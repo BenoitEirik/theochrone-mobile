@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -40,7 +39,6 @@ public class BootNotification extends BroadcastReceiver {
         // or other notification behaviors after this
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
-        Log.d("BOOT", "Notification starting...");
       }
 
       class ThreadTask extends AsyncTask<Void, Void, ArrayList<String>> {

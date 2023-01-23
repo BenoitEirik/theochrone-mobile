@@ -15,7 +15,10 @@ public class Fests {
     String day = "";
 
     try {
-      Document doc = Jsoup.connect(baseURL).timeout(0).get();
+      Document doc = Jsoup.connect(baseURL)
+        .header("Accept-Language", "fr")
+        .timeout(0)
+        .get();
 
       // Get title the day
       day = doc.select("#resultup .container .row div h3 a").text();
