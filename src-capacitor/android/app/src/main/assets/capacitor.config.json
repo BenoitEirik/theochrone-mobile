@@ -3,8 +3,5 @@
 	"appName": "Theochrone",
 	"bundledWebRuntime": false,
 	"npmClient": "npm",
-	"webDir": "www",
-	"server": {
-		"url": "http://192.168.229.54:9500"
-	}
+	"webDir": "www"
 }
