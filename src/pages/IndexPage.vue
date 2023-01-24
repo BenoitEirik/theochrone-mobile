@@ -1,6 +1,6 @@
 <template>
 <q-page class="full-width full-height column no-wrap justify-between items-stretch">
-  <q-date v-model="date" minimal class="full-width no-shadow" />
+  <q-date v-model="date" minimal class="full-width no-shadow" @update:modelValue="(value) => { setFestsDay(value) }" />
 
   <swiper :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'" :modules="modules"
     :onSlideChange="(index) => {
@@ -75,15 +75,14 @@ export default defineComponent({
       Violet: '/images/ornements/purple.png',
       Rouge: '/images/ornements/red.png'
     }
+    const date = ref(formatDate(new Date()))
 
+    onMounted(async () => setFestsDay(date.value))
 
-
-    onMounted(async () => {
-      const options = {
-        url: 'https://theochrone.fr'
-      };
-
-      const response = await Http.get(options)
+    // Methods
+    async function setFestsDay(date: string) {
+      const [year, month, day] = date.split('/')
+      const response = await Http.get({ url: `https://theochrone.fr/kalendarium/date_seule?date_seule_day=${day}&date_seule_month=${month}&date_seule_year=${year}&pal=false&martyrology=false&proper=roman` })
 
       // Init virtual DOM from theochrone.fr
       const parser = new DOMParser();
@@ -91,7 +90,7 @@ export default defineComponent({
       const festsElement = HTMLDocument.body.querySelector('#resultup .container .row div div .panel-group')
 
       // Get list fest
-      fests.value.pop()
+      fests.value = []
       for (let i = 0; i < Number(festsElement?.childElementCount); i++) {
         const attributesElement = festsElement?.children[i].querySelector('.panel-collapse .panel-body .container .row .col-md-6 table tbody')?.children || new HTMLCollection()
 
@@ -119,9 +118,7 @@ export default defineComponent({
           transferedFest: attributesElement[8].children[1].innerHTML || ''
         })
       }
-    })
-
-    // Methods
+    }
     function formatDate(date: Date) {
       var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -138,11 +135,12 @@ export default defineComponent({
 
 
     return {
-      date: ref(formatDate(new Date())),
+      date,
       modules: [EffectCoverflow, Pagination],
       fests,
       swiperIndex,
-      getOrnamentImg
+      getOrnamentImg,
+      setFestsDay
     }
   }
 });
