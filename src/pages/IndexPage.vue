@@ -8,17 +8,19 @@
     }" :pagination="true" :coverflowEffect="{
   rotate: 50,
   stretch: 0,
-  depth: 400,
+  depth: 200,
   modifier: 1,
   slideShadows: false,
-}" class="col-grow">
+}" class="col-grow full-width">
     <swiper-slide v-for="fest in fests" :key="fest.id">
-      <img :src="fest.img" />
+      <div>
+        <img :src="fest.img" />
+      </div>
     </swiper-slide>
   </swiper>
 
   <div class="q-pa-md">
-    <div class="q-pa-sm full-width row jutify-between items-center no-wrap box-title">
+    <div v-ripple class="relative-position q-pa-sm full-width row jutify-between items-center no-wrap box-title">
       <div class="row justify-start items-center full-height col-2">
         <q-img :src="getOrnamentImg[fests[swiperIndex].color as keyof typeof getOrnamentImg]" class="full-height"
           fit="contain" />
@@ -37,12 +39,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, Ref, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { EffectCoverflow, Pagination } from 'swiper';
 import 'swiper/css/pagination';
 import 'swiper/css';
 import { Http } from '../../src-capacitor/node_modules/@capacitor-community/http';
+import getImgURL from '../assets/js/getImgURL'
+import { Fest } from '../assets/js/models'
 
 export default defineComponent({
   name: 'IndexPage',
@@ -51,20 +55,21 @@ export default defineComponent({
     SwiperSlide,
   },
   setup() {
-    const swiperIndex = ref(0)
-    const fests = ref([{
+    const swiperIndex = ref<number>(0)
+    const fests = ref<Fest[]>([{
       id: 0,
       img: '/images/image_not_found.png',
-      title: '',
-      proper: '',
-      edition: '',
-      celebration: '',
-      class: '',
-      color: '',
-      temporal: '',
-      sanctoral: '',
-      liturgicalTime: '',
-      transferedFest: ''
+      massTextURL: '',
+      title: 'Chargement...',
+      proper: 'Chargement...',
+      edition: 'Chargement...',
+      celebration: 'Chargement...',
+      class: 'Chargement...',
+      color: '/images/ornements/white.png',
+      temporal: 'Chargement...',
+      sanctoral: 'Chargement...',
+      liturgicalTime: 'Chargement...',
+      transferedFest: 'Chargement...'
     }])
     const getOrnamentImg = {
       Noir: '/images/ornements/black.png',
@@ -94,18 +99,10 @@ export default defineComponent({
       for (let i = 0; i < Number(festsElement?.childElementCount); i++) {
         const attributesElement = festsElement?.children[i].querySelector('.panel-collapse .panel-body .container .row .col-md-6 table tbody')?.children || new HTMLCollection()
 
-        function getSrcImg() {
-          const src = festsElement?.children[i].querySelector('.panel-collapse .panel-body .container .row .col-md-4 img')?.getAttribute('src')
-          if (src == '/static/kalendarium/images/image_not_found.png') {
-            return '/images/image_not_found.png'
-          } else {
-            return ''
-          }
-        }
-
-        fests.value.push({
+        const newFest = {
           id: i,
-          img: getSrcImg(),
+          img: '/images/image_not_found.png',
+          massTextURL: festsElement?.children[i].querySelector('.panel-collapse .panel-footer a')?.getAttribute('href') || '',
           title: (festsElement?.children[i].querySelector('.panel-heading .panel-title a')?.innerHTML || ''),
           proper: attributesElement[0].children[1].innerHTML || '',
           edition: attributesElement[1].children[1].innerHTML || '',
@@ -116,8 +113,13 @@ export default defineComponent({
           sanctoral: attributesElement[6].children[1].innerHTML || '',
           liturgicalTime: attributesElement[7].children[1].innerHTML || '',
           transferedFest: attributesElement[8].children[1].innerHTML || ''
-        })
+        }
+
+        fests.value.push(newFest)
       }
+
+      // Get imgURL
+      await getImgURL(fests.value)
     }
     function formatDate(date: Date) {
       var d = new Date(date),
@@ -154,10 +156,23 @@ export default defineComponent({
   height: 300px;
 }
 
-.swiper-slide img {
+.swiper-slide div {
+  position: relative;
   width: 100%;
   height: 100%;
+}
+
+.swiper-slide div img {
+  position: relative;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
+  border-radius: 8px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .box-title {
