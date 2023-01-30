@@ -2,7 +2,8 @@
 <q-layout view="lHh Lpr lFf">
   <q-header elevated>
     <q-toolbar>
-      <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+      <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" v-if="$route.path === '/'" />
+      <q-btn flat dense round icon="arrow_back" aria-label="Arrow Back" @click="$router.back()" v-else />
 
       <q-toolbar-title class="text-center">
         Theochrone

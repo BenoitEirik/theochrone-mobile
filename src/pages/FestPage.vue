@@ -49,8 +49,8 @@
     </q-item>
   </q-list>
 
-  <q-btn no-caps flat padding="md" class="full-width text-underline" color="primary"
-    style="text-decoration: underline">Textes de la
+  <q-btn no-caps flat padding="md" class="full-width text-underline" color="primary" style="text-decoration: underline"
+    @click="$router.push('/textes')">Textes de la
     messe et de l'office</q-btn>
 </q-page>
 </template>
