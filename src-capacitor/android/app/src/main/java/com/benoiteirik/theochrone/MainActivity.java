@@ -18,6 +18,8 @@ public class MainActivity extends BridgeActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    registerPlugin(BridgePlugin.class);
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       CharSequence name = getString(R.string.app_name);
       String description = getString(R.string.app_name);

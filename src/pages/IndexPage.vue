@@ -21,7 +21,7 @@
 
   <div class="q-pa-md">
     <div v-ripple class="relative-position q-pa-sm full-width row jutify-between items-center no-wrap box-title"
-      @click="$router.push('/fest')">
+      @click="$router.push({ path: '/fest', query: { title: fests[swiperIndex].title, data: JSON.stringify(fests[swiperIndex]) } })">
       <div class="row justify-start items-center full-height col-2">
         <q-img :src="getOrnamentImg[fests[swiperIndex].color as keyof typeof getOrnamentImg]" class="full-height"
           fit="contain" />
