@@ -1,6 +1,6 @@
 <template>
 <q-layout view="lHh Lpr lFf">
-  <q-header elevated>
+  <q-header>
     <q-toolbar>
       <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" v-if="$route.path === '/'" />
       <q-btn flat dense round icon="arrow_back" aria-label="Arrow Back" @click="$router.back()" v-else />
@@ -17,7 +17,7 @@
     </q-toolbar>
   </q-header>
 
-  <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+  <q-drawer v-model="leftDrawerOpen" show-if-above>
     <div class="relative-position">
       <q-img src="~assets/images/drawer/banner.jpg" class="full-width" fit="contain" />
       <q-img src="~assets/images/logo.png" width="50%" class="absolute-center logo-dropshadow" />

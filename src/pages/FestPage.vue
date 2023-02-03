@@ -1,6 +1,7 @@
 <template>
-<q-page class="q-pa-md row items-start justify-evenly">
-  <q-img :src="fest.img || '~assets/images/image_not_found.png'" fit="contain" class="q-mb-md" />
+<q-page class="q-pa-md column no-wrap justify-between items-stretch">
+  <q-img :src="fest.img || '~assets/images/image_not_found.png'" fit="contain" class="q-mb-md"
+    style="max-height: 300px;" />
 
   <q-list bordered separator style="background: #fafafa;">
     <q-item clickable v-ripple>

@@ -7,7 +7,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router'
-import { Http } from '../../src-capacitor/node_modules/@capacitor-community/http';
 import { registerPlugin } from '@capacitor/core';
 
 const Bridge = registerPlugin('Bridge');

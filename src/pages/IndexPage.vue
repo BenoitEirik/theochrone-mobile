@@ -2,8 +2,8 @@
 <q-page class="full-width full-height column no-wrap justify-between items-stretch">
   <q-date v-model="date" minimal class="full-width no-shadow" @update:modelValue="(value) => { setFestsDay(value) }" />
 
-  <swiper :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'" :modules="modules"
-    :onSlideChange="(index) => {
+  <swiper @swiper="onSwiper" :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'"
+    :modules="modules" :onSlideChange="(index) => {
       swiperIndex = index.snapIndex
     }" :pagination="true" :coverflowEffect="{
   rotate: 50,
@@ -81,12 +81,16 @@ export default defineComponent({
       Violet: '/images/ornements/purple.png',
       Rouge: '/images/ornements/red.png'
     }
-    const date = ref(formatDate(new Date()))
+    const date = ref<string>(formatDate(new Date()))
+    const swiperRef = ref<typeof Swiper>();
 
     onMounted(async () => setFestsDay(date.value))
 
     // Methods
     async function setFestsDay(date: string) {
+      if (swiperRef.value !== undefined) swiperRef.value.slideTo(0);
+
+      swiperIndex.value = 1;
       const [year, month, day] = date.split('/')
       const response = await Http.get({ url: `https://theochrone.fr/kalendarium/date_seule?date_seule_day=${day}&date_seule_month=${month}&date_seule_year=${year}&pal=false&martyrology=false&proper=roman` })
 
@@ -135,6 +139,9 @@ export default defineComponent({
 
       return [year, month, day].join('/');
     }
+    function onSwiper(swiper: typeof Swiper) {
+      swiperRef.value = swiper
+    }
 
 
     return {
@@ -143,7 +150,9 @@ export default defineComponent({
       fests,
       swiperIndex,
       getOrnamentImg,
-      setFestsDay
+      setFestsDay,
+      swiperRef,
+      onSwiper
     }
   }
 });
