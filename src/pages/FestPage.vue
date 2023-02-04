@@ -1,9 +1,8 @@
 <template>
-<q-page class="q-pa-md column no-wrap justify-between items-stretch">
-  <q-img :src="fest.img || '~assets/images/image_not_found.png'" fit="contain" class="q-mb-md"
-    style="max-height: 300px;" />
+<q-page class="q-pa-md column no-wrap items-stretch">
+  <q-img :src="fest.img || '~assets/images/image_not_found.png'" fit="contain" :style="`max-height: 300px;`" />
 
-  <q-list bordered separator style="background: #fafafa;">
+  <q-list bordered separator style="background: #fafafa;" class="q-mt-md">
     <q-item clickable v-ripple>
       <q-item-section class="text-bold">Propre</q-item-section>
       <q-item-section>{{ fest.proper }}</q-item-section>
@@ -60,7 +59,7 @@
 
 <script lang="ts">
 import { Fest } from 'src/assets/js/models';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router'
 
 export default defineComponent({

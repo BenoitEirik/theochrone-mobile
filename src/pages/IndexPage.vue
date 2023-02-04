@@ -2,7 +2,7 @@
 <q-page class="full-width full-height column no-wrap justify-between items-stretch">
   <q-date v-model="date" minimal class="full-width no-shadow" @update:modelValue="(value) => { setFestsDay(value) }" />
 
-  <swiper @swiper="onSwiper" :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'"
+  <swiper swiper="onSwiper" :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'"
     :modules="modules" :onSlideChange="(index) => {
       swiperIndex = index.snapIndex
     }" :pagination="true" :coverflowEffect="{
