@@ -42,7 +42,7 @@
       </div>
 
       <div class="row justify-center items-center full-height col-2">
-        <q-icon name="arrow_forward_ios" size="1.6em" />
+        <q-icon :name="heroOutline24ChevronRight" size="1.6em" />
       </div>
     </div>
   </div>
@@ -58,6 +58,7 @@ import 'swiper/css';
 import { Http } from '../../src-capacitor/node_modules/@capacitor-community/http';
 import getImgURL from '../assets/js/getImgURL'
 import { useFestsStore } from 'src/stores/fests-store';
+import { heroOutline24ChevronRight } from 'quasar-extras-svg-icons/hero-icons-v2'
 
 export default defineComponent({
   name: 'IndexPage',
@@ -149,7 +150,8 @@ export default defineComponent({
       getOrnamentImg,
       setFestsDay,
       swiperRef,
-      onSwiper
+      onSwiper,
+      heroOutline24ChevronRight
     }
   }
 });

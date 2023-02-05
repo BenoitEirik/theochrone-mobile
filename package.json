@@ -12,9 +12,10 @@
   },
   "dependencies": {
     "@quasar/cli": "^2.0.0",
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.15.10",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
+    "quasar-extras-svg-icons": "^1.28.0",
     "swiper": "^8.4.5",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0"

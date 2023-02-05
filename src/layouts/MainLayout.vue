@@ -2,8 +2,9 @@
 <q-layout view="lHh Lpr lFf">
   <q-header>
     <q-toolbar>
-      <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" v-if="$route.path === '/'" />
-      <q-btn flat dense round icon="arrow_back" aria-label="Arrow Back" @click="$router.back()" v-else />
+      <q-btn flat dense round :icon="heroOutline24Bars3" aria-label="Menu" @click="toggleLeftDrawer"
+        v-if="$route.path === '/'" />
+      <q-btn flat dense round :icon="heroOutline24ChevronLeft" aria-label="Arrow Back" @click="$router.back()" v-else />
 
 
       <q-toolbar-title class="text-center" v-if="$route.path !== '/'">
@@ -13,7 +14,7 @@
         Theochrone
       </q-toolbar-title>
 
-      <q-btn flat dense round icon="search" aria-label="Search" @click="toggleLeftDrawer" />
+      <q-btn flat dense round :icon="heroOutline24MagnifyingGlass" aria-label="Search" @click="toggleLeftDrawer" />
     </q-toolbar>
   </q-header>
 
@@ -30,7 +31,7 @@
     <q-list>
       <q-item clickable target="_blank" href="https://theochrone.fr">
         <q-item-section avatar>
-          <q-icon name="public" />
+          <q-icon :name="heroOutline24GlobeEuropeAfrica" />
         </q-item-section>
 
         <q-item-section>
@@ -41,7 +42,7 @@
 
       <q-item clickable @click="async () => { await app.exitApp() }">
         <q-item-section avatar>
-          <q-icon name="logout" />
+          <q-icon :name="heroOutline24ArrowRightOnRectangle" />
         </q-item-section>
 
         <q-item-section>
@@ -62,6 +63,7 @@ import { defineComponent, ref, onMounted } from 'vue';
 import { StatusBar, Style } from '@capacitor/status-bar'
 import { App } from '@capacitor/app';
 import { useLayoutStore } from 'src/stores/layout-store';
+import { heroOutline24Bars3, heroOutline24MagnifyingGlass, heroOutline24ChevronLeft, heroOutline24GlobeEuropeAfrica, heroOutline24ArrowRightOnRectangle } from 'quasar-extras-svg-icons/hero-icons-v2'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -80,7 +82,12 @@ export default defineComponent({
       layoutStore,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      },
+      heroOutline24Bars3,
+      heroOutline24MagnifyingGlass,
+      heroOutline24ChevronLeft,
+      heroOutline24GlobeEuropeAfrica,
+      heroOutline24ArrowRightOnRectangle
     }
   }
 });
