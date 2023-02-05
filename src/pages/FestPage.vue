@@ -1,6 +1,10 @@
 <template>
 <q-page class="q-pa-md column no-wrap items-stretch">
-  <q-img :src="fest.img || '~assets/images/image_not_found.png'" fit="contain" :style="`max-height: 300px;`" />
+  <q-img :src="fest.img || '~assets/images/image_not_found.png'" fit="contain" :style="`max-height: 300px;`">
+    <template v-slot:loading>
+      <q-spinner-hourglass size="50px" color="primary" lab />
+    </template>
+  </q-img>
 
   <q-list bordered separator style="background: #fafafa;" class="q-mt-md">
     <q-item clickable v-ripple>

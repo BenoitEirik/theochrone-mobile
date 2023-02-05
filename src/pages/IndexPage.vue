@@ -10,7 +10,7 @@
       modifier: 1,
       slideShadows: false,
     }" class="col-grow full-width">
-    <swiper-slide v-for="fest in fests" :key="fest.id">
+    <swiper-slide v-for="fest in store.fests" :key="fest.id">
       <div class="full-width full-height row justify-center items-center">
         <img :src="fest.img" v-if="fest.img !== ''" />
 
@@ -23,17 +23,17 @@
 
   <div class="q-pa-md">
     <div v-ripple class="relative-position q-pa-sm full-width row jutify-between items-center no-wrap box-title"
-      @click="$router.push({ path: '/fest', query: { title: fests[swiperIndex].title, data: JSON.stringify(fests[swiperIndex]) } })">
+      @click="$router.push({ path: '/fest', query: { title: store.fests[swiperIndex].title, data: JSON.stringify(store.fests[swiperIndex]) } })">
       <div class="row justify-start items-center full-height col-2">
-        <q-img :src="getOrnamentImg[fests[swiperIndex].color as keyof typeof getOrnamentImg]" class="full-height"
+        <q-img :src="getOrnamentImg[store.fests[swiperIndex].color as keyof typeof getOrnamentImg]" class="full-height"
           fit="contain" />
       </div>
 
       <div class="q-px-sm full-height col-8 column justify-center items-center no-wrap">
-        <p class="q-ma-none title-clamp" v-if="fests[swiperIndex].title !== ''">
-          {{ fests[swiperIndex].title }}
+        <p class="q-ma-none title-clamp" v-if="store.fests[swiperIndex].title !== ''">
+          {{ store.fests[swiperIndex].title }}
         </p>
-        <q-inner-loading :showing="fests[swiperIndex].title === ''">
+        <q-inner-loading :showing="store.fests[swiperIndex].title === ''">
           <q-spinner-dots size="2em" color="primary" />
         </q-inner-loading>
       </div>
@@ -54,7 +54,7 @@ import 'swiper/css/pagination';
 import 'swiper/css';
 import { Http } from '../../src-capacitor/node_modules/@capacitor-community/http';
 import getImgURL from '../assets/js/getImgURL'
-import { Fest } from '../assets/js/models'
+import { useFestsStore } from 'src/stores/fests-store';
 
 export default defineComponent({
   name: 'IndexPage',
@@ -64,21 +64,6 @@ export default defineComponent({
   },
   setup() {
     const swiperIndex = ref<number>(0)
-    const fests = ref<Fest[]>([{
-      id: 0,
-      img: '',
-      massTextURL: '',
-      title: '',
-      proper: '',
-      edition: '',
-      celebration: '',
-      class: '',
-      color: '/images/ornements/white.png',
-      temporal: '',
-      sanctoral: '',
-      liturgicalTime: '',
-      transferedFest: ''
-    }])
     const getOrnamentImg = {
       Noir: '/images/ornements/black.png',
       Blanc: '/images/ornements/white.png',
@@ -90,6 +75,7 @@ export default defineComponent({
     }
     const date = ref<string>(formatDate(new Date()))
     const swiperRef = ref<typeof Swiper>();
+    const store = useFestsStore()
 
     onMounted(async () => setFestsDay(date.value))
 
@@ -107,7 +93,7 @@ export default defineComponent({
       const festsElement = body.querySelector('#resultup .container .row div div .panel-group')
 
       // Get list of fests
-      fests.value = []
+      store.fests = []
       for (let i = 0; i < Number(festsElement?.childElementCount); i++) {
         const attributesElement = festsElement?.children[i].querySelector('.panel-collapse .panel-body .container .row .col-md-6 table tbody')?.children || new HTMLCollection()
 
@@ -127,11 +113,11 @@ export default defineComponent({
           transferedFest: attributesElement[8].children[1].innerHTML || ''
         }
 
-        fests.value.push(newFest)
+        store.fests.push(newFest)
       }
 
       // Get imgURL
-      await getImgURL(fests.value)
+      await getImgURL(store.fests)
     }
     function formatDate(date: Date) {
       var d = new Date(date),
@@ -154,7 +140,7 @@ export default defineComponent({
     return {
       date,
       modules: [EffectCoverflow, Pagination],
-      fests,
+      store,
       swiperIndex,
       getOrnamentImg,
       setFestsDay,
