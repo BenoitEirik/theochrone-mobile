@@ -3,6 +3,8 @@ import { Fest } from 'src/assets/js/models';
 
 export const useFestsStore = defineStore('counter', {
   state: () => ({
+    index: 0,
+    date: new Date(),
     fests: [
       {
         id: 0,

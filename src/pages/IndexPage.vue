@@ -1,16 +1,19 @@
 <template>
 <q-page class="full-width full-height column no-wrap justify-between items-stretch">
-  <q-date v-model="date" minimal class="full-width no-shadow" @update:modelValue="(value) => { setFestsDay(value) }" />
+  <q-date v-model="store.date" minimal class="full-width no-shadow"
+    @update:modelValue="(value) => { setFestsDay(value) }" />
 
-  <swiper @swiper="onSwiper" :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'"
-    :modules="modules" :onSlideChange="(index) => swiperIndex = index.snapIndex" :pagination="true" :coverflowEffect="{
+  <swiper @swiper="onSwiper" :initial-slide="store.index" :zoom="true" :effect="'coverflow'" :grabCursor="true"
+    :centeredSlides="true" :slidesPerView="'auto'" :modules="modules"
+    :onSlideChange="(index) => store.index = index.snapIndex" :pagination="true" :coverflowEffect="{
       rotate: 50,
       stretch: 0,
       depth: 200,
       modifier: 1,
       slideShadows: false,
     }" class="col-grow full-width">
-    <swiper-slide v-for="fest in store.fests" :key="fest.id">
+    <swiper-slide v-for="fest in store.fests" :key="fest.id"
+      @click="$router.push({ path: '/fest', query: { title: store.fests[store.index].title } })">
       <div class="full-width full-height row justify-center items-center">
         <img :src="fest.img" v-if="fest.img !== ''" />
 
@@ -23,17 +26,17 @@
 
   <div class="q-pa-md">
     <div v-ripple class="relative-position q-pa-sm full-width row jutify-between items-center no-wrap box-title"
-      @click="$router.push({ path: '/fest', query: { title: store.fests[swiperIndex].title, data: JSON.stringify(store.fests[swiperIndex]) } })">
+      @click="$router.push({ path: '/fest', query: { title: store.fests[store.index].title } })">
       <div class="row justify-start items-center full-height col-2">
-        <q-img :src="getOrnamentImg[store.fests[swiperIndex].color as keyof typeof getOrnamentImg]" class="full-height"
+        <q-img :src="getOrnamentImg[store.fests[store.index].color as keyof typeof getOrnamentImg]" class="full-height"
           fit="contain" />
       </div>
 
       <div class="q-px-sm full-height col-8 column justify-center items-center no-wrap">
-        <p class="q-ma-none title-clamp" v-if="store.fests[swiperIndex].title !== ''">
-          {{ store.fests[swiperIndex].title }}
+        <p class="q-ma-none title-clamp" v-if="store.fests[store.index].title !== ''">
+          {{ store.fests[store.index].title }}
         </p>
-        <q-inner-loading :showing="store.fests[swiperIndex].title === ''">
+        <q-inner-loading :showing="store.fests[store.index].title === ''">
           <q-spinner-dots size="2em" color="primary" />
         </q-inner-loading>
       </div>
@@ -49,7 +52,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import { EffectCoverflow, Pagination } from 'swiper';
+import { Zoom, EffectCoverflow, Pagination } from 'swiper';
 import 'swiper/css/pagination';
 import 'swiper/css';
 import { Http } from '../../src-capacitor/node_modules/@capacitor-community/http';
@@ -63,7 +66,6 @@ export default defineComponent({
     SwiperSlide,
   },
   setup() {
-    const swiperIndex = ref<number>(0)
     const getOrnamentImg = {
       Noir: '/images/ornements/black.png',
       Blanc: '/images/ornements/white.png',
@@ -77,13 +79,16 @@ export default defineComponent({
     const swiperRef = ref<typeof Swiper>();
     const store = useFestsStore()
 
-    onMounted(async () => setFestsDay(date.value))
+    onMounted(async () => {
+      if (swiperRef.value !== undefined) swiperRef.value.slideTo(store.index)
+      if (store.fests.length === 1) setFestsDay(date.value)
+    })
 
     // Methods
     async function setFestsDay(date: string) {
       // Reset position to first fest
       if (swiperRef.value !== undefined) swiperRef.value.slideTo(0);
-      swiperIndex.value = 0;
+      store.index = 0;
 
       const [year, month, day] = date.split('/')
       const response = await Http.get({ url: `https://theochrone.fr/kalendarium/date_seule?date_seule_day=${day}&date_seule_month=${month}&date_seule_year=${year}&pal=false&martyrology=false&proper=roman` })
@@ -139,9 +144,8 @@ export default defineComponent({
 
     return {
       date,
-      modules: [EffectCoverflow, Pagination],
+      modules: [Zoom, EffectCoverflow, Pagination],
       store,
-      swiperIndex,
       getOrnamentImg,
       setFestsDay,
       swiperRef,

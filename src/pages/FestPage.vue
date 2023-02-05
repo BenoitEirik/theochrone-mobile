@@ -1,78 +1,95 @@
 <template>
-<q-page class="q-pa-md column no-wrap items-stretch">
-  <q-img :src="fest.img || '~assets/images/image_not_found.png'" fit="contain" :style="`max-height: 300px;`">
-    <template v-slot:loading>
-      <q-spinner-hourglass size="50px" color="primary" lab />
-    </template>
-  </q-img>
+<q-page class="q-pt-md q-px-md column no-wrap items-stretch">
+  <swiper :pagination="true" :initial-slide="store.index" :modules="modules"
+    :onSlideChange="(index) => { store.index = index.snapIndex; layoutStore.title = store.fests[store.index].title }"
+    class="full-width">
+    <swiper-slide v-for="fest in store.fests" :key="fest.id" class="q-mb-xl">
+      <q-img :src="fest.img || '~assets/images/image_not_found.png'" fit="contain" :style="`max-height: 300px;`">
+        <template v-slot:loading>
+          <q-spinner-hourglass size="50px" color="primary" lab />
+        </template>
+      </q-img>
 
-  <q-list bordered separator style="background: #fafafa;" class="q-mt-md">
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Propre</q-item-section>
-      <q-item-section>{{ fest.proper }}</q-item-section>
-    </q-item>
+      <q-list bordered separator style="background: #fafafa;" class="q-mt-md">
+        <q-item clickable v-ripple>
+          <q-item-section class="text-bold">Propre</q-item-section>
+          <q-item-section>{{ fest.proper }}</q-item-section>
+        </q-item>
 
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Édition</q-item-section>
-      <q-item-section>{{ fest.edition }}</q-item-section>
-    </q-item>
+        <q-item clickable v-ripple>
+          <q-item-section class="text-bold">Édition</q-item-section>
+          <q-item-section>{{ fest.edition }}</q-item-section>
+        </q-item>
 
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Célébration</q-item-section>
-      <q-item-section>{{ fest.celebration }}</q-item-section>
-    </q-item>
+        <q-item clickable v-ripple>
+          <q-item-section class="text-bold">Célébration</q-item-section>
+          <q-item-section>{{ fest.celebration }}</q-item-section>
+        </q-item>
 
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Classe</q-item-section>
-      <q-item-section>{{ fest.class }}</q-item-section>
-    </q-item>
+        <q-item clickable v-ripple>
+          <q-item-section class="text-bold">Classe</q-item-section>
+          <q-item-section>{{ fest.class }}</q-item-section>
+        </q-item>
 
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Couleur liturgique</q-item-section>
-      <q-item-section>{{ fest.color }}</q-item-section>
-    </q-item>
+        <q-item clickable v-ripple>
+          <q-item-section class="text-bold">Couleur liturgique</q-item-section>
+          <q-item-section>{{ fest.color }}</q-item-section>
+        </q-item>
 
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Temporal</q-item-section>
-      <q-item-section>{{ fest.temporal }}</q-item-section>
-    </q-item>
+        <q-item clickable v-ripple>
+          <q-item-section class="text-bold">Temporal</q-item-section>
+          <q-item-section>{{ fest.temporal }}</q-item-section>
+        </q-item>
 
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Sanctoral</q-item-section>
-      <q-item-section>{{ fest.sanctoral }}</q-item-section>
-    </q-item>
+        <q-item clickable v-ripple>
+          <q-item-section class="text-bold">Sanctoral</q-item-section>
+          <q-item-section>{{ fest.sanctoral }}</q-item-section>
+        </q-item>
 
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Temps liturgique</q-item-section>
-      <q-item-section>{{ fest.liturgicalTime }}</q-item-section>
-    </q-item>
+        <q-item clickable v-ripple>
+          <q-item-section class="text-bold">Temps liturgique</q-item-section>
+          <q-item-section>{{ fest.liturgicalTime }}</q-item-section>
+        </q-item>
 
-    <q-item clickable v-ripple>
-      <q-item-section class="text-bold">Fête transférée</q-item-section>
-      <q-item-section>{{ fest.transferedFest }}</q-item-section>
-    </q-item>
-  </q-list>
+        <q-item clickable v-ripple>
+          <q-item-section class="text-bold">Fête transférée</q-item-section>
+          <q-item-section>{{ fest.transferedFest }}</q-item-section>
+        </q-item>
+      </q-list>
 
-  <q-btn no-caps flat padding="md" class="full-width text-underline" color="primary"
-    style="text-decoration: underline; background: #f5f5f5;"
-    @click="$router.push({ path: '/textes', query: { title: fest.title, url: fest.massTextURL } })">Textes
-    de la
-    messe et de l'office</q-btn>
+      <q-btn no-caps flat padding="md" class="full-width text-underline" color="primary"
+        style="text-decoration: underline; background: #f5f5f5;"
+        @click="$router.push({ path: '/textes', query: { title: fest.title, url: fest.massTextURL } })">Textes
+        de la
+        messe et de l'office</q-btn>
+    </swiper-slide>
+  </swiper>
 </q-page>
 </template>
 
 <script lang="ts">
-import { Fest } from 'src/assets/js/models';
-import { defineComponent } from 'vue';
-import { useRoute } from 'vue-router'
+import { defineComponent, onMounted } from 'vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Pagination } from 'swiper';
+import { useFestsStore } from 'src/stores/fests-store';
+import { useLayoutStore } from 'src/stores/layout-store';
 
 export default defineComponent({
   name: 'FestPage',
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
   setup() {
-    var fest: Fest = JSON.parse(useRoute().query.data?.toString() || '') as Fest
+    const store = useFestsStore()
+    const layoutStore = useLayoutStore()
+
+    onMounted(() => layoutStore.title = store.fests[store.index].title)
 
     return {
-      fest
+      store,
+      layoutStore,
+      modules: [Pagination],
     }
   }
 });

@@ -7,7 +7,7 @@
 
 
       <q-toolbar-title class="text-center" v-if="$route.path !== '/'">
-        {{ $route.query.title }}
+        {{ layoutStore.title.split(',')[0] }}
       </q-toolbar-title>
       <q-toolbar-title class="text-center" v-else>
         Theochrone
@@ -61,21 +61,13 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import { StatusBar, Style } from '@capacitor/status-bar'
 import { App } from '@capacitor/app';
-
-const linksList = [
-  {
-    title: 'Site internet',
-    caption: 'theochrone.fr',
-    icon: 'public',
-    link: 'https://theochrone.fr'
-  }
-];
+import { useLayoutStore } from 'src/stores/layout-store';
 
 export default defineComponent({
   name: 'MainLayout',
-
   setup() {
     const leftDrawerOpen = ref(false)
+    const layoutStore = useLayoutStore()
 
     onMounted(async () => {
       await StatusBar.setStyle({ style: Style.Dark })
@@ -84,8 +76,8 @@ export default defineComponent({
 
     return {
       app: App,
-      essentialLinks: linksList,
       leftDrawerOpen,
+      layoutStore,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
