@@ -1,5 +1,11 @@
 <template>
 <q-page class="q-pa-md full-width column no-wrap items-stretch">
+  <div class="q-pb-md text-center">
+    Textes fournis par introibo.fr
+  </div>
+
+  <q-separator />
+
   <div>
     <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
       <div v-html="bodyFest" v-show="!loading" />
