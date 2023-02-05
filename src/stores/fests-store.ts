@@ -23,7 +23,4 @@ export const useFestsStore = defineStore('counter', {
       },
     ] as Fest[],
   }),
-  getters: {
-    getFests: (state) => state.fests,
-  },
 });
