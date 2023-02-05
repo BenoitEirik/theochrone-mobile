@@ -13,8 +13,9 @@ export default async function getImgURL(fests: Array<Fest>) {
       body.querySelector('#principal .chapo img')?.getAttribute('src') || '';
 
     if (imgURL == '') {
-      return;
+      fests[i].img = '/images/image_not_found.png';
+    } else {
+      fests[i].img = 'https://introibo.fr/' + imgURL;
     }
-    fests[i].img = 'https://introibo.fr/' + imgURL;
   }
 }

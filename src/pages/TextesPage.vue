@@ -1,6 +1,14 @@
 <template>
-<q-page class="q-pa-md full-width column no-wrap justify-between items-stretch">
-  <div v-html="bodyFest" />
+<q-page class="q-pa-md full-width column no-wrap items-stretch">
+  <div>
+    <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+      <div v-html="bodyFest" v-show="!loading" />
+    </transition>
+  </div>
+
+  <q-inner-loading :showing="loading">
+    <q-spinner-hourglass size="3em" color="primary" lab />
+  </q-inner-loading>
 </q-page>
 </template>
 
@@ -16,15 +24,18 @@ export default defineComponent({
   setup() {
     const headerFest = ref<string>('')
     const bodyFest = ref<string>('')
+    const loading = ref(true)
 
     onMounted(async () => {
       const response = await Bridge.getFestTextes({ url: useRoute().query.url });
       bodyFest.value = response.data
+      loading.value = false
     })
 
     return {
       headerFest,
-      bodyFest
+      bodyFest,
+      loading
     }
   }
 })

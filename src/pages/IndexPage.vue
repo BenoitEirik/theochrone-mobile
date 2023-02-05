@@ -2,19 +2,21 @@
 <q-page class="full-width full-height column no-wrap justify-between items-stretch">
   <q-date v-model="date" minimal class="full-width no-shadow" @update:modelValue="(value) => { setFestsDay(value) }" />
 
-  <swiper swiper="onSwiper" :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'"
-    :modules="modules" :onSlideChange="(index) => {
-      swiperIndex = index.snapIndex
-    }" :pagination="true" :coverflowEffect="{
-  rotate: 50,
-  stretch: 0,
-  depth: 200,
-  modifier: 1,
-  slideShadows: false,
-}" class="col-grow full-width">
+  <swiper @swiper="onSwiper" :effect="'coverflow'" :grabCursor="true" :centeredSlides="true" :slidesPerView="'auto'"
+    :modules="modules" :onSlideChange="(index) => swiperIndex = index.snapIndex" :pagination="true" :coverflowEffect="{
+      rotate: 50,
+      stretch: 0,
+      depth: 200,
+      modifier: 1,
+      slideShadows: false,
+    }" class="col-grow full-width">
     <swiper-slide v-for="fest in fests" :key="fest.id">
-      <div>
-        <img :src="fest.img" />
+      <div class="full-width full-height row justify-center items-center">
+        <img :src="fest.img" v-if="fest.img !== ''" />
+
+        <q-inner-loading :showing="fest.img === ''">
+          <q-spinner-hourglass size="3em" color="primary" lab />
+        </q-inner-loading>
       </div>
     </swiper-slide>
   </swiper>
@@ -28,7 +30,12 @@
       </div>
 
       <div class="q-px-sm full-height col-8 column justify-center items-center no-wrap">
-        <p class="q-ma-none title-clamp">{{ fests[swiperIndex].title }}</p>
+        <p class="q-ma-none title-clamp" v-if="fests[swiperIndex].title !== ''">
+          {{ fests[swiperIndex].title }}
+        </p>
+        <q-inner-loading :showing="fests[swiperIndex].title === ''">
+          <q-spinner-dots size="2em" color="primary" />
+        </q-inner-loading>
       </div>
 
       <div class="row justify-center items-center full-height col-2">
@@ -59,18 +66,18 @@ export default defineComponent({
     const swiperIndex = ref<number>(0)
     const fests = ref<Fest[]>([{
       id: 0,
-      img: '/images/image_not_found.png',
+      img: '',
       massTextURL: '',
-      title: 'Chargement...',
-      proper: 'Chargement...',
-      edition: 'Chargement...',
-      celebration: 'Chargement...',
-      class: 'Chargement...',
+      title: '',
+      proper: '',
+      edition: '',
+      celebration: '',
+      class: '',
       color: '/images/ornements/white.png',
-      temporal: 'Chargement...',
-      sanctoral: 'Chargement...',
-      liturgicalTime: 'Chargement...',
-      transferedFest: 'Chargement...'
+      temporal: '',
+      sanctoral: '',
+      liturgicalTime: '',
+      transferedFest: ''
     }])
     const getOrnamentImg = {
       Noir: '/images/ornements/black.png',
@@ -88,25 +95,25 @@ export default defineComponent({
 
     // Methods
     async function setFestsDay(date: string) {
+      // Reset position to first fest
       if (swiperRef.value !== undefined) swiperRef.value.slideTo(0);
+      swiperIndex.value = 0;
 
-      swiperIndex.value = 1;
       const [year, month, day] = date.split('/')
       const response = await Http.get({ url: `https://theochrone.fr/kalendarium/date_seule?date_seule_day=${day}&date_seule_month=${month}&date_seule_year=${year}&pal=false&martyrology=false&proper=roman` })
 
       // Init virtual DOM from theochrone.fr
-      const parser = new DOMParser();
-      const HTMLDocument = parser.parseFromString(response.data, 'text/html')
-      const festsElement = HTMLDocument.body.querySelector('#resultup .container .row div div .panel-group')
+      const body = new DOMParser().parseFromString(response.data, 'text/html').body
+      const festsElement = body.querySelector('#resultup .container .row div div .panel-group')
 
-      // Get list fest
+      // Get list of fests
       fests.value = []
       for (let i = 0; i < Number(festsElement?.childElementCount); i++) {
         const attributesElement = festsElement?.children[i].querySelector('.panel-collapse .panel-body .container .row .col-md-6 table tbody')?.children || new HTMLCollection()
 
         const newFest = {
           id: i,
-          img: '/images/image_not_found.png',
+          img: '',
           massTextURL: festsElement?.children[i].querySelector('.panel-collapse .panel-footer a')?.getAttribute('href') || '',
           title: (festsElement?.children[i].querySelector('.panel-heading .panel-title a')?.innerHTML || ''),
           proper: attributesElement[0].children[1].innerHTML || '',
@@ -166,23 +173,13 @@ export default defineComponent({
   height: 300px;
 }
 
-.swiper-slide div {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
 .swiper-slide div img {
-  position: relative;
   width: auto;
   height: auto;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
   border-radius: 8px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .box-title {

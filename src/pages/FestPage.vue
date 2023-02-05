@@ -59,7 +59,7 @@
 
 <script lang="ts">
 import { Fest } from 'src/assets/js/models';
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
