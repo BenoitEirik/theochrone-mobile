@@ -10,7 +10,7 @@
         </template>
       </q-img>
 
-      <q-list bordered separator style="background: #fafafa;" class="q-mt-md">
+      <q-list dense bordered separator style="background: #fafafa;" class="q-mt-md">
         <q-item clickable v-ripple>
           <q-item-section class="text-bold">Propre</q-item-section>
           <q-item-section>{{ fest.proper }}</q-item-section>
