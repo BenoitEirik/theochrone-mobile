@@ -60,6 +60,7 @@ import getImgURL from '../assets/js/getImgURL'
 import { useFestsStore } from 'src/stores/fests-store';
 import { useLayoutStore } from 'src/stores/layout-store';
 import { heroOutline24ChevronRight } from 'quasar-extras-svg-icons/hero-icons-v2'
+import { SplashScreen } from '@capacitor/splash-screen';
 
 export default defineComponent({
   name: 'IndexPage',
@@ -83,6 +84,7 @@ export default defineComponent({
     const layoutStore = useLayoutStore()
 
     onMounted(async () => {
+      await SplashScreen.hide()
       if (swiperRef.value !== undefined) swiperRef.value.slideTo(store.index)
       if (store.fests.length === 1) setFestsDay(date.value)
 
