@@ -69,6 +69,16 @@ public class BridgePlugin extends Plugin {
           }
         }
 
+        Element h3 = doc.select("h3.spip:contains(Sommaire)").first();
+        if (h3 != null) {
+          Element table = h3.nextElementSibling();
+          if (table != null && table.hasClass("spip")) {
+            table.attr("style", "width: 100%; border: 1px solid lightgrey;border-radius: 4px;");
+            Element p = new Element("p").attr("class", "spip").html("<i>Textes fournis par introibo.fr</i>");
+            table.after(p);
+          }
+        }
+
         Elements cells = doc.select("td");
         for (Element cell : cells) {
           cell.attr("valign", "top");

@@ -1,11 +1,5 @@
 <template>
 <q-page class="q-pa-md full-width column no-wrap items-stretch">
-  <div class="q-pb-md text-center">
-    Textes fournis par introibo.fr
-  </div>
-
-  <q-separator />
-
   <div>
     <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
       <div ref="bodyRef" v-html="bodyFest" />
@@ -57,13 +51,11 @@ export default defineComponent({
     });
 
     function openLink(url: string) {
-      if (url.startsWith('http')) {
-        const newURL = new URL(url)
-        newURL.protocol = 'https'
-        newURL.hostname = 'introibo.fr'
-        newURL.port = ''
-        openURL(newURL.href)
-      }
+      const newURL = new URL(url)
+      newURL.protocol = 'https'
+      newURL.hostname = 'introibo.fr'
+      newURL.port = ''
+      openURL(newURL.href)
     }
 
     return {
@@ -104,10 +96,5 @@ table {
   padding-top: 5px;
   padding-bottom: 5px;
   margin-bottom: 20px;
-}
-
-table:first-of-type {
-  width: 100%;
-  border: 1px solid lightgrey;
 }
 </style>
