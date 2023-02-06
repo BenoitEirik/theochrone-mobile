@@ -1,7 +1,7 @@
 <template>
 <q-page class="column no-wrap items-stretch">
   <swiper :pagination="true" :initial-slide="store.index" :modules="modules"
-    :onSlideChange="(index) => { store.index = index.snapIndex; layoutStore.title = store.fests[store.index].title }"
+    :onSlideChange="(index) => { store.index = index.snapIndex; setToolbar(); layoutStore.title = store.fests[store.index].title }"
     class="full-width">
     <swiper-slide v-for="fest in store.fests" :key="fest.id" class="q-mb-lg">
       <div class="q-pa-md">
@@ -58,8 +58,7 @@
           </q-item>
 
           <q-item clickable v-ripple>
-            <q-item-section class="text-bold"
-              @click="$router.push({ path: '/textes', query: { title: fest.title, url: fest.massTextURL } })">
+            <q-item-section class="text-bold" @click="$router.push({ path: '/textes', query: { title: fest.title } })">
               <div class="q-pa-md text-weight-bold text-center" :style="'color: ' + getPaletteColor('primary')">
                 Textes de la messe et de l'office
               </div>
@@ -91,13 +90,20 @@ export default defineComponent({
     const layoutStore = useLayoutStore()
     const { getPaletteColor } = colors
 
-    onMounted(() => layoutStore.title = store.fests[store.index].title)
+    onMounted(() => setToolbar())
+
+    function setToolbar() {
+      const [title, subtitle] = store.fests[store.index].title.split(',')
+      layoutStore.title = title || 'Theochrone'
+      layoutStore.subtitle = subtitle || ''
+    }
 
     return {
       store,
       layoutStore,
       modules: [Pagination],
-      getPaletteColor
+      getPaletteColor,
+      setToolbar
     }
   }
 });

@@ -20,26 +20,25 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router'
 import { registerPlugin } from '@capacitor/core';
+import { useFestsStore } from 'src/stores/fests-store';
 
 const Bridge = registerPlugin('Bridge');
 
 export default defineComponent({
   name: 'TextesPage',
   setup() {
-    const headerFest = ref<string>('')
     const bodyFest = ref<string>('')
     const loading = ref(true)
+    const store = useFestsStore()
 
     onMounted(async () => {
-      const response = await Bridge.getFestTextes({ url: useRoute().query.url });
+      const response = await Bridge.getFestTextes({ url: store.fests[store.index].massTextURL });
       bodyFest.value = response.data
       loading.value = false
     })
 
     return {
-      headerFest,
       bodyFest,
       loading
     }

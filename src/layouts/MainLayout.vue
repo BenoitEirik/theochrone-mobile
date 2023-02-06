@@ -1,21 +1,30 @@
 <template>
 <q-layout view="lHh Lpr lFf">
   <q-header>
-    <q-toolbar>
-      <q-btn flat dense round :icon="heroOutline24Bars3" aria-label="Menu" @click="toggleLeftDrawer"
-        v-if="$route.path === '/'" />
-      <q-btn flat dense round :icon="heroOutline24ChevronLeft" aria-label="Arrow Back" @click="$router.back()" v-else />
+    <div>
+      <q-toolbar>
+        <q-btn flat dense round :icon="heroOutline24Bars3" aria-label="Menu" @click="toggleLeftDrawer"
+          v-if="$route.path === '/'" />
+        <q-btn flat dense round :icon="heroOutline24ChevronLeft" aria-label="Arrow Back" @click="$router.back()"
+          v-else />
 
 
-      <q-toolbar-title class="text-center" v-if="$route.path !== '/'">
-        {{ layoutStore.title.split(',')[0] }}
-      </q-toolbar-title>
-      <q-toolbar-title class="text-center" v-else>
-        Theochrone
-      </q-toolbar-title>
+        <q-toolbar-title class="text-center" v-if="$route.path !== '/'">
+          {{ layoutStore.title.split(',')[0] }}
+        </q-toolbar-title>
+        <q-toolbar-title class="text-center" v-else>
+          Theochrone
+        </q-toolbar-title>
 
-      <q-btn flat dense round :icon="heroOutline24MagnifyingGlass" aria-label="Search" @click="toggleLeftDrawer" />
-    </q-toolbar>
+        <q-btn flat dense round :icon="heroOutline24MagnifyingGlass" aria-label="Search" @click="toggleLeftDrawer" />
+      </q-toolbar>
+
+      <q-toolbar v-if="layoutStore.subtitle !== ''" style="border-top: 1px solid lightgrey;">
+        <div class="text-center q-mx-auto">
+          {{ layoutStore.subtitle }}
+        </div>
+      </q-toolbar>
+    </div>
   </q-header>
 
   <q-drawer v-model="leftDrawerOpen" show-if-above>
@@ -87,7 +96,7 @@ export default defineComponent({
       heroOutline24MagnifyingGlass,
       heroOutline24ChevronLeft,
       heroOutline24GlobeEuropeAfrica,
-      heroOutline24ArrowRightOnRectangle
+      heroOutline24ArrowRightOnRectangle,
     }
   }
 });

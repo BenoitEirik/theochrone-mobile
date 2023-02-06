@@ -58,6 +58,7 @@ import 'swiper/css';
 import { Http } from '../../src-capacitor/node_modules/@capacitor-community/http';
 import getImgURL from '../assets/js/getImgURL'
 import { useFestsStore } from 'src/stores/fests-store';
+import { useLayoutStore } from 'src/stores/layout-store';
 import { heroOutline24ChevronRight } from 'quasar-extras-svg-icons/hero-icons-v2'
 
 export default defineComponent({
@@ -79,10 +80,13 @@ export default defineComponent({
     const date = ref<string>(formatDate(new Date()))
     const swiperRef = ref<typeof Swiper>();
     const store = useFestsStore()
+    const layoutStore = useLayoutStore()
 
     onMounted(async () => {
       if (swiperRef.value !== undefined) swiperRef.value.slideTo(store.index)
       if (store.fests.length === 1) setFestsDay(date.value)
+
+      layoutStore.subtitle = ''
     })
 
     // Methods
