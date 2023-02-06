@@ -19,11 +19,11 @@
         <q-btn flat dense round :icon="heroOutline24MagnifyingGlass" aria-label="Search" @click="toggleLeftDrawer" />
       </q-toolbar>
 
-      <q-toolbar v-if="layoutStore.subtitle !== ''" style="border-top: 1px solid lightgrey;">
-        <div class="text-center q-mx-auto">
+      <q-slide-transition>
+        <div class="text-center" v-show="layoutStore.subtitle !== ''" style="height: 35px;">
           {{ layoutStore.subtitle }}
         </div>
-      </q-toolbar>
+      </q-slide-transition>
     </div>
   </q-header>
 
