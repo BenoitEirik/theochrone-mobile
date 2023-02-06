@@ -8,7 +8,7 @@
 
   <div>
     <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-      <div v-html="bodyFest" v-show="!loading" />
+      <div ref="bodyRef" v-html="bodyFest" />
     </transition>
   </div>
 
@@ -19,9 +19,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref, nextTick, watch } from 'vue';
 import { registerPlugin } from '@capacitor/core';
 import { useFestsStore } from 'src/stores/fests-store';
+import { openURL } from 'quasar'
 
 const Bridge = registerPlugin('Bridge');
 
@@ -31,6 +32,7 @@ export default defineComponent({
     const bodyFest = ref<string>('')
     const loading = ref(true)
     const store = useFestsStore()
+    const bodyRef = ref(null)
 
     onMounted(async () => {
       const response = await Bridge.getFestTextes({ url: store.fests[store.index].massTextURL });
@@ -38,9 +40,34 @@ export default defineComponent({
       loading.value = false
     })
 
+    watch(loading, () => {
+      nextTick(() => {
+        if (bodyRef.value !== null) {
+          const htmlElement = bodyRef.value as HTMLDivElement
+          const links = htmlElement.querySelectorAll('a');
+          links.forEach((link) => {
+            link.addEventListener('click', (event) => {
+              event.preventDefault();
+              openLink(link.href);
+            });
+          });
+        }
+      });
+    });
+
+    function openLink(url: string) {
+      console.log('MyURL =', url)
+      if (url.startsWith('http')) {
+        url = 'https://introibo.fr/' + url.split('/')[3]
+        openURL(url)
+      }
+    }
+
     return {
+      bodyRef,
       bodyFest,
-      loading
+      loading,
+      openLink
     }
   }
 })

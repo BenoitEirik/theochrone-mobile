@@ -131,6 +131,7 @@ export default defineComponent({
       // Get imgURL
       await getImgURL(store.fests)
     }
+
     function formatDate(date: Date) {
       var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -144,10 +145,10 @@ export default defineComponent({
 
       return [year, month, day].join('/');
     }
+
     function onSwiper(swiper: typeof Swiper) {
       swiperRef.value = swiper
     }
-
 
     return {
       date,
