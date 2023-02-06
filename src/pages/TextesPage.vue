@@ -46,20 +46,23 @@ export default defineComponent({
           const htmlElement = bodyRef.value as HTMLDivElement
           const links = htmlElement.querySelectorAll('a');
           links.forEach((link) => {
-            link.addEventListener('click', (event) => {
-              event.preventDefault();
-              openLink(link.href);
-            });
+            if (link.hasAttribute('href'))
+              link.addEventListener('click', (event) => {
+                event.preventDefault();
+                openLink(link.href);
+              });
           });
         }
       });
     });
 
     function openLink(url: string) {
-      console.log('MyURL =', url)
       if (url.startsWith('http')) {
-        url = 'https://introibo.fr/' + url.split('/')[3]
-        openURL(url)
+        const newURL = new URL(url)
+        newURL.protocol = 'https'
+        newURL.hostname = 'introibo.fr'
+        newURL.port = ''
+        openURL(newURL.href)
       }
     }
 

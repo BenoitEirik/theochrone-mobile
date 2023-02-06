@@ -61,6 +61,14 @@ public class BridgePlugin extends Plugin {
           img.attr("style", "width:100%; object-fit: contain;");
         }
 
+        Elements links = doc.select("a[href]");
+        for (Element link : links) {
+          String href = link.attr("href");
+          if(href.charAt(0) == '#') {
+            link.removeAttr("href");
+          }
+        }
+
         Elements cells = doc.select("td");
         for (Element cell : cells) {
           cell.attr("valign", "top");
