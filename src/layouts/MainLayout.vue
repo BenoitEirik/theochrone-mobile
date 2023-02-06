@@ -109,4 +109,36 @@ export default defineComponent({
   background-color: $primary;
   color: white;
 }
+
+.fade-in-right-sm {
+  animation: fade-in-right-sm 0.3s;
+}
+
+.fade-out-right-sm {
+  animation: fade-out-right-sm 0.3s;
+}
+
+@keyframes fade-in-right-sm {
+  from {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out-right-sm {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+}
 </style>
