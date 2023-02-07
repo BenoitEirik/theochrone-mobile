@@ -5,11 +5,13 @@
     class="full-width">
     <swiper-slide v-for="fest in store.fests" :key="fest.id" class="q-mb-lg">
       <div class="q-pa-md">
-        <q-img :src="fest.img || '~assets/images/image_not_found.png'" fit="contain" :style="`max-height: 300px;`">
-          <template v-slot:loading>
-            <q-spinner-hourglass size="50px" color="primary" lab />
-          </template>
-        </q-img>
+        <div class="full-width row justify-center">
+          <img :src="fest.img" v-if="fest.img !== ''" class="img" />
+
+          <q-inner-loading :showing="fest.img === ''">
+            <q-spinner-hourglass size="3em" color="primary" lab />
+          </q-inner-loading>
+        </div>
 
         <q-list dense bordered separator style="background: #fafafa;" class="q-mt-md rounded-borders">
           <q-item clickable v-ripple>
@@ -108,3 +110,14 @@ export default defineComponent({
   }
 });
 </script>
+
+<style>
+.img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+</style>
