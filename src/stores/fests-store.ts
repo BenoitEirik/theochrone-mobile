@@ -4,7 +4,7 @@ import { Fest } from 'src/assets/js/models';
 export const useFestsStore = defineStore('counter', {
   state: () => ({
     index: 0,
-    date: new Date(),
+    date: formatDate(new Date()),
     fests: [
       {
         id: 0,
@@ -23,4 +23,21 @@ export const useFestsStore = defineStore('counter', {
       },
     ] as Fest[],
   }),
+  actions: {
+    formatDate(date: Date) {
+      return formatDate(date);
+    },
+  },
 });
+
+function formatDate(date: Date) {
+  const d = new Date(date);
+  let month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate();
+  const year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('/');
+}

@@ -78,7 +78,6 @@ export default defineComponent({
       Violet: '/images/ornements/purple.png',
       Rouge: '/images/ornements/red.png'
     }
-    const date = ref<string>(formatDate(new Date()))
     const swiperRef = ref<typeof Swiper>();
     const store = useFestsStore()
     const layoutStore = useLayoutStore()
@@ -86,13 +85,14 @@ export default defineComponent({
     onMounted(async () => {
       await SplashScreen.hide()
       if (swiperRef.value !== undefined) swiperRef.value.slideTo(store.index)
-      if (store.fests.length === 1) setFestsDay(date.value)
+      if (store.fests.length === 1) setFestsDay(store.date)
 
       layoutStore.subtitle = ''
     })
 
     // Methods
     async function setFestsDay(date: string) {
+      console.log('nb_fest =')
       // Reset position to first fest
       if (swiperRef.value !== undefined) swiperRef.value.slideTo(0);
       store.index = 0;
@@ -132,26 +132,11 @@ export default defineComponent({
       await getImgURL(store.fests)
     }
 
-    function formatDate(date: Date) {
-      var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-      if (month.length < 2)
-        month = '0' + month;
-      if (day.length < 2)
-        day = '0' + day;
-
-      return [year, month, day].join('/');
-    }
-
     function onSwiper(swiper: typeof Swiper) {
       swiperRef.value = swiper
     }
 
     return {
-      date,
       modules: [Zoom, EffectCoverflow, Pagination],
       store,
       getOrnamentImg,
