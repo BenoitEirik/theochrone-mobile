@@ -16,7 +16,7 @@ public class Fests {
 
     try {
       Document doc = Jsoup.connect(baseURL)
-        .header("Accept-Language", "fr")
+        .header("Accept-Language", "fr-FR")
         .timeout(0)
         .get();
 
