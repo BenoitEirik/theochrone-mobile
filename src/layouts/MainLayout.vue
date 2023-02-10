@@ -17,12 +17,22 @@
         </q-toolbar-title>
 
         <q-btn flat dense round :icon="heroOutline24MagnifyingGlass" aria-label="Search"
-          @click="$router.push({ path: '/search' })" />
+          @click="$router.push({ path: '/search' })" :class="$route.path === '/search' ? 'invisible' : ''" />
       </q-toolbar>
 
       <div class="text-center" style="height: 35px; font-size: medium;" v-show="layoutStore.subtitle !== ''">
         {{ layoutStore.subtitle }}
       </div>
+
+      <q-toolbar v-if="$route.path == '/search'">
+        <q-input dense rounded outlined class="q-pa-md fit" v-model="searchStore.searchField" :dark="true" color="white"
+          placeholder="Mots-clés..." :loading="loadingState">
+          <template v-slot:append>
+            <q-btn flat dense round :icon="heroOutline24MagnifyingGlass" aria-label="Search" @click="triggerSearch()"
+              color="white" v-if="!loadingState" />
+          </template>
+        </q-input>
+      </q-toolbar>
     </div>
   </q-header>
 
@@ -71,6 +81,7 @@ import { defineComponent, ref, onMounted } from 'vue';
 import { StatusBar, Style } from '@capacitor/status-bar'
 import { App } from '@capacitor/app';
 import { useLayoutStore } from 'src/stores/layout-store';
+import { useSearchStore } from 'src/stores/search-store';
 import { heroOutline24Bars3, heroOutline24MagnifyingGlass, heroOutline24ChevronLeft, heroOutline24GlobeEuropeAfrica, heroOutline24ArrowRightOnRectangle } from 'quasar-extras-svg-icons/hero-icons-v2'
 
 export default defineComponent({
@@ -78,16 +89,25 @@ export default defineComponent({
   setup() {
     const leftDrawerOpen = ref(false)
     const layoutStore = useLayoutStore()
+    const searchStore = useSearchStore()
+    const loadingState = ref<boolean>(false)
 
     onMounted(async () => {
       await StatusBar.setStyle({ style: Style.Dark })
       await StatusBar.setBackgroundColor({ color: '#55acee' })
     })
 
+    async function triggerSearch() {
+      loadingState.value = true
+      await searchStore.retrieve()
+      loadingState.value = false
+    }
+
     return {
       app: App,
       leftDrawerOpen,
       layoutStore,
+      searchStore,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
@@ -96,6 +116,8 @@ export default defineComponent({
       heroOutline24ChevronLeft,
       heroOutline24GlobeEuropeAfrica,
       heroOutline24ArrowRightOnRectangle,
+      loadingState,
+      triggerSearch
     }
   }
 });
