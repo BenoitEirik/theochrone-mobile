@@ -16,7 +16,8 @@
           Theochrone
         </q-toolbar-title>
 
-        <q-btn flat dense round :icon="heroOutline24MagnifyingGlass" aria-label="Search" @click="toggleLeftDrawer" />
+        <q-btn flat dense round :icon="heroOutline24MagnifyingGlass" aria-label="Search"
+          @click="$router.push({ path: '/search' })" />
       </q-toolbar>
 
       <div class="text-center" style="height: 35px; font-size: medium;" v-show="layoutStore.subtitle !== ''">
