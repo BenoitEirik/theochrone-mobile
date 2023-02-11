@@ -36,11 +36,8 @@
     </div>
   </q-header>
 
-  <q-drawer v-model="leftDrawerOpen" show-if-above>
-    <div class="relative-position">
-      <q-img src="~assets/images/drawer/banner.jpg" class="full-width" fit="contain" />
-      <q-img src="~assets/images/logo.png" width="50%" class="absolute-center logo-dropshadow" />
-    </div>
+  <q-drawer v-model="leftDrawerOpen" show-if-above class="column">
+    <q-img src="~assets/images/drawer/banner.jpg" class="full-width" fit="contain" />
 
     <div class="q-pa-md text-center quote">
       Ad majorem Dei gloriam
@@ -58,6 +55,22 @@
         </q-item-section>
       </q-item>
 
+      <q-item clickable>
+        <q-item-section avatar>
+          <q-icon :name="heroOutline24Bell" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label>Notification permanente</q-item-label>
+        </q-item-section>
+
+        <q-item-section side>
+          <q-item-label>
+            <q-toggle v-model="notificationToggle" />
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+
       <q-item clickable @click="async () => { await app.exitApp() }">
         <q-item-section avatar>
           <q-icon :name="heroOutline24ArrowRightOnRectangle" />
@@ -68,6 +81,15 @@
         </q-item-section>
       </q-item>
     </q-list>
+
+    <q-space />
+
+    <q-separator />
+
+    <q-btn class="q-pa-md full-width text-center" target="_blank" href="https://github.com/benoiteirik" no-caps
+      unelevated>
+      @benoiteirik
+    </q-btn>
   </q-drawer>
 
   <q-page-container>
@@ -82,7 +104,7 @@ import { StatusBar, Style } from '@capacitor/status-bar'
 import { App } from '@capacitor/app';
 import { useLayoutStore } from 'src/stores/layout-store';
 import { useSearchStore } from 'src/stores/search-store';
-import { heroOutline24Bars3, heroOutline24MagnifyingGlass, heroOutline24ChevronLeft, heroOutline24GlobeEuropeAfrica, heroOutline24ArrowRightOnRectangle } from 'quasar-extras-svg-icons/hero-icons-v2'
+import { heroOutline24Bars3, heroOutline24MagnifyingGlass, heroOutline24ChevronLeft, heroOutline24GlobeEuropeAfrica, heroOutline24ArrowRightOnRectangle, heroOutline24Bell } from 'quasar-extras-svg-icons/hero-icons-v2'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -91,6 +113,7 @@ export default defineComponent({
     const layoutStore = useLayoutStore()
     const searchStore = useSearchStore()
     const loadingState = ref<boolean>(false)
+    const notificationToggle = ref<boolean>(false)
 
     onMounted(async () => {
       await StatusBar.setStyle({ style: Style.Dark })
@@ -117,51 +140,17 @@ export default defineComponent({
       heroOutline24GlobeEuropeAfrica,
       heroOutline24ArrowRightOnRectangle,
       loadingState,
-      triggerSearch
+      triggerSearch,
+      notificationToggle,
+      heroOutline24Bell
     }
   }
 });
 </script>
 
 <style scoped lang="scss">
-.logo-dropshadow {
-  filter: drop-shadow(0px 0px 4px #fff);
-}
-
 .quote {
   background-color: $primary;
   color: white;
-}
-
-.fade-in-right-sm {
-  animation: fade-in-right-sm 0.3s;
-}
-
-.fade-out-right-sm {
-  animation: fade-out-right-sm 0.3s;
-}
-
-@keyframes fade-in-right-sm {
-  from {
-    transform: translateX(10px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-out-right-sm {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  to {
-    transform: translateX(10px);
-    opacity: 0;
-  }
 }
 </style>
