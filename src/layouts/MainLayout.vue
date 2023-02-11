@@ -61,7 +61,8 @@
         </q-item-section>
 
         <q-item-section>
-          <q-item-label>Notification permanente</q-item-label>
+          <q-item-label>Notification</q-item-label>
+          <q-item-label caption lines="2">Afficher les fêtes au démarrage</q-item-label>
         </q-item-section>
 
         <q-item-section side>
