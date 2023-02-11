@@ -13,7 +13,7 @@
       slideShadows: false,
     }" class="col-grow full-width">
     <swiper-slide v-for="fest in store.fests" :key="fest.id"
-      @click="$router.push({ path: '/fest', query: { title: store.fests[store.index].title } })">
+      @click="$router.push({ path: '/fest', query: { title: store.fests[store.index].title, from: '' } })">
       <div class="full-width full-height row justify-center items-center">
         <img :src="fest.img" v-if="fest.img !== ''" />
 
@@ -26,7 +26,7 @@
 
   <div class="q-pa-md">
     <div v-ripple class="relative-position q-pa-sm full-width row jutify-between items-center no-wrap box-title"
-      @click="$router.push({ path: '/fest', query: { title: store.fests[store.index].title } })">
+      @click="$router.push({ path: '/fest', query: { title: store.fests[store.index].title, from: '' } })">
       <div class="row justify-start items-center full-height col-2">
         <q-img :src="getOrnamentImg[store.fests[store.index].color as keyof typeof getOrnamentImg]" class="full-height"
           fit="contain" />
@@ -58,7 +58,7 @@ import 'swiper/css';
 import { Http } from '../../src-capacitor/node_modules/@capacitor-community/http';
 import getImgURL from '../assets/js/getImgURL'
 import { getOrnamentImg } from '../assets/js/getOrnamentImg'
-import { useFestsStore } from 'src/stores/fests-store';
+import { allFestsStores } from 'src/stores/fests-store';
 import { useLayoutStore } from 'src/stores/layout-store';
 import { heroOutline24ChevronRight } from 'quasar-extras-svg-icons/hero-icons-v2'
 import { SplashScreen } from '@capacitor/splash-screen';
@@ -71,7 +71,7 @@ export default defineComponent({
   },
   setup() {
     const swiperRef = ref<typeof Swiper>();
-    const store = useFestsStore()
+    const store = allFestsStores.useMainFestsStore()
     const layoutStore = useLayoutStore()
 
     onMounted(async () => {

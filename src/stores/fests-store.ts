@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Fest } from 'src/assets/js/models';
 
-export const useFestsStore = defineStore('counter', {
+const storeModel = {
   state: () => ({
     index: 0,
     date: formatDate(new Date()),
@@ -28,7 +28,7 @@ export const useFestsStore = defineStore('counter', {
       return formatDate(date);
     },
   },
-});
+};
 
 function formatDate(date: Date) {
   const d = new Date(date);
@@ -41,3 +41,8 @@ function formatDate(date: Date) {
 
   return [year, month, day].join('/');
 }
+
+export const allFestsStores = {
+  useMainFestsStore: defineStore('homeStore', { ...storeModel }),
+  useSecondaryFestsStore: defineStore('festStore', { ...storeModel }),
+};

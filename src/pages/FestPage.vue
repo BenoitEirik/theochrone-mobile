@@ -77,9 +77,10 @@
 import { defineComponent, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Pagination } from 'swiper';
-import { useFestsStore } from 'src/stores/fests-store';
+import { allFestsStores } from 'src/stores/fests-store';
 import { useLayoutStore } from 'src/stores/layout-store';
 import { colors } from 'quasar'
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'FestPage',
@@ -88,7 +89,8 @@ export default defineComponent({
     SwiperSlide,
   },
   setup() {
-    const store = useFestsStore()
+    const route = useRoute()
+    const store = getFestsStoreFromPreviousRoute()
     const layoutStore = useLayoutStore()
     const { getPaletteColor } = colors
 
@@ -98,6 +100,17 @@ export default defineComponent({
       const [title, subtitle] = store.fests[store.index].title.split(',')
       layoutStore.title = title || 'Theochrone'
       layoutStore.subtitle = subtitle || ''
+    }
+
+    function getFestsStoreFromPreviousRoute() {
+      switch (route.query.from) {
+        case '':
+          return allFestsStores.useMainFestsStore();
+        case '/search':
+          return allFestsStores.useSecondaryFestsStore()
+        default:
+          return allFestsStores.useMainFestsStore()
+      }
     }
 
     return {

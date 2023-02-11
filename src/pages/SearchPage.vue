@@ -1,7 +1,7 @@
 <template>
 <q-page class="column">
   <q-virtual-scroll :items="searchStore.fests" separator v-slot="{ item, index }">
-    <q-item :key="index" clickable v-ripple>
+    <q-item :key="index" clickable v-ripple @click="openFestPage(index)">
 
       <q-item-section avatar>
         <q-avatar>
@@ -39,14 +39,19 @@ import { defineComponent } from 'vue'
 import { useLayoutStore } from 'src/stores/layout-store';
 import { useSearchStore } from 'src/stores/search-store';
 import { getOrnamentImg } from '../assets/js/getOrnamentImg'
+import { useRouter } from 'vue-router';
+import { allFestsStores } from 'src/stores/fests-store';
 
 export default defineComponent({
   name: 'SearchPage',
   setup() {
+    const store = allFestsStores.useSecondaryFestsStore()
     const layoutStore = useLayoutStore()
     const searchStore = useSearchStore()
+    const router = useRouter()
 
     layoutStore.title = 'Recherche'
+
 
     function formatNumDate(strDate: string): string {
       let splittedDate = strDate.split(' ')
@@ -57,10 +62,17 @@ export default defineComponent({
       return [splittedDate[1], String(months.indexOf(nbrMonth) + 1), splittedDate[3]].join('/')
     }
 
+    function openFestPage(index: number) {
+      store.index = index
+      store.fests = searchStore.fests
+      router.push({ path: '/fest', query: { title: searchStore.fests[index].title, from: '/search' } })
+    }
+
     return {
       searchStore,
       getOrnamentImg,
-      formatNumDate
+      formatNumDate,
+      openFestPage
     }
   }
 })
