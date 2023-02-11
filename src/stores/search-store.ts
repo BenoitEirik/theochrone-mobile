@@ -48,7 +48,7 @@ export const useSearchStore = defineStore('search', {
           edition: attributesElement[1].children[1].innerHTML || '',
           celebration: attributesElement[2].children[1].innerHTML || '',
           class: attributesElement[3].children[1].innerHTML || '',
-          color: attributesElement[4].children[1].innerHTML || '',
+          color: attributesElement[4].children[1].innerHTML || 'Blanc',
           temporal: attributesElement[5].children[1].innerHTML || '',
           sanctoral: attributesElement[6].children[1].innerHTML || '',
           liturgicalTime: attributesElement[7].children[1].innerHTML || '',
