@@ -60,7 +60,8 @@
           </q-item>
 
           <q-item clickable v-ripple>
-            <q-item-section class="text-bold" @click="$router.push({ path: '/textes', query: { title: fest.title } })">
+            <q-item-section class="text-bold"
+              @click="$router.push({ path: '/textes', query: { title: fest.title, festsStoreName: $route.query.festsStoreName as keyof typeof allFestsStores } })">
               <div class="q-pa-md text-weight-bold text-center" :style="'color: ' + getPaletteColor('primary')">
                 Textes de la messe et de l'office
               </div>
@@ -90,7 +91,7 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute()
-    const store = getFestsStoreFromPreviousRoute()
+    const store = allFestsStores[route.query.festsStoreName as keyof typeof allFestsStores]()
     const layoutStore = useLayoutStore()
     const { getPaletteColor } = colors
 
@@ -102,23 +103,13 @@ export default defineComponent({
       layoutStore.subtitle = subtitle || ''
     }
 
-    function getFestsStoreFromPreviousRoute() {
-      switch (route.query.from) {
-        case '':
-          return allFestsStores.useMainFestsStore();
-        case '/search':
-          return allFestsStores.useSecondaryFestsStore()
-        default:
-          return allFestsStores.useMainFestsStore()
-      }
-    }
-
     return {
       store,
       layoutStore,
       modules: [Pagination],
       getPaletteColor,
-      setToolbar
+      setToolbar,
+      allFestsStores
     }
   }
 });

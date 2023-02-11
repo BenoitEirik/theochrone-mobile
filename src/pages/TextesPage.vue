@@ -15,17 +15,19 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, nextTick, watch } from 'vue';
 import { registerPlugin } from '@capacitor/core';
-import { useFestsStore } from 'src/stores/fests-store';
+import { allFestsStores } from 'src/stores/fests-store';
 import { openURL } from 'quasar'
+import { useRoute } from 'vue-router';
 
 const Bridge = registerPlugin('Bridge');
 
 export default defineComponent({
   name: 'TextesPage',
   setup() {
+    const route = useRoute()
     const bodyFest = ref<string>('')
     const loading = ref(true)
-    const store = useFestsStore()
+    const store = allFestsStores[route.query.festsStoreName as keyof typeof allFestsStores]()
     const bodyRef = ref(null)
 
     onMounted(async () => {

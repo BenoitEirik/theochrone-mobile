@@ -13,7 +13,7 @@
       slideShadows: false,
     }" class="col-grow full-width">
     <swiper-slide v-for="fest in store.fests" :key="fest.id"
-      @click="$router.push({ path: '/fest', query: { title: store.fests[store.index].title, from: '' } })">
+      @click="$router.push({ path: '/fest', query: { title: store.fests[store.index].title, festsStoreName: 'useMainFestsStore' } })">
       <div class="full-width full-height row justify-center items-center">
         <img :src="fest.img" v-if="fest.img !== ''" />
 
@@ -26,7 +26,7 @@
 
   <div class="q-pa-md">
     <div v-ripple class="relative-position q-pa-sm full-width row jutify-between items-center no-wrap box-title"
-      @click="$router.push({ path: '/fest', query: { title: store.fests[store.index].title, from: '' } })">
+      @click="$router.push({ path: '/fest', query: { title: store.fests[store.index].title, festsStoreName: 'useMainFestsStore' } })">
       <div class="row justify-start items-center full-height col-2">
         <q-img :src="getOrnamentImg[store.fests[store.index].color as keyof typeof getOrnamentImg]" class="full-height"
           fit="contain" />

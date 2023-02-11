@@ -65,7 +65,7 @@ export default defineComponent({
     function openFestPage(index: number) {
       store.index = index
       store.fests = searchStore.fests
-      router.push({ path: '/fest', query: { title: searchStore.fests[index].title, from: '/search' } })
+      router.push({ path: '/fest', query: { title: searchStore.fests[index].title, festsStoreName: 'useSecondaryFestsStore' } })
     }
 
     return {
