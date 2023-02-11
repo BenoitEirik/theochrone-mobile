@@ -66,7 +66,8 @@
 
         <q-item-section side>
           <q-item-label>
-            <q-toggle v-model="notificationToggle" />
+            <q-toggle v-model="notificationToggle"
+              @update:model-value="(value, evt) => setNotificationToggle(value as boolean)" />
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -99,9 +100,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { StatusBar, Style } from '@capacitor/status-bar'
-import { App } from '@capacitor/app';
+import { defineComponent, ref, onMounted, onBeforeMount } from 'vue';
+import { StatusBar, Style } from '../../src-capacitor/node_modules/@capacitor/status-bar'
+import { App } from '../../src-capacitor/node_modules/@capacitor/app';
+import { Storage } from '../../src-capacitor/node_modules/@capacitor/storage';
 import { useLayoutStore } from 'src/stores/layout-store';
 import { useSearchStore } from 'src/stores/search-store';
 import { heroOutline24Bars3, heroOutline24MagnifyingGlass, heroOutline24ChevronLeft, heroOutline24GlobeEuropeAfrica, heroOutline24ArrowRightOnRectangle, heroOutline24Bell } from 'quasar-extras-svg-icons/hero-icons-v2'
@@ -115,6 +117,16 @@ export default defineComponent({
     const loadingState = ref<boolean>(false)
     const notificationToggle = ref<boolean>(false)
 
+    onBeforeMount(async () => {
+      const toggle = await Storage.get({ key: 'notificationToggle' });
+      console.log('bool =', toggle.value)
+      if (toggle.value === 'true') {
+        notificationToggle.value = true
+      } else if (toggle.value === 'false') {
+        notificationToggle.value = false
+      } else notificationToggle.value = false
+    })
+
     onMounted(async () => {
       await StatusBar.setStyle({ style: Style.Dark })
       await StatusBar.setBackgroundColor({ color: '#55acee' })
@@ -124,6 +136,13 @@ export default defineComponent({
       loadingState.value = true
       await searchStore.retrieve()
       loadingState.value = false
+    }
+
+    async function setNotificationToggle(newValue: boolean) {
+      await Storage.set({
+        key: 'notificationToggle',
+        value: String(newValue),
+      });
     }
 
     return {
@@ -142,7 +161,8 @@ export default defineComponent({
       loadingState,
       triggerSearch,
       notificationToggle,
-      heroOutline24Bell
+      heroOutline24Bell,
+      setNotificationToggle
     }
   }
 });
