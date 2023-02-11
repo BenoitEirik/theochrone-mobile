@@ -120,7 +120,6 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       const toggle = await Storage.get({ key: 'notificationToggle' });
-      console.log('bool =', toggle.value)
       if (toggle.value === 'true') {
         notificationToggle.value = true
       } else if (toggle.value === 'false') {

@@ -68,7 +68,6 @@ public class FestNotification {
           .setPriority(NotificationCompat.PRIORITY_DEFAULT)
           .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
           .setContentIntent(pendingIntent)
-          .setOngoing(true)
           .setVibrate(new long[]{0});
 
         // Show the notification

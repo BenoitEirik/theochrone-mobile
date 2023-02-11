@@ -1,16 +1,27 @@
 package com.benoiteirik.theochrone;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import java.util.Objects;
 
 public class BootActions extends BroadcastReceiver {
 
   @SuppressLint("UnsafeProtectedBroadcastReceiver")
   @Override
   public void onReceive(Context context, Intent intent) {
+    // Check if user allow notification from the application
+    SharedPreferences preferences = context.getSharedPreferences("CapacitorStorage", Activity.MODE_PRIVATE);
+    String toggle = preferences.getString("notificationToggle", "true");
+    if (Objects.equals(toggle, "false")) return;
+
     if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
       // Create an Intent to start your MainActivity
       Intent mainIntent = new Intent(context, MainActivity.class);
