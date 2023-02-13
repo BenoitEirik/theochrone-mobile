@@ -88,6 +88,13 @@
 
     <q-separator />
 
+    <q-btn class="q-pa-md full-width text-center" target="_blank"
+      href="https://github.com/benoiteirik/theochrone-mobile/blob/main/privacy.md" no-caps unelevated>
+      Règles de confidentialité
+    </q-btn>
+
+    <q-separator />
+
     <q-btn class="q-pa-md full-width text-center" target="_blank" href="https://github.com/benoiteirik" no-caps
       unelevated>
       @benoiteirik
