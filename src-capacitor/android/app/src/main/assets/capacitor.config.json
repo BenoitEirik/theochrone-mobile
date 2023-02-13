@@ -10,8 +10,5 @@
 			"androidScaleType": "CENTER_CROP",
 			"backgroundColor": "#ffffff"
 		}
-	},
-	"server": {
-		"url": "http://192.168.149.4:9500"
 	}
 }
