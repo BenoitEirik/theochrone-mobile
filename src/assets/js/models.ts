@@ -13,3 +13,7 @@ export interface Fest {
   liturgicalTime: string;
   transferedFest: string;
 }
+
+export interface TextesPlugin {
+  getFestTextes(options: { url: string }): Promise<{ data: string }>;
+}

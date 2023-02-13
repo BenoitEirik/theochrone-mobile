@@ -14,12 +14,13 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, nextTick, watch } from 'vue';
-import { registerPlugin } from '@capacitor/core';
+import { registerPlugin } from '../../src-capacitor/node_modules/@capacitor/core';
 import { allFestsStores } from 'src/stores/fests-store';
 import { openURL } from 'quasar'
 import { useRoute } from 'vue-router';
+import { TextesPlugin } from '../../src/assets/js/models'
 
-const Bridge = registerPlugin('Bridge');
+const textesPlugin: TextesPlugin = registerPlugin('TextesPlugin');
 
 export default defineComponent({
   name: 'TextesPage',
@@ -31,7 +32,7 @@ export default defineComponent({
     const bodyRef = ref(null)
 
     onMounted(async () => {
-      const response = await Bridge.getFestTextes({ url: store.fests[store.index].massTextURL });
+      const response = await textesPlugin.getFestTextes({ url: store.fests[store.index].massTextURL });
       bodyFest.value = response.data
       loading.value = false
     })

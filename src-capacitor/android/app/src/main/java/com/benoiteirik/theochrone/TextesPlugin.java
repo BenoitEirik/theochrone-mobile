@@ -16,8 +16,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
-@CapacitorPlugin(name = "Bridge")
-public class BridgePlugin extends Plugin {
+@CapacitorPlugin(name = "TextesPlugin")
+public class TextesPlugin extends Plugin {
   private JSObject dataHTML;
 
   // Bridge data between back and front

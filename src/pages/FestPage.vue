@@ -63,7 +63,7 @@
             <q-item-section class="text-bold"
               @click="$router.push({ path: '/textes', query: { title: fest.title, festsStoreName: $route.query.festsStoreName as keyof typeof allFestsStores } })">
               <div class="q-pa-md text-weight-bold text-center" :style="'color: ' + getPaletteColor('primary')">
-                Textes de la messe et de l'office
+                Textes de la messe et de l'office<br>(introibo.fr)
               </div>
             </q-item-section>
           </q-item>
