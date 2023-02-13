@@ -5,8 +5,10 @@
     class="full-width">
     <swiper-slide v-for="fest in store.fests" :key="fest.id" class="q-mb-lg">
       <div class="q-pa-md">
-        <div class="full-width row justify-center">
-          <img :src="fest.img" v-if="fest.img !== ''" class="img" />
+        <div class="full-width row justify-center" style="height: 300px;">
+          <img ref="imgRef" :src="fest.img" v-if="fest.img !== ''" class="img"
+            @click="fullscreenMode = !fullscreenMode; layoutStore.hide = !layoutStore.hide"
+            :class="{ 'fullscreen-img': fullscreenMode }" />
 
           <q-inner-loading :showing="fest.img === ''">
             <q-spinner-hourglass size="3em" color="primary" lab />
@@ -75,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Pagination } from 'swiper';
 import { allFestsStores } from 'src/stores/fests-store';
@@ -94,6 +96,7 @@ export default defineComponent({
     const store = allFestsStores[route.query.festsStoreName as keyof typeof allFestsStores]()
     const layoutStore = useLayoutStore()
     const { getPaletteColor } = colors
+    const fullscreenMode = ref<boolean>(false)
 
     onMounted(() => setToolbar())
 
@@ -109,7 +112,8 @@ export default defineComponent({
       modules: [Pagination],
       getPaletteColor,
       setToolbar,
-      allFestsStores
+      allFestsStores,
+      fullscreenMode
     }
   }
 });
@@ -123,5 +127,20 @@ export default defineComponent({
   max-height: 300px;
   object-fit: contain;
   border-radius: 4px;
+  transition: all 0.4s ease-in-out;
+}
+
+.fullscreen-img {
+  transition: all 0.4s ease-in-out;
+  z-index: 10000 !important;
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
 }
 </style>

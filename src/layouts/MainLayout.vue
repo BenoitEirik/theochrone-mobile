@@ -1,6 +1,6 @@
 <template>
 <q-layout view="lHh Lpr lFf">
-  <q-header>
+  <q-header :class="{ hidden: layoutStore.hide }">
     <div>
       <q-toolbar>
         <q-btn flat dense round :icon="heroOutline24Bars3" aria-label="Menu" @click="toggleLeftDrawer"
