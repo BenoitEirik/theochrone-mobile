@@ -1,11 +1,35 @@
 // app global css in SCSS form
 @font-face {
   font-family: 'raleway';
-  src: url(../assets/fonts/raleway/Raleway-Medium.ttf);
+  src: url(../assets/fonts/raleway/Raleway-Medium.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'baskerville';
+  font-style: normal;
+  src: url(../assets/fonts/Libre_Baskerville/LibreBaskerville-Regular.ttf)
+    format('truetype');
+}
+@font-face {
+  font-family: 'baskerville';
+  font-style: italic;
+  src: url(../assets/fonts/Libre_Baskerville/LibreBaskerville-Italic.ttf)
+    format('truetype');
+}
+@font-face {
+  font-family: 'baskerville';
+  src: url(../assets/fonts/Libre_Baskerville/LibreBaskerville-Bold.ttf)
+    format('truetype');
+  font-style: normal;
+  font-weight: 700;
 }
 
 .raleway {
   font-family: 'raleway';
+}
+
+.baskerville {
+  font-family: 'baskerville';
 }
 
 .line-clamp {
