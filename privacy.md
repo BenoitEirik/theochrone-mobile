@@ -2,7 +2,7 @@
 
 Nous sommes conscients de l'importance de la vie privée pour les utilisateurs du Theochrone et c'est pourquoi nous avons conçu notre application de manière à ne pas collecter, utiliser ou partager aucune donnée personnelle des utilisateurs.
 
-Notre application est open source et ne collecte aucune donnée personnelle de nos utilisateurs, telle que le nom, l'adresse électronique, les informations de localisation, les informations de carte de crédit ou toute autre information qui pourrait permettre de les identifier.
+Notre application est open source et ne collecte aucune donnée personnelle de nos utilisateurs, telle que le nom, l'adresse électronique, les informations de localisation, ou toute autre information qui pourrait permettre de les identifier.
 
 Nous n'utilisons pas les données des utilisateurs à des fins de marketing ou de publicité, et nous ne les partageons pas avec des tiers.
 
