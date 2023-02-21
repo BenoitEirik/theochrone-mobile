@@ -4,4 +4,4 @@ The Theochrone, a perpetual liturgical calendar according to the Tridentine rite
 
 ## Android
 
-Can be download at: https://play.google.com/store/apps/details?id=com.benoiteirik.theochrone
+Google Play Store: https://play.google.com/store/apps/details?id=com.benoiteirik.theochrone
