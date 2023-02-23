@@ -57,7 +57,7 @@ public class FestNotification {
       protected void onPostExecute(ArrayList<String> result) {
         // Create the Notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CHANNEL_ID")
-          .setSmallIcon(R.mipmap.ic_launcher_foreground)
+          .setSmallIcon(R.drawable.ic_stat_name)
           .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_foreground))
           .setStyle(new NotificationCompat.BigPictureStyle()
             .bigLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_foreground)))

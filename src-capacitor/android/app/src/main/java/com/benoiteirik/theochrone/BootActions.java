@@ -22,13 +22,11 @@ public class BootActions extends BroadcastReceiver {
     String toggle = preferences.getString("notificationToggle", "true");
     if (Objects.equals(toggle, "false")) return;
 
-    if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-      // Create an Intent to start your MainActivity
-      Intent mainIntent = new Intent(context, MainActivity.class);
-      PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, mainIntent, 0);
+    // Create an Intent to start your MainActivity
+    Intent mainIntent = new Intent(context, MainActivity.class);
+    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, mainIntent, 0);
 
-      FestNotification notify = new FestNotification(context, pendingIntent);
-      notify.send();
-    }
+    FestNotification notify = new FestNotification(context, pendingIntent);
+    notify.send();
   }
 }
