@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.benoiteirik.theochrone">
 
-  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
   <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
@@ -13,14 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name=".BootActions"
+        <receiver android:name=".NotificationReceiver"
           android:exported="true">
           <intent-filter>
             <action android:name="android.intent.action.BOOT_COMPLETED" />
           </intent-filter>
         </receiver>
 
-        <activity
+        <receiver android:name=".NotificationReceiver" />
+
+    <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
             android:name="com.benoiteirik.theochrone.MainActivity"
             android:label="@string/title_activity_main"
@@ -47,6 +47,7 @@
     </application>
 
     <!-- Permissions -->
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 </manifest>

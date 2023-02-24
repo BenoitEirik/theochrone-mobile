@@ -78,9 +78,6 @@ public class FestNotification {
 
     NotificationTask task = new NotificationTask();
     task.execute();
-
-    // Set notification when changing the day
-    scheduleNotification();
   }
 
   private void createNotificationChannel() {
@@ -97,18 +94,5 @@ public class FestNotification {
       channel.setLockscreenVisibility(NotificationCompat.VISIBILITY_PUBLIC);
       notificationManager.createNotificationChannel(channel);
     }
-  }
-
-  private void scheduleNotification() {
-    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-    Intent intent = new Intent(context, BootActions.class);
-    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTimeInMillis(System.currentTimeMillis());
-    calendar.set(Calendar.HOUR_OF_DAY, 0);
-    calendar.set(Calendar.MINUTE, 0);
-    calendar.set(Calendar.SECOND, 0);
-    calendar.add(Calendar.DAY_OF_MONTH, 1);
-    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
   }
 }
