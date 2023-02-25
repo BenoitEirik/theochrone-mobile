@@ -62,13 +62,29 @@
 
         <q-item-section>
           <q-item-label>Notification</q-item-label>
-          <q-item-label caption lines="2">Au démarrage et début de journée</q-item-label>
+          <q-item-label caption lines="2">Au démarrage et en début de journée</q-item-label>
         </q-item-section>
 
         <q-item-section side>
           <q-item-label>
             <q-toggle v-model="notificationToggle"
-              @update:model-value="(value, evt) => setNotificationToggle(value as boolean)" />
+              @update:model-value="(value, evt) => setNotification(value as boolean)" />
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-item clickable>
+        <q-item-section avatar>
+          <q-icon :name="outlinedFontDownload" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label>Police alternative</q-item-label>
+        </q-item-section>
+
+        <q-item-section side>
+          <q-item-label>
+            <q-toggle v-model="fontToggle" @update:model-value="(value, evt) => setFontFamily(value as boolean)" />
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -115,6 +131,7 @@ import { Storage } from '../../src-capacitor/node_modules/@capacitor/storage';
 import { useLayoutStore } from 'src/stores/layout-store';
 import { useSearchStore } from 'src/stores/search-store';
 import { heroOutline24Bars3, heroOutline24MagnifyingGlass, heroOutline24ChevronLeft, heroOutline24GlobeEuropeAfrica, heroOutline24ArrowRightOnRectangle, heroOutline24Bell } from 'quasar-extras-svg-icons/hero-icons-v2'
+import { outlinedFontDownload } from '@quasar/extras/material-icons-outlined'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -124,19 +141,30 @@ export default defineComponent({
     const searchStore = useSearchStore()
     const loadingState = ref<boolean>(false)
     const notificationToggle = ref<boolean>(false)
+    const fontToggle = ref<boolean>(false)
 
     onBeforeMount(async () => {
-      const toggle = await Storage.get({ key: 'notificationToggle' });
-      if (toggle.value === 'true') {
-        notificationToggle.value = true
-      } else if (toggle.value === 'false') {
-        notificationToggle.value = false
-      } else notificationToggle.value = false
+      // Get persistent settings
+      const settings = [await Storage.get({ key: 'notificationToggle' }), await Storage.get({ key: 'fontToggle' })]
+
+      settings.forEach((setting, index) => {
+        console.log('setting =', JSON.parse(setting.value || 'false') as boolean)
+        switch (index) {
+          case 0: // notification
+            notificationToggle.value = JSON.parse(setting.value || 'false') as boolean
+            break;
+          case 1: // alternative font
+            fontToggle.value = JSON.parse(setting.value || 'false') as boolean
+            break;
+        }
+      })
     })
 
     onMounted(async () => {
       await StatusBar.setStyle({ style: Style.Dark })
       await StatusBar.setBackgroundColor({ color: '#55acee' })
+
+      document.body.style.setProperty('font-family', fontToggle.value ? 'raleway' : 'baskerville', 'important')
     })
 
     async function triggerSearch() {
@@ -145,10 +173,18 @@ export default defineComponent({
       loadingState.value = false
     }
 
-    async function setNotificationToggle(newValue: boolean) {
+    async function setNotification(newValue: boolean) {
       await Storage.set({
         key: 'notificationToggle',
         value: String(newValue),
+      });
+    }
+
+    async function setFontFamily(newValue: boolean) {
+      document.body.style.setProperty('font-family', newValue ? 'raleway' : 'baskerville', 'important')
+      await Storage.set({
+        key: 'fontToggle',
+        value: newValue.toString(),
       });
     }
 
@@ -165,11 +201,14 @@ export default defineComponent({
       heroOutline24ChevronLeft,
       heroOutline24GlobeEuropeAfrica,
       heroOutline24ArrowRightOnRectangle,
+      outlinedFontDownload,
       loadingState,
       triggerSearch,
       notificationToggle,
       heroOutline24Bell,
-      setNotificationToggle
+      setNotification,
+      fontToggle,
+      setFontFamily
     }
   }
 });
