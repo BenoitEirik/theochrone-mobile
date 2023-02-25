@@ -80,6 +80,7 @@
 
         <q-item-section>
           <q-item-label>Police alternative</q-item-label>
+          <q-item-label>{{ fontToggle ? 'Raleway' : 'Baskerville' }}</q-item-label>
         </q-item-section>
 
         <q-item-section side>
