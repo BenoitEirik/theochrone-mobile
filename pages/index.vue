@@ -1,3 +1,16 @@
+<script lang="ts" setup>
+const attrs = ref([
+  {
+    key: 'today',
+    highlight: {
+      color: 'primary',
+      fillMode: 'outline',
+    },
+    dates: new Date(),
+  }
+])
+</script>
+
 <template>
 <NuxtLayout name="main" class="flex flex-col items-stretch overflow-hidden">
   <VCalendar expanded class="shrink-0" :attributes="attrs" style="width: 100%;border: none;" />
@@ -35,19 +48,6 @@
   </div>
 </NuxtLayout>
 </template>
-
-<script lang="ts" setup>
-const attrs = ref([
-  {
-    key: 'today',
-    highlight: {
-      color: 'primary',
-      fillMode: 'outline',
-    },
-    dates: new Date(),
-  }
-])
-</script>
 
 <style lang="scss">
 .swiper-slide {

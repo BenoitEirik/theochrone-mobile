@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const navStore = useNavStore()
+</script>
+
 <template>
 <div class="p-2 w-full h-[50px] max-h-[50px] flex justify-between items-center bg-primary">
   <button @click="navStore.setLeftDrawer(!navStore.leftDrawer)" class="p-2 cursor-pointer rounded-full" v-wave>
@@ -13,7 +17,3 @@
   </button>
 </div>
 </template>
-
-<script lang="ts" setup>
-const navStore = useNavStore()
-</script>

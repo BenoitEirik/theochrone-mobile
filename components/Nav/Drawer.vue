@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const navStore = useNavStore()
+</script>
+
 <template>
 <x-drawer v-model="navStore.leftDrawer" width="300">
   <template #header>
@@ -11,7 +15,7 @@
     <li>
       <button class="w-full flex justify-stretch items-stretch" v-wave>
         <div class="p-4 shrink-0 aspect-video">
-          <Icon name="lucide:globe" />
+          <Icon name="lets-icons:world-2-light" />
         </div>
         <div class="p-2 grow flex flex-col justify-center items-stretch text-left">
           <p class="line-clamp-1">Site internet</p>
@@ -22,7 +26,7 @@
     <li>
       <button class="w-full flex justify-stretch items-stretch" v-wave>
         <div class="p-4 shrink-0 aspect-video">
-          <Icon name="lucide:settings" />
+          <Icon name="lets-icons:setting-line-light" />
         </div>
         <div class="p-2 grow flex flex-col justify-center items-stretch text-left">
           <p class="line-clamp-1">Paramètres</p>
@@ -32,7 +36,7 @@
     <li>
       <button class="w-full flex justify-stretch items-stretch" v-wave>
         <div class="p-4 shrink-0 aspect-video">
-          <Icon name="lucide:door-closed" />
+          <Icon name="lets-icons:sign-out-squre-light" />
         </div>
         <div class="p-2 grow flex flex-col justify-center items-stretch text-left">
           <p class="line-clamp-1">Quitter</p>
@@ -47,7 +51,3 @@
   </template>
 </x-drawer>
 </template>
-
-<script lang="ts" setup>
-const navStore = useNavStore()
-</script>

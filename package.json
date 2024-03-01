@@ -14,6 +14,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/html-validator": "^1.6.0",
     "@pinia/nuxt": "^0.5.1",
     "@popperjs/core": "^2.11.8",
     "nuxt": "^3.10.3",
