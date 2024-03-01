@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">Theochrone</string>
-    <string name="title_activity_main">Theochrone</string>
-    <string name="package_name">com.benoiteirik.theochrone</string>
-    <string name="custom_url_scheme">com.benoiteirik.theochrone</string>
-</resources>
