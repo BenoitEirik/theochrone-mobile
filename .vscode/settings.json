@@ -2,15 +2,5 @@
   "css.customData": [
     ".vscode/tailwind.json"
   ],
-  "scss.lint.unknownAtRules": "ignore",
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "editor.quickSuggestions": {
-    "strings": true
-  },
-  "tailwindCSS.includeLanguages": {
-    "vue": "html",
-    "vue-html": "html",
-  }
+  "scss.lint.unknownAtRules": "ignore"
 }

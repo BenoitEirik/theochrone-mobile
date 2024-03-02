@@ -13,14 +13,14 @@ const attrs = ref([
 
 <template>
   <NuxtLayout name="main" class="flex flex-col items-stretch overflow-hidden">
-    <VCalendar expanded class="shrink-0" :attributes="{
+    <VCalendar expanded class="shrink-0" :attributes="[{
       key: 'today',
       highlight: {
         color: 'primary',
         fillMode: 'outline',
       },
       dates: new Date(),
-    }" style="width: 100%;border: none;" />
+    }]" style="width: 100%;border: none;" />
 
     <Swiper :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
       :pagination="true" :coverflowEffect="{
@@ -29,26 +29,26 @@ const attrs = ref([
       depth: 200,
       modifier: 1,
       slideShadows: false,
-    }" :grab-cursor="true" :centered-slides="true" class="grow w-full">
+    }" :grab-cursor="true" :centered-slides="true" class="w-full grow">
       <SwiperSlide v-for="slide in 3" :key="slide">
         <div
           style="background: url('http://introibo.fr/IMG/jpg/0227gabriel.jpg') no-repeat center;background-size: contain;" />
       </SwiperSlide>
     </Swiper>
 
-    <div class="shrink-0 p-4">
+    <div class="p-4 shrink-0">
       <button type="button" v-wave
-        class="p-2 block w-full h-[75px] max-h-[75px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer">
+        class="p-2 w-full h-[75px] max-h-[75px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer">
         <span class="hidden">Fest informations</span>
-        <img src="/images/ornements/black.png" alt="Fest color" class="shrink-0 h-full aspect-square rounded-l-full">
+        <img src="/images/ornements/black.png" alt="Fest color" class="h-full rounded-l-full shrink-0 aspect-square">
 
-        <div class="grow h-full flex flex-col justify-center items-center">
+        <div class="flex flex-col items-center justify-center h-full grow">
           <p class="line-clamp-2">
             fete de fete
           </p>
         </div>
 
-        <div class="shrink-0 flex justify-center items-center h-full aspect-square rounded-r-full">
+        <div class="flex items-center justify-center h-full rounded-r-full shrink-0 aspect-square">
           <Icon name="lucide:chevron-right" size="2rem" color="grey" />
         </div>
       </button>

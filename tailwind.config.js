@@ -1,16 +1,20 @@
 const colors = require('tailwindcss/colors')
 const indielayer = require('@indielayer/ui/tailwind.preset')
 
+// To remain: always install TailwindCSS on Nuxt ONLY by following official Tailwind website (not the plugin!)
+
 module.exports = {
   darkMode: 'class',
   // load indielayer ui presets
   presets: [indielayer()],
   // allow PurgeCSS to analyze components
   content: [
-    './index.html',
-    './app.vue',
-    './**/*.vue',
-    './src/**/*.{vue,js,ts,jsx,tsx}',
+    "./components/**/*.{js,vue,ts}",
+    "./layouts/**/*.vue",
+    "./pages/**/*.vue",
+    "./plugins/**/*.{js,ts}",
+    "./app.vue",
+    "./error.vue",
     'node_modules/@indielayer/ui/{lib,src}/**/*',
   ],
   theme: {
