@@ -6,7 +6,8 @@ export default defineNuxtConfig({
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
     configPath: '~/tailwind.config.js',
-    editorSupport: true
+    editorSupport: true,
+    exposeConfig: true
   },
   build: {
     transpile: ['@indielayer/ui'],
@@ -18,8 +19,16 @@ export default defineNuxtConfig({
       autoprefixer: {}
     }
   },
+  htmlValidator: {
+    options: {
+      rules: {
+        'prefer-native-element': 'off'
+      }
+    }
+  },
   app: {
     head: {
+      title: 'Theochrone',
       htmlAttrs: {
         lang: 'fr'
       },
