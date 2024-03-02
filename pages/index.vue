@@ -30,7 +30,7 @@ const attrs = ref([
   </Swiper>
 
   <div class="shrink-0 p-4">
-    <button v-wave
+    <button type="button" v-wave
       class="p-2 block w-full h-[75px] max-h-[75px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer">
       <span class="hidden">Fest informations</span>
       <img src="/images/ornements/black.png" alt="Fest color" class="shrink-0 h-full aspect-square rounded-l-full">

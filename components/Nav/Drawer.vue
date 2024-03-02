@@ -13,7 +13,7 @@ const navStore = useNavStore()
   </template>
   <ul>
     <li>
-      <button class="w-full flex justify-stretch items-stretch" v-wave>
+      <button type="button" class="w-full flex justify-stretch items-stretch" v-wave>
         <div class="p-4 shrink-0 aspect-video">
           <Icon name="lets-icons:world-2-light" />
         </div>
@@ -24,7 +24,7 @@ const navStore = useNavStore()
       </button>
     </li>
     <li>
-      <button class="w-full flex justify-stretch items-stretch" v-wave>
+      <button type="button" class="w-full flex justify-stretch items-stretch" v-wave>
         <div class="p-4 shrink-0 aspect-video">
           <Icon name="lets-icons:setting-line-light" />
         </div>
@@ -34,7 +34,7 @@ const navStore = useNavStore()
       </button>
     </li>
     <li>
-      <button class="w-full flex justify-stretch items-stretch" v-wave>
+      <button type="button" class="w-full flex justify-stretch items-stretch" v-wave>
         <div class="p-4 shrink-0 aspect-video">
           <Icon name="lets-icons:sign-out-squre-light" />
         </div>
