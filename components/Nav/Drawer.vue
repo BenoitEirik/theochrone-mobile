@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 const navStore = useNavStore()
+
+const router = useRouter()
 </script>
 
 <template>
@@ -24,7 +26,7 @@ const navStore = useNavStore()
         </button>
       </li>
       <li>
-        <button type="button" class="flex items-stretch w-full justify-stretch" v-wave>
+        <button type="button" class="flex items-stretch w-full justify-stretch" v-wave @click="router.push('/settings');navStore.setLeftDrawer(false)">
           <span class="p-4 shrink-0 aspect-video">
             <Icon name="lets-icons:setting-line-light" />
           </span>

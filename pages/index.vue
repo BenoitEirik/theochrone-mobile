@@ -9,6 +9,10 @@ const attrs = ref([
     dates: new Date(),
   }
 ])
+
+const navStore = useNavStore()
+navStore.setLeftAction('menu')
+navStore.setTitle('Theochrone')
 </script>
 
 <template>
