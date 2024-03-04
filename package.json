@@ -12,7 +12,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "cap:sync": "pnpm exec cap sync"
+    "cap:sync": "pnpm exec cap sync",
+    "cap:android": "pnpm exec cap open android"
   },
   "dependencies": {
     "@capacitor/android": "^5.7.1",
