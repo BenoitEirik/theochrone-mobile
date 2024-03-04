@@ -76,7 +76,7 @@ navStore.setTitle('Theochrone')
 }
 
 .swiper-pagination-bullet-active {
-  background-color: theme('colors.primary');
+  background-color: theme('colors.primary.500');
 }
 
 // Primary color for VCalendar

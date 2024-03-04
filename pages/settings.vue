@@ -9,8 +9,13 @@ navStore.setTitle('Paramètres')
 <template>
   <NuxtLayout name="main">
     <LayoutSettings title="Notifications">
-      <UiSettingsItem right-action-type="boolean" label="Afficher les fêtes du jour au démarrage de l'appareil"
-        v-model="checked" icon-name="lets-icons:on-button-duotone" />
+      <UiSettingsItem type="toggle" label="Afficher les fêtes du jour au démarrage de l'appareil"
+        v-model:toggle="checked" icon-name="lets-icons:on-button-duotone" />
+    </LayoutSettings>
+    
+    <LayoutSettings title="Légal">
+      <UiSettingsItem type="link" label="Règles de confidentialité"
+        link="https://github.com/benoiteirik/theochrone-mobile/blob/main/privacy.md" icon-name="lets-icons:external" />
     </LayoutSettings>
   </NuxtLayout>
 </template>

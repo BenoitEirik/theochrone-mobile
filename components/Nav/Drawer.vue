@@ -9,7 +9,7 @@ const router = useRouter()
     <template #header>
       <figure class="flex flex-col items-stretch aspect-video">
         <img src="/images/backgrounds/banner.jpg" alt="Banner" class="object-cover w-full h-full grow">
-        <figcaption class="flex items-center justify-center p-4 text-white shrink-0 line-clamp-1 bg-primary">Ad majorem
+        <figcaption class="flex items-center justify-center p-4 text-white shrink-0 line-clamp-1 bg-primary-500">Ad majorem
           dei gloriam</figcaption>
       </figure>
     </template>
@@ -20,8 +20,8 @@ const router = useRouter()
             <Icon name="lets-icons:world-2-light" />
           </span>
           <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
-            <p class="line-clamp-1">Site internet</p>
-            <p class="text-gray-500 line-clamp-1">https://theochrone.fr</p>
+            <span class="line-clamp-1">Site internet</span>
+            <span class="text-gray-500 line-clamp-1">https://theochrone.fr</span>
           </span>
         </button>
       </li>
@@ -31,7 +31,7 @@ const router = useRouter()
             <Icon name="lets-icons:setting-line-light" />
           </span>
           <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
-            <p class="line-clamp-1">Paramètres</p>
+            <span class="line-clamp-1">Paramètres</span>
           </span>
         </button>
       </li>
@@ -41,7 +41,7 @@ const router = useRouter()
             <Icon name="lets-icons:sign-out-squre-light" />
           </span>
           <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
-            <p class="line-clamp-1">Quitter</p>
+            <span class="line-clamp-1">Quitter</span>
           </span>
         </button>
       </li>
