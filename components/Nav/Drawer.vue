@@ -14,33 +14,33 @@ const navStore = useNavStore()
     <ul>
       <li>
         <button type="button" class="flex items-stretch w-full justify-stretch" v-wave>
-          <div class="p-4 shrink-0 aspect-video">
+          <span class="p-4 shrink-0 aspect-video">
             <Icon name="lets-icons:world-2-light" />
-          </div>
-          <div class="flex flex-col items-stretch justify-center p-2 text-left grow">
+          </span>
+          <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
             <p class="line-clamp-1">Site internet</p>
             <p class="text-gray-500 line-clamp-1">https://theochrone.fr</p>
-          </div>
+          </span>
         </button>
       </li>
       <li>
         <button type="button" class="flex items-stretch w-full justify-stretch" v-wave>
-          <div class="p-4 shrink-0 aspect-video">
+          <span class="p-4 shrink-0 aspect-video">
             <Icon name="lets-icons:setting-line-light" />
-          </div>
-          <div class="flex flex-col items-stretch justify-center p-2 text-left grow">
+          </span>
+          <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
             <p class="line-clamp-1">Paramètres</p>
-          </div>
+          </span>
         </button>
       </li>
       <li>
         <button type="button" class="flex items-stretch w-full justify-stretch" v-wave>
-          <div class="p-4 shrink-0 aspect-video">
+          <span class="p-4 shrink-0 aspect-video">
             <Icon name="lets-icons:sign-out-squre-light" />
-          </div>
-          <div class="flex flex-col items-stretch justify-center p-2 text-left grow">
+          </span>
+          <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
             <p class="line-clamp-1">Quitter</p>
-          </div>
+          </span>
         </button>
       </li>
     </ul>

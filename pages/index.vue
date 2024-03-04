@@ -42,15 +42,15 @@ const attrs = ref([
         <span class="hidden">Fest informations</span>
         <img src="/images/ornements/black.png" alt="Fest color" class="h-full rounded-l-full shrink-0 aspect-square">
 
-        <div class="flex flex-col items-center justify-center h-full grow">
-          <p class="line-clamp-2">
+        <span class="flex flex-col items-center justify-center h-full grow">
+          <span class="line-clamp-2">
             fete de fete
-          </p>
-        </div>
+          </span>
+        </span>
 
-        <div class="flex items-center justify-center h-full rounded-r-full shrink-0 aspect-square">
+        <span class="flex items-center justify-center h-full rounded-r-full shrink-0 aspect-square">
           <Icon name="lucide:chevron-right" size="2rem" color="grey" />
-        </div>
+        </span>
       </button>
     </div>
   </NuxtLayout>
