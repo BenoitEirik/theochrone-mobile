@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
   devtools: { enabled: false },
   experimental: {
     // because: https://github.com/nuxt/nuxt/issues/20889

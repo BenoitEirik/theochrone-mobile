@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@capacitor/android':
+    specifier: ^5.7.1
+    version: 5.7.1(@capacitor/core@5.7.1)
   '@capacitor/core':
     specifier: ^5.7.1
     version: 5.7.1
@@ -391,6 +394,14 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+
+  /@capacitor/android@5.7.1(@capacitor/core@5.7.1):
+    resolution: {integrity: sha512-qDsFw72y5GMHup148jrG/DJacEpjCz+r7lteAnMh8Jo1/TJCBvX53MVRmeHKrAnriE2BvTtHSZn4VPNcZlK7+Q==}
+    peerDependencies:
+      '@capacitor/core': ^5.7.0
+    dependencies:
+      '@capacitor/core': 5.7.1
+    dev: false
 
   /@capacitor/cli@5.7.1:
     resolution: {integrity: sha512-iU+DufCBY2qmtD4ETss15eesMjpPclg7e3DyUDCQuruL1UKYAE5AeB8CctvNrafrC7EPRkuvLhC4dqGV1Vdy3w==}

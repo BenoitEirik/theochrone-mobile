@@ -11,9 +11,11 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "cap:sync": "pnpm exec cap sync"
   },
   "dependencies": {
+    "@capacitor/android": "^5.7.1",
     "@capacitor/core": "^5.7.1",
     "@nuxtjs/html-validator": "^1.6.0",
     "@pinia/nuxt": "^0.5.1",
