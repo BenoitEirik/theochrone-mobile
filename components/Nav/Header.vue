@@ -7,7 +7,7 @@ const navStore = useNavStore()
     <button type="button" @click="navStore.leftAction.callback" class="p-2 rounded-full cursor-pointer"
       v-wave>
       <Icon v-if="navStore.leftAction.name === 'menu'" name="lucide:menu" color="white" />
-      <Icon v-if="navStore.leftAction.name === 'back'" name="lets-icons:expand-left-light" color="white" />
+      <Icon v-if="navStore.leftAction.name === 'back'" name="lets-icons:expand-left" color="white" />
       <span class="hidden">Drawer</span>
     </button>
 
