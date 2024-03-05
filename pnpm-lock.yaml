@@ -23,6 +23,9 @@ dependencies:
   '@capacitor/status-bar':
     specifier: 5.0.7
     version: 5.0.7(@capacitor/core@5.7.1)
+  '@capacitor/text-zoom':
+    specifier: 5.0.7
+    version: 5.0.7(@capacitor/core@5.7.1)
   '@nuxtjs/html-validator':
     specifier: ^1.6.0
     version: 1.6.0
@@ -473,6 +476,14 @@ packages:
 
   /@capacitor/status-bar@5.0.7(@capacitor/core@5.7.1):
     resolution: {integrity: sha512-KblB3gV2LDMEjx3fQoNBAzxb+Tr+2mv68SfFLLDCMiMUD3Eile2TAWRWd1yxy496pDFTOs2BJtup8++iuuuJ/w==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.7.1
+    dev: false
+
+  /@capacitor/text-zoom@5.0.7(@capacitor/core@5.7.1):
+    resolution: {integrity: sha512-gq3nUxeWsa54cNzfVifneiMB5LfkmfX8l33Ey6jS2bu+6g5n11qzd20hqAQPeaD3IOQ1vCMBJTi6wM2j7ArZ5g==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:

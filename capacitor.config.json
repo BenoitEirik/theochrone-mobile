@@ -21,5 +21,8 @@
       "splashImmersive": true,
       "useDialog": false
     }
+  },
+  "ios": {
+    "preferredContentMode": "mobile"
   }
 }
