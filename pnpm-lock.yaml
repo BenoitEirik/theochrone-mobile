@@ -20,6 +20,9 @@ dependencies:
   '@capacitor/splash-screen':
     specifier: ^5.0.7
     version: 5.0.7(@capacitor/core@5.7.1)
+  '@capacitor/status-bar':
+    specifier: 5.0.7
+    version: 5.0.7(@capacitor/core@5.7.1)
   '@nuxtjs/html-validator':
     specifier: ^1.6.0
     version: 1.6.0
@@ -462,6 +465,14 @@ packages:
 
   /@capacitor/splash-screen@5.0.7(@capacitor/core@5.7.1):
     resolution: {integrity: sha512-2aAhhZPi7GU8DDs9dhH4OnMJ3rTscPS/TYKzm03fzhBby6ykSXY6HqKgaWdhfCR4TvLsHf0VKpWZu4ZHD0S7iQ==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.7.1
+    dev: false
+
+  /@capacitor/status-bar@5.0.7(@capacitor/core@5.7.1):
+    resolution: {integrity: sha512-KblB3gV2LDMEjx3fQoNBAzxb+Tr+2mv68SfFLLDCMiMUD3Eile2TAWRWd1yxy496pDFTOs2BJtup8++iuuuJ/w==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:
