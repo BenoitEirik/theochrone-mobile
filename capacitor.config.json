@@ -4,5 +4,22 @@
   "webDir": "dist",
   "server": {
     "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 500,
+      "launchAutoHide": false,
+      "launchFadeOutDuration": 200,
+      "backgroundColor": "#ffffffff",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_INSIDE",
+      "showSpinner": true,
+      "androidSpinnerStyle": "large",
+      "iosSpinnerStyle": "small",
+      "spinnerColor": "#55acee",
+      "splashFullScreen": true,
+      "splashImmersive": true,
+      "useDialog": false
+    }
   }
 }

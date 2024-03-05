@@ -1,8 +1,13 @@
 <script setup lang="ts">
+import { SplashScreen } from '@capacitor/splash-screen'
 import { StatusBar, Style } from '@capacitor/status-bar'
 
 StatusBar.setStyle({ style: Style.Dark })
 StatusBar.setBackgroundColor({ color: '#55acee' })
+
+onMounted(() => {
+  SplashScreen.hide()
+})
 </script>
 
 <template>

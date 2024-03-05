@@ -12,9 +12,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "cap:sync": "pnpm exec cap sync",
-    "cap:android": "pnpm exec cap open android",
-    "ionic:build": "pnpm run build",
+    "ionic:build": "pnpm run generate",
     "ionic:serve": "pnpm run dev"
   },
   "dependencies": {
