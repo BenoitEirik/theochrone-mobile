@@ -42,13 +42,13 @@ navStore.setTitle('Theochrone')
 
     <div class="p-4 shrink-0">
       <button type="button" v-wave
-        class="p-2 w-full h-[75px] max-h-[75px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer">
+        class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer">
         <span class="hidden">Fest informations</span>
         <img src="/images/ornements/black.png" alt="Fest color" class="h-full rounded-l-full shrink-0 aspect-square">
 
         <span class="flex flex-col items-center justify-center h-full grow">
           <span class="line-clamp-2">
-            fete de fete
+            fete de fete fete de fete fete de fete fete de fete
           </span>
         </span>
 

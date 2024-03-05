@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { App } from '@capacitor/app';
+
 const navStore = useNavStore()
 
 const router = useRouter()
@@ -15,7 +17,7 @@ const router = useRouter()
     </template>
     <ul>
       <li>
-        <button type="button" class="flex items-stretch w-full justify-stretch" v-wave>
+        <a type="button" class="flex items-stretch w-full justify-stretch" v-wave target="_blank" href="https://theochrone.fr">
           <span class="p-4 shrink-0 aspect-video">
             <Icon name="lets-icons:world-2-light" />
           </span>
@@ -23,7 +25,7 @@ const router = useRouter()
             <span class="line-clamp-1">Site internet</span>
             <span class="text-gray-500 line-clamp-1">https://theochrone.fr</span>
           </span>
-        </button>
+        </a>
       </li>
       <li>
         <button type="button" class="flex items-stretch w-full justify-stretch" v-wave @click="router.push('/settings');navStore.setLeftDrawer(false)">
@@ -36,7 +38,7 @@ const router = useRouter()
         </button>
       </li>
       <li>
-        <button type="button" class="flex items-stretch w-full justify-stretch" v-wave>
+        <button type="button" class="flex items-stretch w-full justify-stretch" v-wave @click="async () => { App.exitApp() }">
           <span class="p-4 shrink-0 aspect-video">
             <Icon name="lets-icons:sign-out-squre-light" />
           </span>
