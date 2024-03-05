@@ -1,0 +1,7 @@
+{
+  "name": "com.benoiteirik.theochrone",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

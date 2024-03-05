@@ -13,7 +13,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "cap:sync": "pnpm exec cap sync",
-    "cap:android": "pnpm exec cap open android"
+    "cap:android": "pnpm exec cap open android",
+    "ionic:build": "pnpm run build",
+    "ionic:serve": "pnpm run dev"
   },
   "dependencies": {
     "@capacitor/android": "^5.7.1",
