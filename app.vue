@@ -2,6 +2,8 @@
 import { SplashScreen } from '@capacitor/splash-screen'
 import { StatusBar, Style } from '@capacitor/status-bar'
 
+useSettings()
+
 StatusBar.setStyle({ style: Style.Dark })
 StatusBar.setBackgroundColor({ color: '#55acee' })
 
