@@ -29,6 +29,7 @@ export const useFestStore = defineStore('FestStore', () => {
       repo = repositoriesDateFest.value.get(repoName) || new Map() as MapDayFest
       _fests = repo.get(`${year}-${month}-${day}`) || Array<Fest>()
       if (_fests.length > 0) {
+        isLoading.value = false
         return {
           error: false,
           fests: _fests
@@ -38,6 +39,7 @@ export const useFestStore = defineStore('FestStore', () => {
       const res: HttpResponse = await CapacitorHttp.get({ url: `https://theochrone.fr/kalendarium/date_seule?date_seule_day=${day}&date_seule_month=${month}&date_seule_year=${year}&pal=false&martyrology=false&proper=roman` })
 
       if (res.status !== 200) {
+        isLoading.value = false
         return {
           error: true,
           fests: Array<Fest>()
@@ -56,6 +58,7 @@ export const useFestStore = defineStore('FestStore', () => {
       repo = repositoriesDateFest.value.get(repoName) || new Map() as MapDayFest
       _fests = repo.get(`${options.year}`) || Array<Fest>()
       if (_fests.length > 0) {
+        isLoading.value = false
         return {
           error: false,
           fests: _fests
@@ -65,6 +68,7 @@ export const useFestStore = defineStore('FestStore', () => {
       const res: HttpResponse = await CapacitorHttp.get({ url: `https://theochrone.fr/kalendarium/mot_clef?annee=${options.year}&rechserche=${search}&plus=on&pal=false&martyrology=false&proper=roman#resultup` })
     
       if (res.status !== 200) {
+        isLoading.value = false
         return {
           error: true,
           fests: Array<Fest>()

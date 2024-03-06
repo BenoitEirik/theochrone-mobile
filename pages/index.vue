@@ -45,7 +45,10 @@ watch(date, async () => {
       slideShadows: false,
     }" :grab-cursor="true" :centered-slides="true" class="w-full grow">
       <SwiperSlide v-for="fest in fests" :key="fest.id">
-        <div :style="{ background: `url(${fest.img}) no-repeat center`, backgroundSize: 'contain' }" />
+        <div class="flex items-center justify-center">
+          <x-spinner v-if="festStore.isLoading" size="lg" />
+          <img v-else :src="fest.img" alt="Fest picture" class="max-h-full rounded">
+        </div>
       </SwiperSlide>
     </Swiper>
 
