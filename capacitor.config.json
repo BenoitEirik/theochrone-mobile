@@ -20,6 +20,9 @@
       "splashFullScreen": true,
       "splashImmersive": true,
       "useDialog": false
+    },
+    "CapacitorHttp": {
+      "enabled": true
     }
   },
   "ios": {

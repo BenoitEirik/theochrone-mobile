@@ -1,32 +1,40 @@
 <script lang="ts" setup>
+import { useFestStore } from '~/stores/fest'
+import { type Fest } from '~/types/fest'
+
 useBackButton().setExit()
 
 const navStore = useNavStore()
 navStore.setLeftAction('menu')
 navStore.setTitle('Theochrone')
 
-const attrs = ref([
-  {
-    key: 'today',
-    highlight: {
-      color: 'primary',
-      fillMode: 'outline',
-    },
-    dates: new Date(),
-  }
-])
+const date = ref(new Date())
+
+const festStore = useFestStore()
+const fests = ref([] as Fest[])
+
+onMounted(async () => {
+  const { error, fests: _fests } = await festStore.getFest('home', { date: date.value })
+  fests.value = _fests
+  festStore.setHomeSlideIndex(0)
+  // slideTo
+})
+
+watch(date, async () => {
+  const { error, fests: _fests } = await festStore.getFest('home', { date: date.value })
+  fests.value = _fests
+  festStore.setHomeSlideIndex(0)
+  // slideTo
+})
 </script>
 
 <template>
   <NuxtLayout name="main" class="flex flex-col items-stretch overflow-hidden">
-    <VCalendar expanded class="shrink-0" :attributes="[{
-      key: 'today',
-      highlight: {
-        color: 'primary',
-        fillMode: 'outline',
-      },
-      dates: new Date(),
-    }]" style="width: 100%;border: none;" />
+    <pre>{{ festStore.isLoading }}</pre>
+    <pre>{{ date.getFullYear() }}-{{ date.getMonth() + 1 }}-{{ date.getDay() }}</pre>
+    <pre>{{ festStore.homeSlideIndex }}</pre>
+
+    <VDatePicker v-model="date" expanded borderless class="shrink-0" />
 
     <Swiper :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
       :pagination="true" :coverflowEffect="{
@@ -36,9 +44,8 @@ const attrs = ref([
       modifier: 1,
       slideShadows: false,
     }" :grab-cursor="true" :centered-slides="true" class="w-full grow">
-      <SwiperSlide v-for="slide in 3" :key="slide">
-        <div
-          style="background: url('http://introibo.fr/IMG/jpg/0227gabriel.jpg') no-repeat center;background-size: contain;" />
+      <SwiperSlide v-for="fest in fests" :key="fest.id">
+        <div :style="{ background: `url(${fest.img}) no-repeat center`, backgroundSize: 'contain' }" />
       </SwiperSlide>
     </Swiper>
 
