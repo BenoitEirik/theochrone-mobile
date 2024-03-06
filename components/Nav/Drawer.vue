@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { App } from '@capacitor/app';
+import { App } from '@capacitor/app'
 import { Browser } from '@capacitor/browser'
 
 const navStore = useNavStore()

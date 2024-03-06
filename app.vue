@@ -7,8 +7,8 @@ useSettings()
 StatusBar.setStyle({ style: Style.Dark })
 StatusBar.setBackgroundColor({ color: '#55acee' })
 
-onMounted(() => {
-  SplashScreen.hide()
+onMounted(async () => {
+  await SplashScreen.hide()
 })
 </script>
 

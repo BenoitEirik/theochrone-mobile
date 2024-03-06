@@ -1,5 +1,7 @@
 <script lang="ts" setup>
- const { bootNotification, acessibility } = useSettings()
+const { bootNotification, acessibility } = useSettings()
+
+useBackButton().setBack()
 
 const navStore = useNavStore()
 navStore.setLeftAction('back', () => useRouter().back())
