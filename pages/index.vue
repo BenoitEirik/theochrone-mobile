@@ -29,11 +29,29 @@ async function festsRequest() {
 watch(date, async () => {
   await festsRequest()
 })
+
+const calAttrs = computed(() => {
+  return [{
+    key: 'today',
+    highlight: {
+      color: 'primary',
+      fillMode: 'solid',
+    },
+    dates: new Date()
+  }, {
+    key: 'selected',
+    highlight: {
+      color: 'primary',
+      fillMode: 'outline',
+    },
+    dates: date.value
+  }]
+})
 </script>
 
 <template>
   <NuxtLayout name="main" class="flex flex-col items-stretch overflow-hidden">
-    <VDatePicker v-model="date" expanded borderless class="shrink-0" />
+    <VDatePicker v-model="date" is-required expanded borderless class="shrink-0" :attributes="calAttrs" />
 
     <Swiper @swiper="(_swiper: any) => swiper = _swiper"
       :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
@@ -104,6 +122,11 @@ watch(date, async () => {
   --vc-accent-700: rgb(74, 149, 206);
   --vc-accent-800: rgb(55, 111, 154);
   --vc-accent-900: rgb(47, 94, 130);
+}
+
+.vc-container  {
+  --vc-focus-ring: transparent !important;
+  --vc-day-content-hover-bg: transparent !important;
 }
 
 .vc-title span {
