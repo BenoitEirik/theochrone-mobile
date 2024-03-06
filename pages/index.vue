@@ -13,30 +13,30 @@ const date = ref(new Date())
 const festStore = useFestStore()
 const fests = ref([] as Fest[])
 
-onMounted(async () => {
+const swiper = ref()
+
+watch(swiper, async () => {
+  await festsRequest()
+}, { once: true })
+
+async function festsRequest() {
   const { error, fests: _fests } = await festStore.getFest('home', { date: date.value })
   fests.value = _fests
   festStore.setHomeSlideIndex(0)
-  // slideTo
-})
+  swiper.value.slideTo(0)
+}
 
 watch(date, async () => {
-  const { error, fests: _fests } = await festStore.getFest('home', { date: date.value })
-  fests.value = _fests
-  festStore.setHomeSlideIndex(0)
-  // slideTo
+  await festsRequest()
 })
 </script>
 
 <template>
   <NuxtLayout name="main" class="flex flex-col items-stretch overflow-hidden">
-    <pre>{{ festStore.isLoading }}</pre>
-    <pre>{{ date.getFullYear() }}-{{ date.getMonth() + 1 }}-{{ date.getDay() }}</pre>
-    <pre>{{ festStore.homeSlideIndex }}</pre>
-
     <VDatePicker v-model="date" expanded borderless class="shrink-0" />
 
-    <Swiper :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
+    <Swiper @swiper="(_swiper: any) => swiper = _swiper"
+      :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
       :pagination="true" :coverflowEffect="{
       rotate: 50,
       stretch: 0,
@@ -46,7 +46,7 @@ watch(date, async () => {
     }" :grab-cursor="true" :centered-slides="true" class="w-full grow">
       <SwiperSlide v-for="fest in fests" :key="fest.id">
         <div class="flex items-center justify-center">
-          <x-spinner v-if="festStore.isLoading" size="lg" />
+          <x-spinner v-if="fests.length < 1 || festStore.isLoading" size="lg" />
           <img v-else :src="fest.img" alt="Fest picture" class="max-h-full rounded">
         </div>
       </SwiperSlide>
@@ -59,8 +59,9 @@ watch(date, async () => {
         <img src="/images/ornements/black.png" alt="Fest color" class="h-full rounded-l-full shrink-0 aspect-square">
 
         <span class="flex flex-col items-center justify-center h-full grow">
-          <span class="line-clamp-2">
-            fete de fete fete de fete fete de fete fete de fete
+          <x-spinner v-if="fests.length < 1 || festStore.isLoading" size="lg" />
+          <span v-else class="px-2 line-clamp-2">
+            {{ fests[festStore.homeSlideIndex]?.title }}
           </span>
         </span>
 

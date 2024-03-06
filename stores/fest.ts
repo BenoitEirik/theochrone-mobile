@@ -21,7 +21,7 @@ export const useFestStore = defineStore('FestStore', () => {
     let repo = new Map() as MapDayFest
     let _fests = Array<Fest>()
     if ('date' in options) {
-      const day = options.date.getDay()
+      const day = options.date.getDate()
       const month = options.date.getMonth()! + 1
       const year = options.date.getFullYear()
 
