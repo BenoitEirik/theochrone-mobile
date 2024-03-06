@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { Browser } from '@capacitor/browser';
+
 const props = defineProps({
   type: {
     type: String,
@@ -19,13 +21,13 @@ const props = defineProps({
 
 const toggle = defineModel<boolean>('toggle')
 
-function action() {
+async function action() {
   switch (props.type) {
     case 'toggle':
       toggle.value = !toggle.value
       break;
     case 'link':
-      window.open(props.link, '_blank')
+      if (props.link) await Browser.open({ url: props.link, toolbarColor: '#55acee' })
       break;
   }
 }
