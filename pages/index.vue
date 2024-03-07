@@ -20,10 +20,10 @@ watch(swiper, async () => {
 }, { once: true })
 
 async function festsRequest() {
-  const { error, fests: _fests } = await festStore.getFest('home', { date: date.value })
-  fests.value = _fests
   festStore.setHomeSlideIndex(0)
   swiper.value.slideTo(0)
+  const { error, fests: _fests } = await festStore.getFest('home', { date: date.value })
+  fests.value = _fests
 }
 
 watch(date, async () => {
