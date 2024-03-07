@@ -17,11 +17,14 @@ const swiper = ref()
 
 watch(swiper, async () => {
   await festsRequest()
+  // swiper.value.on('slideChange', () => {
+  //   festStore.setHomeSlideIndex(0)
+  // })
 }, { once: true })
 
 async function festsRequest() {
   festStore.setHomeSlideIndex(0)
-  swiper.value.slideTo(0)
+  swiper.value.slideTo(0, 0)
   const { error, fests: _fests } = await festStore.getFest('home', { date: date.value })
   fests.value = _fests
 }
@@ -53,7 +56,7 @@ const calAttrs = computed(() => {
   <NuxtLayout name="main" class="flex flex-col items-stretch overflow-hidden">
     <VDatePicker v-model="date" is-required expanded borderless class="shrink-0" :attributes="calAttrs" />
 
-    <Swiper @swiper="(_swiper: any) => swiper = _swiper"
+    <Swiper @swiper="(_swiper: any) => swiper = _swiper" @slideChange="(s: any) => festStore.setHomeSlideIndex(s.snapIndex)"
       :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
       :pagination="true" :coverflowEffect="{
       rotate: 50,
@@ -124,7 +127,7 @@ const calAttrs = computed(() => {
   --vc-accent-900: rgb(47, 94, 130);
 }
 
-.vc-container  {
+.vc-container {
   --vc-focus-ring: transparent !important;
   --vc-day-content-hover-bg: transparent !important;
 }
