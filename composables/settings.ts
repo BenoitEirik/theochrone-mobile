@@ -18,7 +18,6 @@ export const useSettings = () => {
   })
 
   watch(acessibility, async (value: boolean) => {
-    console.log('settings retrieve')
     switch (value) {
       case true:
         TextZoom.set({ value: 1.2 })

@@ -56,7 +56,8 @@ const calAttrs = computed(() => {
   <NuxtLayout name="main" class="flex flex-col items-stretch overflow-hidden">
     <VDatePicker v-model="date" is-required expanded borderless class="shrink-0" :attributes="calAttrs" />
 
-    <Swiper @swiper="(_swiper: any) => swiper = _swiper" @slideChange="(s: any) => festStore.setHomeSlideIndex(s.snapIndex)"
+    <Swiper @swiper="(_swiper: any) => swiper = _swiper"
+      @slideChange="(s: any) => festStore.setHomeSlideIndex(s.snapIndex)"
       :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
       :pagination="true" :coverflowEffect="{
       rotate: 50,
