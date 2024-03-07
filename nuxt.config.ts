@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: true,
+  ssr: false,
+  target: 'static',
   devtools: { enabled: false },
   experimental: {
     // because: https://github.com/nuxt/nuxt/issues/20889
