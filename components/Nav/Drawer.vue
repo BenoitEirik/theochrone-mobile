@@ -20,7 +20,7 @@ const router = useRouter()
       <li>
         <button type="button" class="flex items-stretch w-full justify-stretch" v-wave @click="async () => await Browser.open({ url: 'https://theochrone.fr', toolbarColor: '#55acee' })">
           <span class="p-4 shrink-0 aspect-video">
-            <Icon name="lets-icons:world-2-light" />
+            <IconCSS name="lets-icons:world-2-light" />
           </span>
           <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
             <span class="line-clamp-1">Site internet</span>
@@ -31,7 +31,7 @@ const router = useRouter()
       <li>
         <button type="button" class="flex items-stretch w-full justify-stretch" v-wave @click="router.push('/settings');navStore.setLeftDrawer(false)">
           <span class="p-4 shrink-0 aspect-video">
-            <Icon name="lets-icons:setting-line-light" />
+            <IconCSS name="lets-icons:setting-line-light" />
           </span>
           <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
             <span class="line-clamp-1">Paramètres</span>
@@ -41,7 +41,7 @@ const router = useRouter()
       <li>
         <button type="button" class="flex items-stretch w-full justify-stretch" v-wave @click="async () => { App.exitApp() }">
           <span class="p-4 shrink-0 aspect-video">
-            <Icon name="lets-icons:sign-out-squre-light" />
+            <IconCSS name="lets-icons:sign-out-squre-light" />
           </span>
           <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
             <span class="line-clamp-1">Quitter</span>

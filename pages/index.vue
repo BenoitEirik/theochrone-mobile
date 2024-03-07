@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { _backgroundColor } from '#tailwind-config/theme';
 import { useFestStore } from '~/stores/fest'
 import { type Fest } from '~/types/fest'
 
@@ -88,7 +89,7 @@ const calAttrs = computed(() => {
         </span>
 
         <span class="flex items-center justify-center h-full rounded-r-full shrink-0 aspect-square">
-          <Icon name="lucide:chevron-right" size="2rem" color="grey" />
+          <IconCSS name="lucide:chevron-right" size="2rem" :style="{ backgroundColor: 'grey' }" />
         </span>
       </button>
     </div>

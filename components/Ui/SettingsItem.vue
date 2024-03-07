@@ -36,7 +36,7 @@ async function action() {
 <template>
   <button type="button" class="flex items-stretch w-full justify-stretch" v-wave @click="action">
     <span class="p-4 shrink-0 aspect-video">
-      <Icon :name="iconName" />
+      <IconCSS :name="iconName" />
     </span>
     <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
       <span class="line-clamp-2">{{ label }}</span>
