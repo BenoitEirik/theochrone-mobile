@@ -24,7 +24,6 @@
     "@capacitor/splash-screen": "^5.0.7",
     "@capacitor/status-bar": "5.0.7",
     "@capacitor/text-zoom": "5.0.7",
-    "@nuxtjs/html-validator": "^1.6.0",
     "@pinia/nuxt": "^0.5.1",
     "@popperjs/core": "^2.11.8",
     "nuxt": "^3.10.3",

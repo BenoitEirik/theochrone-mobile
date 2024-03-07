@@ -1,12 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: false,
+  ssr: true,
   devtools: { enabled: false },
   experimental: {
     // because: https://github.com/nuxt/nuxt/issues/20889
     renderJsonPayloads: false
   },
-  modules: ['@nuxtjs/tailwindcss', '@indielayer/ui/nuxt', 'nuxt-icon', '@pinia/nuxt', 'nuxt-swiper', 'nuxt-swiper','v-wave/nuxt','@nuxtjs/html-validator'],
+  modules: ['@nuxtjs/tailwindcss', '@indielayer/ui/nuxt', 'nuxt-icon', '@pinia/nuxt', 'nuxt-swiper', 'nuxt-swiper','v-wave/nuxt'],
   css: ['~/assets/css/tailwind.css','~/assets/scss/main.scss'],
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
@@ -22,13 +22,6 @@ export default defineNuxtConfig({
       'tailwindcss/nesting': {},
       tailwindcss: {},
       autoprefixer: {}
-    }
-  },
-  htmlValidator: {
-    options: {
-      rules: {
-        'prefer-native-element': 'off'
-      }
     }
   },
   app: {
