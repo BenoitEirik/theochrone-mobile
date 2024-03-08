@@ -14,6 +14,9 @@ project(':capacitor-network').projectDir = new File('../node_modules/.pnpm/@capa
 include ':capacitor-preferences'
 project(':capacitor-preferences').projectDir = new File('../node_modules/.pnpm/@capacitor+preferences@5.0.7_@capacitor+core@5.7.2/node_modules/@capacitor/preferences/android')
 
+include ':capacitor-screen-orientation'
+project(':capacitor-screen-orientation').projectDir = new File('../node_modules/.pnpm/@capacitor+screen-orientation@5.0.7_@capacitor+core@5.7.2/node_modules/@capacitor/screen-orientation/android')
+
 include ':capacitor-splash-screen'
 project(':capacitor-splash-screen').projectDir = new File('../node_modules/.pnpm/@capacitor+splash-screen@5.0.7_@capacitor+core@5.7.2/node_modules/@capacitor/splash-screen/android')
 

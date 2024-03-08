@@ -23,6 +23,9 @@ dependencies:
   '@capacitor/preferences':
     specifier: 5.0.7
     version: 5.0.7(@capacitor/core@5.7.2)
+  '@capacitor/screen-orientation':
+    specifier: 5.0.7
+    version: 5.0.7(@capacitor/core@5.7.2)
   '@capacitor/splash-screen':
     specifier: ^5.0.7
     version: 5.0.7(@capacitor/core@5.7.2)
@@ -511,6 +514,14 @@ packages:
       '@capacitor/core': ^5.0.0
     dependencies:
       '@capacitor/core': 5.7.2
+
+  /@capacitor/screen-orientation@5.0.7(@capacitor/core@5.7.2):
+    resolution: {integrity: sha512-2HKWCfaz34IDpNyznr6RbnxxZ5lADA9AQJtH6TBKcd1VJm8MOvicc43zDMdg2p7qAdw9ZkvP4fYK9/MZEFwIHg==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.7.2
+    dev: false
 
   /@capacitor/splash-screen@5.0.7(@capacitor/core@5.7.2):
     resolution: {integrity: sha512-2aAhhZPi7GU8DDs9dhH4OnMJ3rTscPS/TYKzm03fzhBby6ykSXY6HqKgaWdhfCR4TvLsHf0VKpWZu4ZHD0S7iQ==}
