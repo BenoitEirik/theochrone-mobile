@@ -66,10 +66,12 @@ const router = useRouter()
       slideShadows: false,
     }" :grab-cursor="true" :centered-slides="true" class="w-full grow"
       bulletActiveClass="index-page-swiper-pagination-bullet-active">
-      <SwiperSlide v-for="fest in fests" :key="fest.id" class="p-2 pb-10 flex items-center w-[70%] h-[100%]">
+      <SwiperSlide v-for="fest in fests" :key="fest.id"
+        class="p-2 pb-10 flex items-center w-[70%] max-w-[70%] h-full max-h-full">
         <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
-          <x-spinner v-if="fests.length < 1 || festStore.isLoading" size="lg" />
-          <img v-else :src="fest.img" alt="Fest picture" class="max-h-full rounded">
+          <x-skeleton v-if="fests.length < 1 || festStore.isLoading" class="w-full h-full max-w-full max-h-full" />
+          <img v-else :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded"
+            @click="() => router.push('/fest')">
         </div>
       </SwiperSlide>
     </Swiper>
@@ -79,11 +81,17 @@ const router = useRouter()
         class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer"
         @click="() => { (fests.length > 0 && !festStore.isLoading) ? router.push('/fest') : () => { } }">
         <span class="hidden">Fest informations</span>
-        <img src="/images/ornements/black.png" alt="Fest color" class="h-full rounded-l-full shrink-0 aspect-square">
+        <x-skeleton v-if="fests.length < 1 || festStore.isLoading"
+          class="h-full !rounded-full shrink-0 aspect-square " />
+        <img v-else src="/images/ornements/black.png" alt="Fest color"
+          class="h-full rounded-l-full shrink-0 aspect-square">
 
         <span class="flex flex-col items-center justify-center h-full grow">
-          <x-spinner v-if="fests.length < 1 || festStore.isLoading" size="lg" />
-          <span v-else class="px-2 font-bold line-clamp-2">
+          <span v-if="fests.length < 1 || festStore.isLoading" class="flex flex-col w-full p-2 justify-evenly">
+            <x-skeleton class="" />
+            <x-skeleton class="mt-1 " />
+          </span>
+          <span v-else class="px-2 line-clamp-2">
             {{ fests[festStore.homeSlideIndex]?.title }}
           </span>
         </span>
