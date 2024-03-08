@@ -3,11 +3,10 @@ import type { _backgroundColor } from '#tailwind-config/theme';
 import { useFestStore } from '~/stores/fest'
 import { type Fest } from '~/types/fest'
 
-useBackButton().setExit()
-
 const navStore = useNavStore()
 navStore.setLeftAction('menu')
 navStore.setTitle('Theochrone')
+useBackButton().setExit()
 
 const date = ref(new Date())
 
@@ -16,12 +15,8 @@ const fests = ref([] as Fest[])
 
 const swiper = ref()
 
-watch(swiper, async () => {
-  await festsRequest()
-  // swiper.value.on('slideChange', () => {
-  //   festStore.setHomeSlideIndex(0)
-  // })
-}, { once: true })
+// Wait swiper to be mounted, then request fests
+watch(swiper, async () => await festsRequest(), { once: true })
 
 async function festsRequest() {
   festStore.setHomeSlideIndex(0)
@@ -30,6 +25,7 @@ async function festsRequest() {
   fests.value = _fests
 }
 
+// Request fests when a date is selected from the calendar picker
 watch(date, async () => {
   await festsRequest()
 })
@@ -51,13 +47,15 @@ const calAttrs = computed(() => {
     dates: date.value
   }]
 })
+
+const router = useRouter()
 </script>
 
 <template>
   <NuxtLayout name="main" class="flex flex-col items-stretch overflow-hidden">
     <VDatePicker v-model="date" is-required expanded borderless class="shrink-0" :attributes="calAttrs" />
 
-    <Swiper @swiper="(_swiper: any) => swiper = _swiper"
+    <Swiper id="index-swiper" @swiper="(_swiper: any) => swiper = _swiper"
       @slideChange="(s: any) => festStore.setHomeSlideIndex(s.snapIndex)"
       :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
       :pagination="true" :coverflowEffect="{
@@ -66,9 +64,10 @@ const calAttrs = computed(() => {
       depth: 200,
       modifier: 1,
       slideShadows: false,
-    }" :grab-cursor="true" :centered-slides="true" class="w-full grow">
-      <SwiperSlide v-for="fest in fests" :key="fest.id">
-        <div class="flex items-center justify-center">
+    }" :grab-cursor="true" :centered-slides="true" class="w-full grow"
+      bulletActiveClass="index-page-swiper-pagination-bullet-active">
+      <SwiperSlide v-for="fest in fests" :key="fest.id" class="p-2 pb-10 flex items-center w-[70%] h-[100%]">
+        <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
           <x-spinner v-if="fests.length < 1 || festStore.isLoading" size="lg" />
           <img v-else :src="fest.img" alt="Fest picture" class="max-h-full rounded">
         </div>
@@ -77,13 +76,14 @@ const calAttrs = computed(() => {
 
     <div class="p-4 shrink-0">
       <button type="button" v-wave
-        class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer">
+        class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer"
+        @click="() => { (fests.length > 0 && !festStore.isLoading) ? router.push('/fest') : () => { } }">
         <span class="hidden">Fest informations</span>
         <img src="/images/ornements/black.png" alt="Fest color" class="h-full rounded-l-full shrink-0 aspect-square">
 
         <span class="flex flex-col items-center justify-center h-full grow">
           <x-spinner v-if="fests.length < 1 || festStore.isLoading" size="lg" />
-          <span v-else class="px-2 line-clamp-2">
+          <span v-else class="px-2 font-bold line-clamp-2">
             {{ fests[festStore.homeSlideIndex]?.title }}
           </span>
         </span>
@@ -97,22 +97,10 @@ const calAttrs = computed(() => {
 </template>
 
 <style lang="scss">
-.swiper-slide {
-  display: flex;
-  align-items: center;
-  width: 70%;
-  height: 100%;
-  @apply p-2 pb-10;
-
-  div {
-    width: 100%;
-    height: 100%;
-    max-height: 300px;
+#index-swiper {
+  .swiper-pagination-bullet-active {
+    background-color: theme('colors.primary.500');
   }
-}
-
-.swiper-pagination-bullet-active {
-  background-color: theme('colors.primary.500');
 }
 
 // Primary color for VCalendar
