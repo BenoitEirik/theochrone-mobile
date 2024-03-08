@@ -55,62 +55,75 @@ function openFestPage() {
   setFestPageCache(fests.value)
   router.push('/fest')
 }
+
+const tab = ref('calendar-tab')
 </script>
 
 <template>
-  <NuxtLayout name="main" class="flex flex-col items-stretch overflow-hidden">
-    <VDatePicker v-model="date" is-required expanded borderless class="shrink-0" :attributes="calAttrs" />
+  <NuxtLayout name="main" class="overflow-hidden">
+    <x-tab-group id="index-page-tabs" v-model="tab" variant="block" align="center"
+      class="flex flex-col items-stretch h-full max-h-full">
+      <x-tab value="calendar-tab" label="Calendrier" icon="lets-icons:calendar-light" class="grow">
+        <section class="flex flex-col items-stretch h-[calc(100%-50px)] overflow-y-scroll grow">
+          <VDatePicker v-model="date" is-required expanded borderless class="shrink-0" :attributes="calAttrs" />
 
-    <Swiper id="index-swiper" @swiper="(_swiper: any) => swiper = _swiper"
-      @slideChange="(s: any) => festStore.setHomeSlideIndex(s.snapIndex)"
-      :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
-      :pagination="true" :coverflowEffect="{
+          <Swiper id="index-swiper" @swiper="(_swiper: any) => swiper = _swiper"
+            @slideChange="(s: any) => festStore.setHomeSlideIndex(s.snapIndex)"
+            :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
+            :pagination="true" :coverflowEffect="{
       rotate: 50,
       stretch: 0,
       depth: 200,
       modifier: 1,
       slideShadows: false,
     }" :grab-cursor="true" :centered-slides="true" class="w-full grow"
-      bulletActiveClass="index-page-swiper-pagination-bullet-active">
-      <SwiperSlide v-if="fests.length > 0 && !festStore.isLoading" v-for="fest in fests" :key="fest.id"
-        class="p-2 pb-10 flex items-center w-[70%] max-w-[70%] h-full max-h-full">
-        <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
-          <img :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded" @click="() => openFestPage()" />
-        </div>
-      </SwiperSlide>
-      <!-- Slide on loading -->
-      <SwiperSlide v-else class="p-2 pb-10 flex items-center w-[70%] max-w-[70%] h-full max-h-full">
-        <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
-          <x-skeleton class="w-full h-full max-w-full max-h-full" />
-        </div>
-      </SwiperSlide>
-    </Swiper>
+            bulletActiveClass="index-page-swiper-pagination-bullet-active">
+            <SwiperSlide v-if="fests.length > 0 && !festStore.isLoading" v-for="fest in fests" :key="fest.id"
+              class="p-2 pb-10 flex items-center w-[70%] max-w-[70%] h-full max-h-full">
+              <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
+                <img :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded"
+                  @click="() => openFestPage()" />
+              </div>
+            </SwiperSlide>
+            <!-- Slide on loading -->
+            <SwiperSlide v-else class="p-2 pb-10 flex items-center w-[70%] max-w-[70%] h-full max-h-full">
+              <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
+                <x-skeleton class="w-full h-full max-w-full max-h-full" />
+              </div>
+            </SwiperSlide>
+          </Swiper>
 
-    <div class="p-4 shrink-0">
-      <button type="button" v-wave
-        class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer shadow-sm"
-        @click="() => { (fests.length > 0 && !festStore.isLoading) ? openFestPage() : () => { } }">
-        <span class="hidden">Fest informations</span>
-        <x-skeleton v-if="fests.length < 1 || festStore.isLoading"
-          class="h-full !rounded-full shrink-0 aspect-square " />
-        <img v-else :src="getColorFestPicture(fests[festStore.homeSlideIndex].color)" alt="Fest color"
-          class="h-full rounded-l-full shrink-0 aspect-square">
+          <div class="p-4 shrink-0">
+            <button type="button" v-wave
+              class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer shadow-sm"
+              @click="() => { (fests.length > 0 && !festStore.isLoading) ? openFestPage() : () => { } }">
+              <span class="hidden">Fest informations</span>
+              <x-skeleton v-if="fests.length < 1 || festStore.isLoading"
+                class="h-full !rounded-full shrink-0 aspect-square " />
+              <img v-else :src="getColorFestPicture(fests[festStore.homeSlideIndex].color)" alt="Fest color"
+                class="h-full rounded-l-full shrink-0 aspect-square">
 
-        <span class="flex flex-col items-center justify-center h-full grow">
-          <span v-if="fests.length < 1 || festStore.isLoading" class="flex flex-col w-full p-2 justify-evenly">
-            <x-skeleton class="" />
-            <x-skeleton class="mt-1 " />
-          </span>
-          <span v-else class="px-2 line-clamp-2">
-            {{ fests[festStore.homeSlideIndex]?.title }}
-          </span>
-        </span>
+              <span class="flex flex-col items-center justify-center h-full grow">
+                <span v-if="fests.length < 1 || festStore.isLoading" class="flex flex-col w-full p-2 justify-evenly">
+                  <x-skeleton class="" />
+                  <x-skeleton class="mt-1 " />
+                </span>
+                <span v-else class="px-2 line-clamp-2">
+                  {{ fests[festStore.homeSlideIndex]?.title }}
+                </span>
+              </span>
 
-        <span class="flex items-center justify-center h-full rounded-r-full shrink-0 aspect-square">
-          <IconCSS name="lucide:chevron-right" size="2rem" :style="{ backgroundColor: 'grey' }" />
-        </span>
-      </button>
-    </div>
+              <span class="flex items-center justify-center h-full rounded-r-full shrink-0 aspect-square">
+                <IconCSS name="lucide:chevron-right" size="2rem" :style="{ backgroundColor: 'grey' }" />
+              </span>
+            </button>
+          </div>
+        </section>
+      </x-tab>
+      <x-tab value="search-tab" label="Recherche" icon="lets-icons:search-light" class="grow">
+        Recherche
+      </x-tab>
+    </x-tab-group>
   </NuxtLayout>
 </template>
 
@@ -142,5 +155,26 @@ function openFestPage() {
 
 .vc-title span {
   text-transform: capitalize;
+}
+
+// Indielayer tab customisation
+#index-page-tabs {
+  .x-tab-group {
+    flex-shrink: 0;
+
+    --x-tab-group-text: theme('colors.primary.500') !important;
+    --x-tab-group-dark-text: theme('colors.primary.500') !important;
+
+    &+div {
+      flex-grow: 1;
+      height: 100%;
+      max-height: 100%;
+
+      div[role="tabpanel"] {
+        height: 100%;
+        max-height: 100%;
+      }
+    }
+  }
 }
 </style>

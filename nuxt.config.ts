@@ -1,3 +1,5 @@
+import icons from './icons'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
@@ -6,7 +8,9 @@ export default defineNuxtConfig({
     // because: https://github.com/nuxt/nuxt/issues/20889
     renderJsonPayloads: false
   },
-  modules: ['@nuxtjs/tailwindcss', '@indielayer/ui/nuxt', 'nuxt-icon', '@pinia/nuxt', 'nuxt-swiper', 'nuxt-swiper','v-wave/nuxt'],
+  modules: ['@nuxtjs/tailwindcss', ['@indielayer/ui/nuxt', {
+    icons
+  }], 'nuxt-icon', '@pinia/nuxt', 'nuxt-swiper', 'nuxt-swiper','v-wave/nuxt'],
   css: ['~/assets/css/tailwind.css','~/assets/scss/main.scss'],
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
