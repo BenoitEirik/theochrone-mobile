@@ -11,15 +11,11 @@ const fests = ref([] as Fest[])
 
 const swiper = ref()
 
-// Wait swiper to be mounted, then request fests
+// Wait swiper to be referenced, then request fests
 watch(swiper, async () => {
-  await festsRequest()
+  const { festCache } = usePageCacheStore()
+  fests.value = festCache.fests
 }, { once: true })
-
-async function festsRequest() {
-  const { error, fests: _fests } = await festStore.getFest('home', { date: new Date() })
-  fests.value = _fests
-}
 </script>
 
 <template>
@@ -85,7 +81,7 @@ async function festsRequest() {
               </tbody>
             </table>
 
-            <button type="button" class="flex items-stretch w-full border rounded-full border-gray" @click="" v-wave>
+            <button v-if="!!fest.massTextURL" type="button" class="flex items-stretch w-full border rounded-full border-gray" @click="" v-wave>
               <span class="h-full p-4 shrink-0 aspect-square">
                 <IconCSS name="lets-icons:book-open-alt-light" />
               </span>

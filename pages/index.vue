@@ -15,7 +15,7 @@ const fests = ref([] as Fest[])
 
 const swiper = ref()
 
-// Wait swiper to be mounted, then request fests
+// Wait swiper to be referenced, then request fests
 watch(swiper, async () => await festsRequest(), { once: true })
 
 async function festsRequest() {
@@ -48,7 +48,13 @@ const calAttrs = computed(() => {
   }]
 })
 
+const { setFestPageCache } = usePageCacheStore()
 const router = useRouter()
+
+function openFestPage() {
+  setFestPageCache(fests.value)
+  router.push('/fest')
+}
 </script>
 
 <template>
@@ -66,12 +72,16 @@ const router = useRouter()
       slideShadows: false,
     }" :grab-cursor="true" :centered-slides="true" class="w-full grow"
       bulletActiveClass="index-page-swiper-pagination-bullet-active">
-      <SwiperSlide v-for="fest in fests" :key="fest.id"
+      <SwiperSlide v-if="fests.length > 0 && !festStore.isLoading" v-for="fest in fests" :key="fest.id"
         class="p-2 pb-10 flex items-center w-[70%] max-w-[70%] h-full max-h-full">
         <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
-          <x-skeleton v-if="fests.length < 1 || festStore.isLoading" class="w-full h-full max-w-full max-h-full" />
-          <img v-else :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded"
-            @click="() => router.push('/fest')">
+          <img :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded" @click="() => openFestPage()" />
+        </div>
+      </SwiperSlide>
+      <!-- Slide on loading -->
+      <SwiperSlide v-else class="p-2 pb-10 flex items-center w-[70%] max-w-[70%] h-full max-h-full">
+        <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
+          <x-skeleton class="w-full h-full max-w-full max-h-full" />
         </div>
       </SwiperSlide>
     </Swiper>
@@ -79,7 +89,7 @@ const router = useRouter()
     <div class="p-4 shrink-0">
       <button type="button" v-wave
         class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer shadow-sm"
-        @click="() => { (fests.length > 0 && !festStore.isLoading) ? router.push('/fest') : () => { } }">
+        @click="() => { (fests.length > 0 && !festStore.isLoading) ? openFestPage() : () => { } }">
         <span class="hidden">Fest informations</span>
         <x-skeleton v-if="fests.length < 1 || festStore.isLoading"
           class="h-full !rounded-full shrink-0 aspect-square " />
