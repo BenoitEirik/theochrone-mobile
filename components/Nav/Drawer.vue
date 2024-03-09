@@ -12,7 +12,7 @@ const router = useRouter()
     <template #header>
       <figure class="flex flex-col items-stretch aspect-video">
         <img src="/images/backgrounds/banner.jpg" alt="Banner" class="object-cover w-full h-full grow" />
-        <figcaption class="flex items-center justify-center p-4 text-white shrink-0 line-clamp-1 bg-primary-500">Ad
+        <figcaption class="flex items-center justify-center px-4 py-3 font-medium text-white shrink-0 line-clamp-1 bg-primary-500">Ad
           majorem
           dei gloriam</figcaption>
       </figure>

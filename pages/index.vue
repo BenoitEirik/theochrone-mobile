@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { _backgroundColor } from '#tailwind-config/theme';
+import { Keyboard } from '@capacitor/keyboard';
 import { useFestStore } from '~/stores/fest'
 import { type Fest } from '~/types/fest'
 
@@ -51,20 +52,50 @@ const calAttrs = computed(() => {
 const { setFestPageCache } = usePageCacheStore()
 const router = useRouter()
 
-function openFestPage() {
-  setFestPageCache(fests.value)
+function openFestPage(fests: Fest[], index: number) {
+  setFestPageCache({ fests, index })
   router.push('/fest')
 }
 
 const tab = ref('calendar-tab')
+
+const searchStore = useSearchStore()
+const searchKeywords = ref<string>(searchStore.keywords)
+const searchYear = ref<number>(searchStore.year)
+const searchFests = ref(searchStore.fests)
+const searchFocus = ref(true)
+const displaySearchHistory = ref(true)
+
+function onSearchFocus() {
+  searchFocus.value = true
+  displaySearchHistory.value = true
+}
+
+function onSearchFocusOut() {
+  searchFocus.value = false
+}
+
+async function getSearchFests() {
+  Keyboard.hide()
+  searchFocus.value = false
+
+  if (!searchKeywords.value) {
+    return
+  }
+
+  displaySearchHistory.value = false
+
+  const { error, fests: _fests } = await searchStore.getSearchFests(searchKeywords.value, searchYear.value)
+  searchFests.value = _fests
+}
 </script>
 
 <template>
   <NuxtLayout name="main" class="overflow-hidden">
     <x-tab-group id="index-page-tabs" v-model="tab" variant="block" align="center"
-      class="flex flex-col items-stretch h-full max-h-full">
+      class="flex flex-col items-stretch h-full max-h-full overflow-hidden">
       <x-tab value="calendar-tab" label="Calendrier" icon="lets-icons:calendar-light" class="grow">
-        <section class="flex flex-col items-stretch h-[calc(100%-50px)] overflow-y-scroll grow">
+        <section class="flex flex-col items-stretch h-full max-h-full overflow-hidden">
           <VDatePicker v-model="date" is-required expanded borderless class="shrink-0" :attributes="calAttrs" />
 
           <Swiper id="index-swiper" @swiper="(_swiper: any) => swiper = _swiper"
@@ -82,7 +113,7 @@ const tab = ref('calendar-tab')
               class="p-2 pb-10 flex items-center w-[70%] max-w-[70%] h-full max-h-full">
               <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
                 <img :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded"
-                  @click="() => openFestPage()" />
+                  @click="() => openFestPage(fests, festStore.homeSlideIndex)" />
               </div>
             </SwiperSlide>
             <!-- Slide on loading -->
@@ -96,7 +127,7 @@ const tab = ref('calendar-tab')
           <div class="p-4 shrink-0">
             <button type="button" v-wave
               class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer shadow-sm"
-              @click="() => { (fests.length > 0 && !festStore.isLoading) ? openFestPage() : () => { } }">
+              @click="() => { (fests.length > 0 && !festStore.isLoading) ? openFestPage(fests, festStore.homeSlideIndex) : () => { } }">
               <span class="hidden">Fest informations</span>
               <x-skeleton v-if="fests.length < 1 || festStore.isLoading"
                 class="h-full !rounded-full shrink-0 aspect-square " />
@@ -105,23 +136,110 @@ const tab = ref('calendar-tab')
 
               <span class="flex flex-col items-center justify-center h-full grow">
                 <span v-if="fests.length < 1 || festStore.isLoading" class="flex flex-col w-full p-2 justify-evenly">
-                  <x-skeleton class="" />
-                  <x-skeleton class="mt-1 " />
+                  <x-skeleton />
+                  <x-skeleton class="mt-1" />
                 </span>
-                <span v-else class="px-2 line-clamp-2">
+                <span v-else class="px-2 font-medium line-clamp-2 text-secondary-800">
                   {{ fests[festStore.homeSlideIndex]?.title }}
                 </span>
               </span>
 
               <span class="flex items-center justify-center h-full rounded-r-full shrink-0 aspect-square">
-                <IconCSS name="lucide:chevron-right" size="2rem" :style="{ backgroundColor: 'grey' }" />
+                <IconCSS name="lucide:chevron-right" size="2rem" :style="{ backgroundColor: '#d1d5db' }" />
               </span>
             </button>
           </div>
         </section>
       </x-tab>
+
+
       <x-tab value="search-tab" label="Recherche" icon="lets-icons:search-light" class="grow">
-        Recherche
+        <section class="flex flex-col items-stretch h-full max-h-full gap-4 px-4 py-2 overflow-hidden">
+          <header class="shrink-0">
+            <x-input v-model="searchKeywords" placeholder="Mots-clés..." label="Recherche"
+              icon-right="lets-icons:search-light" @keyup.enter="async () => await getSearchFests()"
+              @focus="onSearchFocus()" @focusout="onSearchFocusOut()" />
+            <x-select v-model="searchYear" label="Année" placeholder="Placeholder" :options="searchStore.yearOptions" />
+          </header>
+
+          <!-- Search results -->
+          <div class="flex flex-col max-h-full gap-2 overflow-hidden grow">
+            <ul v-if="!displaySearchHistory && searchFests.length > 0 && !searchStore.isLoading"
+              class="max-h-full overflow-y-scroll shadow-inner rounded-3xl bg-gray-50">
+              <li v-for="(fest, index) in searchFests">
+                <button type="button" class="flex items-stretch w-full border-b justify-stretch border-b-white"
+                  @click="() => openFestPage(searchFests, index)" v-wave>
+                  <span class="p-3 shrink-0 aspect-square">
+                    <img :src="getColorFestPicture(fest.color)" alt="Fest color"
+                      class="rounded-full h-11 aspect-square" />
+                  </span>
+                  <span class="flex flex-col items-stretch py-2 overflow-x-hidden text-left justify-stretch grow">
+                    <span class="font-medium text-secondary-800 line-clamp-1">
+                      {{ fest.title.split('-').slice(0, -1).join('-') }}
+                    </span>
+                    <span class="text-xs text-gray-400">
+                      {{ searchStore.formatSearchDate(fest.title.split('-').slice(-1).join('')) }}
+                    </span>
+                    <span class="text-xs text-gray-500 line-clamp-2">
+                      {{ [fest.liturgicalTime, fest.celebration.slice(0, -2), `Classe ${fest.class}`, `Propre
+                      ${fest.proper}`, fest.edition].join(' | ') + '.'
+                      }}
+                    </span>
+                  </span>
+                  <span class="flex items-center p-2 shrink-0">
+                    <IconCSS name="lets-icons:expand-right" :style="{ backgroundColor: '#d1d5db' }" />
+                  </span>
+                </button>
+              </li>
+            </ul>
+            <!-- No results -->
+            <div
+              v-if="!displaySearchHistory && !!searchKeywords && !searchFocus && searchFests.length < 1 && !searchStore.isLoading"
+              class="flex flex-col items-center justify-center h-full max-h-full p-4 overflow-y-scroll shadow-inner rounded-3xl bg-gray-50">
+              <IconCSS name="lets-icons:arhive-alt-big-duotone-line" />
+              <span>Aucun résultat</span>
+            </div>
+            <!-- Loading skeleton -->
+            <ul v-if="searchStore.isLoading" class="max-h-full overflow-y-scroll shadow-inner rounded-3xl bg-gray-50">
+              <li v-for="i in 8">
+                <button type="button" class="flex items-stretch w-full border-b justify-stretch border-b-white" v-wave>
+                  <span class="p-3 shrink-0 aspect-square">
+                    <x-skeleton class="!rounded-full h-11 aspect-square" />
+                  </span>
+                  <span class="flex flex-col items-stretch py-2 pr-2 text-left justify-stretch grow">
+                    <span class="line-clamp-2">
+                      <x-skeleton />
+                    </span>
+                    <span class="text-xs text-gray-400">
+                      <x-skeleton class="w-16 mt-1" />
+                    </span>
+                    <span class="text-xs text-gray-500 line-clamp-2">
+                      <x-skeleton class="h-6 mt-1" />
+                    </span>
+                  </span>
+                  <span class="flex items-center p-2 shrink-0">
+                    <IconCSS name="lets-icons:expand-right" :style="{ backgroundColor: '#d1d5db' }" />
+                  </span>
+                </button>
+              </li>
+            </ul>
+            <!-- Display history entries -->
+            <ul v-if="displaySearchHistory && !searchStore.isLoading"
+              class="max-h-full overflow-y-scroll shadow-inner rounded-3xl bg-gray-50">
+              <li v-if="searchStore.history.length > 0" v-for="entry in searchStore.history">
+                <button type="button" class="flex items-stretch w-full border-b justify-stretch border-b-white"
+                  @click="async () => { searchKeywords = entry; await getSearchFests() }" v-wave>
+                  <span class="p-4 shrink-0 aspect-square">
+                    <IconCSS name="lets-icons:time-progress-light" />
+                  </span>
+                  <span class="flex flex-col items-stretch justify-center py-2 pr-2 text-left grow">
+                    <span class="line-clamp-1">{{ entry }}</span>
+                  </span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </section>
       </x-tab>
     </x-tab-group>
   </NuxtLayout>
@@ -161,19 +279,22 @@ const tab = ref('calendar-tab')
 #index-page-tabs {
   .x-tab-group {
     flex-shrink: 0;
+    overflow: hidden;
 
     --x-tab-group-text: theme('colors.primary.500') !important;
     --x-tab-group-dark-text: theme('colors.primary.500') !important;
+  }
 
-    &+div {
-      flex-grow: 1;
+  .x-tab-group+div {
+    flex-grow: 1;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+
+    div[role="tabpanel"] {
       height: 100%;
       max-height: 100%;
-
-      div[role="tabpanel"] {
-        height: 100%;
-        max-height: 100%;
-      }
+      overflow: hidden;
     }
   }
 }

@@ -16,6 +16,10 @@ const props = defineProps({
   },
   link: {
     type: String
+  },
+  isLastItem: {
+    type: Boolean,
+    required: false
   }
 })
 
@@ -34,7 +38,7 @@ async function action() {
 </script>
 
 <template>
-  <button type="button" class="flex items-stretch w-full justify-stretch" v-wave @click="action">
+  <button type="button" class="flex items-stretch w-full justify-stretch" :class="{ 'border-b border-b-white': !isLastItem }" v-wave @click="action">
     <span class="p-4 shrink-0 aspect-video">
       <IconCSS :name="iconName" />
     </span>

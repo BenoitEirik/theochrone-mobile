@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import index from '~/pages/index.vue'
 import type { Fest } from '~/types/fest'
 
 export const usePageCacheStore = defineStore('PageCacheStore', () => {
@@ -7,15 +8,21 @@ export const usePageCacheStore = defineStore('PageCacheStore', () => {
   })
 
   const festCache = ref({
-    fests: [] as Fest[]
+    fests: [] as Fest[],
+    index: 0
   })
 
   function setIndexPageCache() {
     // 
   }
 
-  function setFestPageCache(fests: Fest[]) {
-    festCache.value.fests = fests
+  function setFestPageCache(options: { fests?: Fest[], index?: number }) {
+    if (options.fests !== undefined) {
+      festCache.value.fests = options.fests
+    }
+    if (options.index !== undefined) {
+      festCache.value.index = options.index
+    }
   }
 
   return {

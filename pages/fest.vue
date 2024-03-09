@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import { Browser } from '@capacitor/browser';
 import type { Fest } from '~/types/fest'
 
 const navStore = useNavStore()
 navStore.setLeftAction('back', () => useRouter().back())
-navStore.setTitle('Fête')
 useBackButton().setBack()
 
 const festStore = useFestStore()
@@ -11,18 +11,27 @@ const fests = ref([] as Fest[])
 
 const swiper = ref()
 
+const { festCache, setFestPageCache } = usePageCacheStore()
+
 // Wait swiper to be referenced, then request fests
 watch(swiper, async () => {
-  const { festCache } = usePageCacheStore()
   fests.value = festCache.fests
+  navStore.setTitle(fests.value[festCache.index].title)
 }, { once: true })
+
+function onSlideChange(index: number) {
+  setFestPageCache({ index })
+  console.log(index)
+  console.log(fests.value)
+  navStore.setTitle(fests.value[festCache.index].title)
+}
 </script>
 
 <template>
   <nuxtLayout name="main" class="flex flex-col items-stretch">
     <Swiper id="fest-swiper" @swiper="(_swiper: any) => swiper = _swiper" :modules="[SwiperPagination]"
-      :pagination="true" :initial-slide="festStore.homeSlideIndex"
-      @slideChange="(s: any) => festStore.setHomeSlideIndex(s.snapIndex)" class="w-full h-full max-w-full max-h-full">
+      :pagination="true" :initial-slide="festCache.index"
+      @slideChange="(s: any) => onSlideChange(s.snapIndex)" class="w-full h-full max-w-full max-h-full">
       <SwiperSlide v-for="fest in fests" :key="fest.id" class="overflow-y-scroll touch-pan-y">
         <section class="flex flex-col items-stretch gap-4 p-4 pt-0 pb-8 grow">
           <header class="sticky top-0 pt-4">
@@ -31,11 +40,11 @@ watch(swiper, async () => {
               class="shadow-sm flex items-center h-[65px] max-h-[65px] gap-1 p-2 border rounded-full border-gray bg-white z-0">
               <img :src="getColorFestPicture(fest.color)" alt="Fest color"
                 class="h-full rounded-full shrink-0 aspect-square" />
-              <h2 class="text-center grow line-clamp-2">{{ fest.title }}</h2>
+              <h2 class="font-medium text-center grow line-clamp-2">{{ fest.title }}</h2>
             </div>
           </header>
 
-          <div class="flex flex-col gap-4 p-4 bg-gray-100 shadow-inner rounded-[32.5px]">
+          <div class="flex flex-col gap-4 p-4 shadow-inner rounded-3xl bg-gray-50">
             <figure class="flex justify-center w-full max-w-full h-60 max-h-60">
               <img :src="fest.img" alt="Fest illustration" class="object-contain max-h-full rounded" />
             </figure>
@@ -81,7 +90,9 @@ watch(swiper, async () => {
               </tbody>
             </table>
 
-            <button v-if="!!fest.massTextURL" type="button" class="flex items-stretch w-full border rounded-full border-gray" @click="" v-wave>
+            <button v-if="!!fest.massTextURL" type="button"
+              class="flex items-stretch w-full border rounded-full shadow-sm border-gray"
+              @click="async () => await Browser.open({ url: fest.massTextURL, toolbarColor: '#55acee' })" v-wave>
               <span class="h-full p-4 shrink-0 aspect-square">
                 <IconCSS name="lets-icons:book-open-alt-light" />
               </span>
