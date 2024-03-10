@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { _backgroundColor } from '#tailwind-config/theme';
-import { Keyboard } from '@capacitor/keyboard';
+import { Keyboard } from '@capacitor/keyboard'
 import { useFestStore } from '~/stores/fest'
 import { type Fest } from '~/types/fest'
 
@@ -10,6 +10,10 @@ onActivated(() => {
   navStore.setLeftAction('menu')
   navStore.setTitle('Theochrone')
   useBackButton().setExit()
+
+  if (tab.value === 'search-tab' && !!searchContainer && !!searchContainer.value) {
+     searchContainer.value.scrollTo({ top: scrollSearchPosition.value })
+  }
 })
 
 const date = ref(new Date())
@@ -56,6 +60,11 @@ const calAttrs = computed(() => {
 const router = useRouter()
 
 function openFestPage(_fests: Fest[], _index: number) {
+  // Save scroll position on search tab
+  if (tab.value === 'search-tab' && !!searchContainer && !!searchContainer.value) {
+    scrollSearchPosition.value = searchContainer.value.scrollTop
+  }
+
   festStore.setSlideIndex(_index)
   festStore.setSlideFests(_fests)
   router.push('/fest')
@@ -92,6 +101,9 @@ async function getSearchFests() {
   const { error, fests: _fests } = await searchStore.getSearchFests(searchKeywords.value, searchYear.value)
   searchFests.value = _fests
 }
+
+const searchContainer = ref<HTMLElement | null>(null)
+const scrollSearchPosition = ref(0)
 </script>
 
 <template>
@@ -168,7 +180,7 @@ async function getSearchFests() {
 
           <!-- Search results -->
           <div class="flex flex-col max-h-full gap-2 overflow-hidden grow">
-            <ul v-if="!displaySearchHistory && searchFests.length > 0 && !searchStore.isLoading"
+            <ul ref="searchContainer" v-if="!displaySearchHistory && searchFests.length > 0 && !searchStore.isLoading"
               class="max-h-full overflow-y-scroll shadow-inner rounded-3xl bg-gray-50">
               <li v-for="(fest, index) in searchFests">
                 <button type="button" class="flex items-stretch w-full border-b justify-stretch border-b-white"
