@@ -4,14 +4,18 @@ import { Keyboard } from '@capacitor/keyboard';
 import { useFestStore } from '~/stores/fest'
 import { type Fest } from '~/types/fest'
 
+// Called on initial mount & every time it is re-inserted from the cache
 const navStore = useNavStore()
-navStore.setLeftAction('menu')
-navStore.setTitle('Theochrone')
-useBackButton().setExit()
+onActivated(() => {
+  navStore.setLeftAction('menu')
+  navStore.setTitle('Theochrone')
+  useBackButton().setExit()
+})
 
 const date = ref(new Date())
 
 const festStore = useFestStore()
+const index = ref(0)
 const fests = ref([] as Fest[])
 
 const swiper = ref()
@@ -51,9 +55,9 @@ const calAttrs = computed(() => {
 
 const router = useRouter()
 
-function openFestPage(fests: Fest[], index: number) {
-  festStore.setSlideIndex(index)
-  festStore.setSlideFests(fests)
+function openFestPage(_fests: Fest[], _index: number) {
+  festStore.setSlideIndex(_index)
+  festStore.setSlideFests(_fests)
   router.push('/fest')
 }
 
@@ -99,7 +103,7 @@ async function getSearchFests() {
           <VDatePicker v-model="date" is-required expanded borderless class="shrink-0" :attributes="calAttrs" />
 
           <Swiper id="index-swiper" @swiper="(_swiper: any) => swiper = _swiper"
-            @slideChange="(s: any) => festStore.setSlideIndex(s.snapIndex)"
+            @slideChange="(s: any) => index = s.snapIndex"
             :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
             :pagination="true" :coverflowEffect="{
       rotate: 50,
@@ -113,7 +117,7 @@ async function getSearchFests() {
               class="p-2 pb-10 !flex items-center w-[70%] max-w-[70%] h-full max-h-full">
               <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
                 <img :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded drop-shadow"
-                  @click="() => openFestPage(fests, festStore.slideIndex)" />
+                  @click="() => openFestPage(fests, index)" />
               </div>
             </SwiperSlide>
             <!-- Slide on loading -->
@@ -127,11 +131,11 @@ async function getSearchFests() {
           <div class="p-4 shrink-0">
             <button type="button" v-wave
               class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer shadow-sm"
-              @click="() => { (fests.length > 0 && !festStore.isLoading) ? openFestPage(fests, festStore.slideIndex) : () => { } }">
+              @click="() => { (fests.length > 0 && !festStore.isLoading) ? openFestPage(fests, index) : () => { } }">
               <span class="hidden">Fest informations</span>
               <x-skeleton v-if="fests.length < 1 || festStore.isLoading"
                 class="h-full !rounded-full shrink-0 aspect-square " />
-              <img v-else :src="getColorFestPicture(fests[festStore.slideIndex].color)" alt="Fest color"
+              <img v-else :src="getColorFestPicture(fests[index].color)" alt="Fest color"
                 class="h-full rounded-l-full shrink-0 aspect-square">
 
               <span class="flex flex-col items-center justify-center h-full grow">
@@ -140,7 +144,7 @@ async function getSearchFests() {
                   <x-skeleton class="mt-1" />
                 </span>
                 <span v-else class="px-2 font-medium line-clamp-2 text-secondary-800">
-                  {{ fests[festStore.slideIndex]?.title }}
+                  {{ fests[index]?.title }}
                 </span>
               </span>
 

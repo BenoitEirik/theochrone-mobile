@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { Browser } from '@capacitor/browser';
-import type { Fest } from '~/types/fest'
+import { Browser } from '@capacitor/browser'
 
 const navStore = useNavStore()
 navStore.setLeftAction('back', () => useRouter().back())
