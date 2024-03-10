@@ -8,9 +8,9 @@ ScreenOrientation.lock({ orientation: 'portrait' })
 useSettings()
 
 onMounted(async () => {
-  await SplashScreen.hide()
   StatusBar.setStyle({ style: Style.Dark })
   StatusBar.setBackgroundColor({ color: '#55acee' })
+  await SplashScreen.hide()
 })
 </script>
 
