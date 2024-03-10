@@ -172,7 +172,7 @@ async function getSearchFests() {
               class="max-h-full overflow-y-scroll shadow-inner rounded-3xl bg-gray-50">
               <li v-for="(fest, index) in searchFests">
                 <button type="button" class="flex items-stretch w-full border-b justify-stretch border-b-white"
-                  @click="() => openFestPage(searchFests, index)" v-wave>
+                  @click="() => openFestPage([searchFests[index]], 0)" v-wave>
                   <span class="p-3 shrink-0 aspect-square">
                     <img :src="getColorFestPicture(fest.color)" alt="Fest color"
                       class="rounded-full h-11 aspect-square" />
