@@ -7,30 +7,21 @@ navStore.setLeftAction('back', () => useRouter().back())
 useBackButton().setBack()
 
 const festStore = useFestStore()
-const fests = ref([] as Fest[])
+const fests = ref(festStore.slideFests)
+navStore.setTitle(festStore.slideFests[festStore.slideIndex].title)
 
 const swiper = ref()
 
-const { festCache, setFestPageCache } = usePageCacheStore()
-
-// Wait swiper to be referenced, then request fests
-watch(swiper, async () => {
-  fests.value = festCache.fests
-  navStore.setTitle(fests.value[festCache.index].title)
-}, { once: true })
-
 function onSlideChange(index: number) {
-  setFestPageCache({ index })
-  console.log(index)
-  console.log(fests.value)
-  navStore.setTitle(fests.value[festCache.index].title)
+  festStore.setSlideIndex(index)
+  navStore.setTitle(festStore.slideFests[index].title)
 }
 </script>
 
 <template>
   <nuxtLayout name="main" class="flex flex-col items-stretch">
     <Swiper id="fest-swiper" @swiper="(_swiper: any) => swiper = _swiper" :modules="[SwiperPagination]"
-      :pagination="true" :initial-slide="festCache.index"
+      :pagination="true" :initial-slide="festStore.slideIndex"
       @slideChange="(s: any) => onSlideChange(s.snapIndex)" class="w-full h-full max-w-full max-h-full">
       <SwiperSlide v-for="fest in fests" :key="fest.id" class="overflow-y-scroll touch-pan-y">
         <section class="flex flex-col items-stretch gap-4 p-4 pt-0 pb-8 grow">

@@ -6,10 +6,16 @@ import { type Fest, type MapDayFest } from '~/types/fest'
 export const useFestStore = defineStore('FestStore', () => {
   const repositoriesDateFest = ref<Map<string, MapDayFest>>(new Map([['home', new Map() as MapDayFest], ['search', new Map() as MapDayFest]]))
   const isLoading = ref<boolean>(false)
-  const homeSlideIndex = ref(0)
+  
+  const slideIndex = ref(0)
+  const slideFests = ref([] as Fest[])
 
-  function setHomeSlideIndex(value: number) {
-    homeSlideIndex.value = value
+  function setSlideIndex(value: number) {
+    slideIndex.value = value
+  }
+
+  function setSlideFests(value: Fest[]) {
+    slideFests.value = value
   }
 
   // repoName is about the repository where fests are stored: 'home' for  homepage, 'search' for search page
@@ -92,8 +98,10 @@ export const useFestStore = defineStore('FestStore', () => {
   return {
     isLoading,
     getFest,
-    homeSlideIndex,
-    setHomeSlideIndex
+    slideIndex,
+    setSlideIndex,
+    slideFests,
+    setSlideFests
   }
 })
 
