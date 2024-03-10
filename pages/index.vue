@@ -112,7 +112,7 @@ async function getSearchFests() {
             <SwiperSlide v-if="fests.length > 0 && !festStore.isLoading" v-for="fest in fests" :key="fest.id"
               class="p-2 pb-10 !flex items-center w-[70%] max-w-[70%] h-full max-h-full">
               <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
-                <img :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded"
+                <img :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded drop-shadow"
                   @click="() => openFestPage(fests, festStore.slideIndex)" />
               </div>
             </SwiperSlide>

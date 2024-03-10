@@ -36,8 +36,8 @@ function onSlideChange(index: number) {
           </header>
 
           <div class="flex flex-col gap-4 p-4 shadow-inner rounded-3xl bg-gray-50">
-            <figure class="flex justify-center w-full max-w-full h-60 max-h-60">
-              <img :src="fest.img" alt="Fest illustration" class="object-contain max-h-full rounded drop-shadow-sm" />
+            <figure class="flex items-center justify-center w-full max-w-full h-60 max-h-60">
+              <img :src="fest.img" alt="Fest illustration" class="max-w-full max-h-full rounded drop-shadow" />
             </figure>
 
             <table>
