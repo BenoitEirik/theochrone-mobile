@@ -25,7 +25,7 @@ function onSlideChange(index: number) {
       @slideChange="(s: any) => onSlideChange(s.snapIndex)" class="w-full h-full max-w-full max-h-full">
       <SwiperSlide v-for="fest in fests" :key="fest.id" class="overflow-y-scroll touch-pan-y">
         <section class="flex flex-col items-stretch gap-4 p-4 pt-0 pb-8 grow">
-          <header class="sticky top-0 pt-4">
+          <header class="sticky top-0 z-10 pt-4">
             <div class="absolute top-0 inset-x-0 bottom-[40%] bg-white -z-10" />
             <div
               class="shadow-sm flex items-center h-[65px] max-h-[65px] gap-1 p-2 border rounded-full border-gray bg-white z-0">
@@ -37,40 +37,40 @@ function onSlideChange(index: number) {
 
           <div class="flex flex-col gap-4 p-4 shadow-inner rounded-3xl bg-gray-50">
             <figure class="flex justify-center w-full max-w-full h-60 max-h-60">
-              <img :src="fest.img" alt="Fest illustration" class="object-contain max-h-full rounded" />
+              <img :src="fest.img" alt="Fest illustration" class="object-contain max-h-full rounded drop-shadow-sm" />
             </figure>
 
             <table>
-              <tbody>
-                <tr class="border-b border-b-white">
+              <tbody class="divide-y divide-white">
+                <tr>
                   <th class="pb-2 text-left">Propre</th>
                   <td>{{ fest.proper }}</td>
                 </tr>
-                <tr class="border-b border-b-white">
+                <tr>
                   <th class="py-2 text-left">Édition</th>
                   <td>{{ fest.edition }}</td>
                 </tr>
-                <tr class="border-b border-b-white">
+                <tr>
                   <th class="py-2 text-left">Célébration</th>
                   <td>{{ fest.celebration }}</td>
                 </tr>
-                <tr class="border-b border-b-white">
+                <tr>
                   <th class="py-2 text-left">Classe</th>
                   <td>{{ fest.class }}</td>
                 </tr>
-                <tr class="border-b border-b-white">
+                <tr>
                   <th class="py-2 text-left">Couleur liturgique</th>
                   <td>{{ fest.color }}</td>
                 </tr>
-                <tr class="border-b border-b-white">
+                <tr>
                   <th class="py-2 text-left">Temporal</th>
                   <td>{{ fest.temporal }}</td>
                 </tr>
-                <tr class="border-b border-b-white">
+                <tr>
                   <th class="py-2 text-left">Sanctoral</th>
                   <td>{{ fest.sanctoral }}</td>
                 </tr>
-                <tr class="border-b border-b-white">
+                <tr>
                   <th class="py-2 text-left">Temps liturgique</th>
                   <td>{{ fest.liturgicalTime }}</td>
                 </tr>
