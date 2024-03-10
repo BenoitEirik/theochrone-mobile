@@ -175,7 +175,7 @@ const scrollSearchPosition = ref(0)
             <x-input v-model="searchKeywords" placeholder="Mots-clés..." label="Recherche"
               icon-right="lets-icons:search-light" @keyup.enter="async () => await getSearchFests()"
               @focus="onSearchFocus()" @focusout="onSearchFocusOut()" />
-            <x-select v-model="searchYear" label="Année" placeholder="Placeholder" :options="searchStore.yearOptions" />
+            <x-select v-model="searchYear" label="Année" placeholder="Placeholder" :options="searchStore.yearOptions" @change="async () => !!searchKeywords ? await getSearchFests() : () => {}" />
           </header>
 
           <!-- Search results -->
