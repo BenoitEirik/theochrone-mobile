@@ -56,7 +56,7 @@ const router = useRouter()
 
     <template #footer>
       <div class="p-4 border-t">
-        <x-button color="pink" block light>Sountenir</x-button>
+        <x-button color="pink" rounded block light @click="async () => { navStore.setLeftDrawer(false); await Browser.open({ url: 'https://www.paypal.com/donate/?hosted_button_id=38SVK696BLC8Y', toolbarColor: '#55acee' }) }">Faire un don</x-button>
       </div>
     </template>
   </x-drawer>

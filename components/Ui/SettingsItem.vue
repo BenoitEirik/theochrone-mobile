@@ -34,7 +34,7 @@ async function action() {
 </script>
 
 <template>
-  <button type="button" class="flex items-stretch w-full divide-y divide-white justify-stretch" v-wave @click="action">
+  <button type="button" class="flex items-stretch w-full justify-stretch" v-wave @click="action">
     <span class="p-4 shrink-0 aspect-video">
       <IconCSS :name="iconName" />
     </span>
@@ -43,6 +43,7 @@ async function action() {
     </span>
     <span class="flex items-center justify-center p-4 shrink-0 aspect-video" @click.prevent>
       <x-toggle v-if="type === 'toggle'" v-model="toggle" color="primary" hide-footer />
+      <IconCSS v-else-if="type === 'link'" name="lets-icons:external" />
     </span>
   </button>
 </template>
