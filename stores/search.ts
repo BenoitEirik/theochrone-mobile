@@ -26,6 +26,7 @@ export const useSearchStore = defineStore('SearchStore', () => {
   async function getSearchFests(_keywords: string, _year: number) {
     isLoading.value = true
     keywords.value = _keywords.replace(' ', '+')
+    year.value = _year
 
     // Save history
     _historyFIFO(_keywords)
