@@ -6,7 +6,7 @@ const navStore = useNavStore()
   <header class="p-2 w-full h-[50px] max-h-[50px] flex justify-stretch items-center bg-primary-500 gap-2">
     <button type="button" @click="navStore.leftAction.callback" class="p-2 rounded-full cursor-pointer shrink-0" v-wave>
       <IconCSS v-if="navStore.leftAction.name === 'menu'" name="lucide:menu" :style="{ backgroundColor: 'white' }" />
-      <IconCSS v-if="navStore.leftAction.name === 'back'" name="lets-icons:expand-left"
+      <IconCSS v-if="navStore.leftAction.name === 'back'" name="lucide:chevron-left"
         :style="{ backgroundColor: 'white' }" />
     </button>
 
