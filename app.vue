@@ -15,9 +15,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="w-screen h-screen max-w-full max-h-screen overflow-hidden">
+  <div class="relative w-screen h-screen max-w-full max-h-screen overflow-hidden">
     <NavHeader />
-    <NuxtPage :keepalive="{ include: 'index' }" />
+    <NuxtPage :keepalive="{ include: 'index' }" class="z-10" />
     <NavDrawer />
+    <UiImageViewer class="z-10" />
   </div>
 </template>

@@ -13,7 +13,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "ionic:build": "pnpm run generate",
-    "ionic:serve": "pnpm run dev"
+    "ionic:serve": "pnpm run dev",
+    "cap:android-icon": "pnpm exec capacitor-assets generate --android --assetPath \"resources\" --iconBackgroundColor \"#ffffff\" --iconBackgroundColorDark \"#ffffff\""
   },
   "dependencies": {
     "@capacitor/android": "^5.7.1",

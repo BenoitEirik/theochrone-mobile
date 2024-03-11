@@ -15,13 +15,15 @@ function onSlideChange(index: number) {
   festStore.setSlideIndex(index)
   navStore.setTitle(festStore.slideFests[index].title)
 }
+
+const imageViewer = useImageViewer()
 </script>
 
 <template>
   <nuxtLayout name="main" class="flex flex-col items-stretch">
     <Swiper id="fest-swiper" @swiper="(_swiper: any) => swiper = _swiper" :modules="[SwiperPagination]"
-      :pagination="true" :initial-slide="festStore.slideIndex"
-      @slideChange="(s: any) => onSlideChange(s.snapIndex)" class="w-full h-full max-w-full max-h-full">
+      :pagination="true" :initial-slide="festStore.slideIndex" @slideChange="(s: any) => onSlideChange(s.snapIndex)"
+      class="w-full h-full max-w-full max-h-full">
       <SwiperSlide v-for="fest in fests" :key="fest.id" class="overflow-y-scroll touch-pan-y">
         <section class="flex flex-col items-stretch gap-4 p-4 pt-0 pb-8 grow">
           <header class="sticky top-0 z-10 pt-4">
@@ -35,15 +37,19 @@ function onSlideChange(index: number) {
           </header>
 
           <div class="flex flex-col gap-4 p-4 shadow-inner rounded-3xl bg-gray-50">
-            <figure class="flex items-center justify-center w-full max-w-full h-60 max-h-60">
-              <img :src="fest.img" alt="Fest illustration" class="max-w-full max-h-full rounded drop-shadow" />
+            <figure class="relative flex items-center justify-center w-full max-w-full h-60 max-h-60"
+              @click="imageViewer.show(fest.img, fest.title)">
+              <img :src="fest.img" alt="Fest illustration" class="max-w-full max-h-full rounded" />
+              <div class="absolute bottom-0 right-0 rounded shadow-sm bg-gray-200/50">
+                <IconCSS name="lets-icons:full-screen-corner-light" :style="{ height: '1rem' }" />
+              </div>
             </figure>
 
             <table>
               <tbody class="divide-y divide-white">
                 <tr>
                   <th class="pb-2 text-left">Propre</th>
-                  <td>{{ fest.proper }}</td>
+                  <td class="align-top">{{ fest.proper }}</td>
                 </tr>
                 <tr>
                   <th class="py-2 text-left">Édition</th>
@@ -75,7 +81,7 @@ function onSlideChange(index: number) {
                 </tr>
                 <tr>
                   <th class="pt-2 text-left">Fête transférée</th>
-                  <td>{{ fest.transferedFest }}</td>
+                  <td class="align-bottom">{{ fest.transferedFest }}</td>
                 </tr>
               </tbody>
             </table>

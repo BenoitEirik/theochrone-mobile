@@ -12,7 +12,7 @@ onActivated(() => {
   useBackButton().setExit()
 
   if (tab.value === 'search-tab' && !!searchContainer && !!searchContainer.value) {
-     searchContainer.value.scrollTo({ top: scrollSearchPosition.value })
+    searchContainer.value.scrollTo({ top: scrollSearchPosition.value })
   }
 })
 
@@ -128,7 +128,7 @@ const scrollSearchPosition = ref(0)
             <SwiperSlide v-if="fests.length > 0 && !festStore.isLoading" v-for="fest in fests" :key="fest.id"
               class="p-2 pb-10 !flex items-center w-[70%] max-w-[70%] h-full max-h-full">
               <div class="flex items-center justify-center w-full max-w-full h-full max-h-[300px]">
-                <img :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded drop-shadow"
+                <img :src="fest.img" alt="Fest picture" class="max-w-full max-h-full rounded"
                   @click="() => openFestPage(fests, index)" />
               </div>
             </SwiperSlide>
@@ -175,7 +175,8 @@ const scrollSearchPosition = ref(0)
             <x-input v-model="searchKeywords" placeholder="Mots-clés..." label="Recherche"
               icon-right="lets-icons:search-light" @keyup.enter="async () => await getSearchFests()"
               @focus="onSearchFocus()" @focusout="onSearchFocusOut()" />
-            <x-select v-model="searchYear" label="Année" placeholder="Placeholder" :options="searchStore.yearOptions" @change="async () => !!searchKeywords ? await getSearchFests() : () => {}" />
+            <x-select v-model="searchYear" label="Année" placeholder="Placeholder" :options="searchStore.yearOptions"
+              @change="async () => !!searchKeywords ? await getSearchFests() : () => { }" />
           </header>
 
           <!-- Search results -->
