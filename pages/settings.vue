@@ -18,10 +18,11 @@ navStore.setTitle('Paramètres')
           icon-name="lets-icons:glasses-light" />
       </LayoutSettings>
 
-      <LayoutSettings title="Notifications">
+      <!-- TODO -->
+      <!-- <LayoutSettings title="Notifications">
         <UiSettingsItem type="toggle" label="Afficher les fêtes du jour au démarrage de l'appareil"
           v-model:toggle="bootNotification" icon-name="lets-icons:on-button-duotone" />
-      </LayoutSettings>
+      </LayoutSettings> -->
 
       <LayoutSettings title="Informations">
         <UiSettingsItem type="link" label="Règles de confidentialité"
@@ -40,7 +41,7 @@ navStore.setTitle('Paramètres')
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-secondary-500">
+    <div class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-center text-secondary-500">
       <address>Application développé par <strong class="underline"
           @click="async () => await Browser.open({ url: 'https://olafsergent.fr', toolbarColor: '#55acee' })">Olaf-Marie
           Sergent</strong></address>
