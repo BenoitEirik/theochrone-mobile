@@ -6,12 +6,13 @@ interface Fest {
   proper: string;
   edition: string;
   celebration: string;
-  class: string;
+  class?: string; // PAL fests have no class
   color: string;
   temporal: string;
   sanctoral: string;
   liturgicalTime: string;
   transferedFest: string;
+  pal: boolean;
 }
 
 interface MapDayFest extends Map<string, Fest[]> {}

@@ -38,7 +38,7 @@ async function action() {
     <span class="p-4 shrink-0 aspect-video">
       <IconCSS :name="iconName" />
     </span>
-    <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
+    <span class="flex flex-col items-stretch justify-center p-2 font-medium text-left grow text-secondary-800">
       <span class="line-clamp-2">{{ label }}</span>
     </span>
     <span class="flex items-center justify-center p-4 shrink-0 aspect-video" @click.prevent>

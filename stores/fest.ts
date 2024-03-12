@@ -123,7 +123,7 @@ async function dayFestParser(res: HttpResponse): Promise<Fest[]> {
   for (let i = 0; i < Number(festsElement?.childElementCount); i++) {
     const attributesElement = festsElement?.children[i].querySelector('.panel-collapse .panel-body .container .row .col-md-6 table tbody')?.children || new HTMLCollection()
 
-    const _fest = {
+    const _fest: Fest = {
       id: i,
       img: await getPictureURL(festsElement?.children[i].querySelector('.panel-collapse .panel-footer a')?.getAttribute('href') || ''),
       massTextURL: festsElement?.children[i].querySelector('.panel-collapse .panel-footer a')?.getAttribute('href') || '',
@@ -136,8 +136,9 @@ async function dayFestParser(res: HttpResponse): Promise<Fest[]> {
       temporal: attributesElement[5].children[1].innerHTML || '',
       sanctoral: attributesElement[6].children[1].innerHTML || '',
       liturgicalTime: attributesElement[7].children[1].innerHTML || '',
-      transferedFest: attributesElement[8].children[1].innerHTML || ''
-    } as Fest
+      transferedFest: attributesElement[8].children[1].innerHTML || '',
+      pal: false
+    }
 
     fests.push(_fest)
   }

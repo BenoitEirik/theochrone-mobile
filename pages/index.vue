@@ -148,7 +148,7 @@ const scrollSearchPosition = ref(0)
               <x-skeleton v-if="fests.length < 1 || festStore.isLoading"
                 class="h-full !rounded-full shrink-0 aspect-square " />
               <img v-else :src="getColorFestPicture(fests[index].color)" alt="Fest color"
-                class="h-full rounded-l-full shrink-0 aspect-square">
+                class="h-full rounded-l-full shrink-0 aspect-square" />
 
               <span class="flex flex-col items-center justify-center h-full grow">
                 <span v-if="fests.length < 1 || festStore.isLoading" class="flex flex-col w-full p-2 justify-evenly">
@@ -182,25 +182,36 @@ const scrollSearchPosition = ref(0)
           <!-- Search results -->
           <div class="flex flex-col max-h-full gap-2 overflow-hidden grow">
             <ul ref="searchContainer" v-if="!displaySearchHistory && searchFests.length > 0 && !searchStore.isLoading"
-              class="max-h-full overflow-y-scroll shadow-inner rounded-3xl bg-gray-50">
+              class="max-h-full overflow-y-scroll divide-y divide-white shadow-inner rounded-3xl bg-gray-50">
+              <li class="flex justify-center p-2 text-xs text-secondary-400">
+                <div>{{ searchFests.length }} résultat{{ searchFests.length > 1 ? 's' : '' }}</div>
+              </li>
               <li v-for="(fest, index) in searchFests">
-                <button type="button" class="flex items-stretch w-full border-b justify-stretch border-b-white"
+                <button type="button" class="flex items-stretch w-full justify-stretch"
                   @click="() => openFestPage([searchFests[index]], 0)" v-wave>
                   <span class="p-3 shrink-0 aspect-square">
                     <img :src="getColorFestPicture(fest.color)" alt="Fest color"
                       class="rounded-full h-11 aspect-square" />
                   </span>
-                  <span class="flex flex-col items-stretch py-2 overflow-x-hidden text-left justify-stretch grow">
+                  <span
+                    class="flex flex-col items-stretch py-2 overflow-x-hidden text-left divide-y divide-transparent justify-stretch grow">
                     <span class="font-medium text-secondary-800 line-clamp-1">
                       {{ fest.title.split('-').slice(0, -1).join('-') }}
                     </span>
                     <span class="text-xs text-gray-400">
                       {{ searchStore.formatSearchDate(fest.title.split('-').slice(-1).join('')) }}
                     </span>
-                    <span class="text-xs text-gray-500 line-clamp-2">
-                      {{ [fest.liturgicalTime, fest.celebration.slice(0, -2), `Classe ${fest.class}`, `Propre
-                      ${fest.proper}`, fest.edition].join(' | ') + '.'
-                      }}
+                    <span v-if="fest.pal" class="flex self-start px-1 bg-gray-400 rounded items-centers">
+                      <div class="text-xs font-medium text-center shadow text-gray-50">
+                        Messe propre à certains lieux
+                      </div>
+                    </span>
+                    <span class="text-xs text-gray-500"
+                      :class="{ 'line-clamp-2': !fest.pal, '!line-clamp-1': fest.pal }">
+                      {{
+      [fest.liturgicalTime, fest.celebration.slice(0, -2), `Classe ${fest.class}`, `Propre
+                      ${fest.proper}`, fest.edition].join(', ') + '.'
+    }}
                     </span>
                   </span>
                   <span class="flex items-center p-2 shrink-0">
@@ -217,9 +228,10 @@ const scrollSearchPosition = ref(0)
               <span>Aucun résultat</span>
             </div>
             <!-- Loading skeleton -->
-            <ul v-if="searchStore.isLoading" class="max-h-full overflow-y-scroll shadow-inner rounded-3xl bg-gray-50">
+            <ul v-if="searchStore.isLoading"
+              class="max-h-full overflow-y-scroll divide-y divide-white shadow-inner rounded-3xl bg-gray-50">
               <li v-for="i in 8">
-                <button type="button" class="flex items-stretch w-full border-b justify-stretch border-b-white" v-wave>
+                <button type="button" class="flex items-stretch w-full justify-stretch" v-wave>
                   <span class="p-3 shrink-0 aspect-square">
                     <x-skeleton class="!rounded-full h-11 aspect-square" />
                   </span>
@@ -242,12 +254,12 @@ const scrollSearchPosition = ref(0)
             </ul>
             <!-- Display history entries -->
             <ul v-if="displaySearchHistory && !searchStore.isLoading"
-              class="max-h-full overflow-y-scroll shadow-inner rounded-3xl bg-gray-50">
+              class="max-h-full overflow-y-scroll divide-y divide-white shadow-inner rounded-3xl bg-gray-50">
               <li v-if="searchStore.history.length > 0" v-for="entry in searchStore.history">
-                <button type="button" class="flex items-stretch w-full border-b justify-stretch border-b-white"
+                <button type="button" class="flex items-stretch w-full justify-stretch"
                   @click="async () => { searchKeywords = entry; await getSearchFests() }" v-wave>
                   <span class="p-4 shrink-0 aspect-square">
-                    <IconCSS name="lets-icons:time-progress-light" />
+                    <IconCSS name="iconamoon:history-thin" />
                   </span>
                   <span class="flex flex-col items-stretch justify-center py-2 pr-2 text-left grow">
                     <span class="line-clamp-1">{{ entry }}</span>

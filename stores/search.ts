@@ -31,7 +31,7 @@ export const useSearchStore = defineStore('SearchStore', () => {
     // Save history
     _historyFIFO(_keywords)
 
-    const res = await CapacitorHttp.get({ url: `https://theochrone.fr/kalendarium/mot_clef?annee=${year.value}&recherche=${keywords.value}&plus=on&pal=false&martyrology=false&proper=roman#resultup` })
+    const res = await CapacitorHttp.get({ url: `https://theochrone.fr/kalendarium/mot_clef?annee=${year.value}&recherche=${keywords.value}&plus=on&pal=true&martyrology=false&proper=roman#resultup` })
 
     if (res.status !== 200) {
       fests.value = []
@@ -62,7 +62,9 @@ export const useSearchStore = defineStore('SearchStore', () => {
     for (let i = 0; i < Number(festsElement?.childElementCount); i++) {
       const attributesElement = festsElement?.children[i].querySelector('.panel-collapse .panel-body .container .row .col-md-6 table tbody')?.children || new HTMLCollection();
 
-      const _fest = {
+      const isPal = (festsElement?.children[i].querySelector('.panel-heading .panel-title a')?.innerHTML || '').includes('Pro Aliquibus Locis')
+
+      const _fest: Fest = {
         id: i,
         img: await getPictureURL(festsElement?.children[i].querySelector('.panel-collapse .panel-footer a')?.getAttribute('href') || ''),
         massTextURL: festsElement?.children[i].querySelector('.panel-collapse .panel-footer a')?.getAttribute('href') || '',
@@ -70,12 +72,13 @@ export const useSearchStore = defineStore('SearchStore', () => {
         proper: attributesElement[0].children[1].innerHTML || '',
         edition: attributesElement[1].children[1].innerHTML || '',
         celebration: attributesElement[2].children[1].innerHTML || '',
-        class: attributesElement[3].children[1].innerHTML || '',
-        color: attributesElement[4].children[1].innerHTML || 'Blanc',
-        temporal: attributesElement[5].children[1].innerHTML || '',
-        sanctoral: attributesElement[6].children[1].innerHTML || '',
-        liturgicalTime: attributesElement[7].children[1].innerHTML || '',
-        transferedFest: attributesElement[8].children[1].innerHTML || '',
+        class: isPal ? undefined : (attributesElement[3].children[1].innerHTML || ''),
+        color: attributesElement[isPal ? 3 : 4].children[1].innerHTML || 'Blanc',
+        temporal: attributesElement[isPal ? 4 : 5].children[1].innerHTML || '',
+        sanctoral: attributesElement[isPal ? 5 : 6].children[1].innerHTML || '',
+        liturgicalTime: attributesElement[isPal ? 6 : 7].children[1].innerHTML || '',
+        transferedFest: attributesElement[isPal ? 7 : 8].children[1].innerHTML || '',
+        pal: isPal
       }
 
       _fests.push(_fest)

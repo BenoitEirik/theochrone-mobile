@@ -32,7 +32,7 @@ const imageViewer = useImageViewer()
               class="shadow-sm flex items-center h-[65px] max-h-[65px] gap-1 p-2 border rounded-full border-gray bg-white z-0">
               <img :src="getColorFestPicture(fest.color)" alt="Fest color"
                 class="h-full rounded-full shrink-0 aspect-square" />
-              <h2 class="font-medium text-center grow line-clamp-2">{{ fest.title }}</h2>
+              <h2 class="font-medium text-center grow line-clamp-2">{{ fest.title.split('-')[0] }}</h2>
             </div>
           </header>
 
@@ -44,6 +44,12 @@ const imageViewer = useImageViewer()
                 <IconCSS name="lets-icons:full-screen-corner-light" :style="{ height: '1rem' }" />
               </div>
             </figure>
+
+            <div v-if="fest.pal" class="flex items-center justify-center">
+              <div class="px-1 text-xs font-medium text-center bg-gray-400 rounded shadow text-gray-50">
+                Messe propre à certains lieux
+              </div>
+            </div>
 
             <table>
               <tbody class="divide-y divide-white">
@@ -59,7 +65,7 @@ const imageViewer = useImageViewer()
                   <th class="py-2 text-left">Célébration</th>
                   <td>{{ fest.celebration }}</td>
                 </tr>
-                <tr>
+                <tr v-if="!fest.pal">
                   <th class="py-2 text-left">Classe</th>
                   <td>{{ fest.class }}</td>
                 </tr>
