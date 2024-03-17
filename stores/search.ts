@@ -1,7 +1,7 @@
 import { CapacitorHttp, type HttpResponse } from '@capacitor/core'
 import { defineStore } from 'pinia'
 import type { Fest } from '~/types/fest'
-import { Preferences, type GetResult } from '@capacitor/preferences'
+import { Preferences } from '@capacitor/preferences'
 
 export const useSearchStore = defineStore('SearchStore', () => {
   const keywords = ref('')
@@ -13,6 +13,8 @@ export const useSearchStore = defineStore('SearchStore', () => {
   const fests = ref([] as Fest[])
   const isLoading = ref(false)
   const history = ref([] as string[])
+  const proper = ref<string>('') // TODO: change by the one used by default in settings
+  const properOptions = getPropers()
 
 
   // Get history from local storage
@@ -23,15 +25,16 @@ export const useSearchStore = defineStore('SearchStore', () => {
     }
   })
 
-  async function getSearchFests(_keywords: string, _year: number) {
+  async function getSearchFests(_keywords: string, _year: number, _proper: string) {
     isLoading.value = true
     keywords.value = _keywords.replace(' ', '+')
     year.value = _year
+    proper.value = _proper
 
     // Save history
     _historyFIFO(_keywords)
 
-    const res = await CapacitorHttp.get({ url: `https://theochrone.fr/kalendarium/mot_clef?annee=${year.value}&recherche=${keywords.value}&plus=on&pal=true&martyrology=false&proper=roman#resultup` })
+    const res = await CapacitorHttp.get({ url: `https://theochrone.fr/kalendarium/mot_clef?annee=${year.value}&recherche=${keywords.value}&plus=on&pal=true&martyrology=false&proper=${proper}#resultup` })
 
     if (res.status !== 200) {
       fests.value = []
@@ -121,6 +124,8 @@ export const useSearchStore = defineStore('SearchStore', () => {
     keywords,
     year,
     yearOptions,
+    proper,
+    properOptions,
     fests,
     getSearchFests,
     isLoading,

@@ -75,6 +75,7 @@ const tab = ref('calendar-tab')
 const searchStore = useSearchStore()
 const searchKeywords = ref<string>(searchStore.keywords)
 const searchYear = ref<number>(searchStore.year)
+const searchProper = ref<string>(useSettings().proper.value)
 const searchFests = ref(searchStore.fests)
 const searchFocus = ref(true)
 const displaySearchHistory = ref(true)
@@ -98,7 +99,7 @@ async function getSearchFests() {
 
   displaySearchHistory.value = false
 
-  const { error, fests: _fests } = await searchStore.getSearchFests(searchKeywords.value, searchYear.value)
+  const { error, fests: _fests } = await searchStore.getSearchFests(searchKeywords.value, searchYear.value, searchProper.value)
   searchFests.value = _fests
 }
 
@@ -171,12 +172,16 @@ const scrollSearchPosition = ref(0)
 
       <x-tab value="search-tab" label="Recherche" icon="lets-icons:search-light" class="grow">
         <section class="flex flex-col items-stretch h-full max-h-full gap-4 px-4 py-2 overflow-hidden">
-          <header class="shrink-0">
+          <header class="flex flex-col gap-2 shrink-0">
             <x-input v-model="searchKeywords" placeholder="Mots-clés..." label="Recherche"
               icon-right="lets-icons:search-light" @keyup.enter="async () => await getSearchFests()"
               @focus="onSearchFocus()" @focusout="onSearchFocusOut()" />
-            <x-select v-model="searchYear" label="Année" placeholder="Placeholder" :options="searchStore.yearOptions"
-              @change="async () => !!searchKeywords ? await getSearchFests() : () => { }" />
+            <div class="flex gap-2 justify-stretch">
+              <x-select v-model="searchYear" label="Année" :options="searchStore.yearOptions"
+                @change="async () => !!searchKeywords ? await getSearchFests() : () => { }" class="flex-1" />
+              <x-select v-model="searchProper" label="Propre" :options="searchStore.properOptions"
+                @change="async () => !!searchKeywords ? await getSearchFests() : () => { }" class="flex-1" />
+            </div>
           </header>
 
           <!-- Search results -->

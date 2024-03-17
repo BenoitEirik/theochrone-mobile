@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Browser } from '@capacitor/browser'
 
-const { bootNotification, acessibility } = useSettings()
+const { accessibility, proper } = useSettings()
 
 useBackButton().setBack()
 
@@ -14,8 +14,10 @@ navStore.setTitle('Paramètres')
   <NuxtLayout name="main" class="flex flex-col items-stretch justify-between overflow-auto">
     <div>
       <LayoutSettings title="Général">
-        <UiSettingsItem type="toggle" label="Aide aux malvoyants" v-model:toggle="acessibility"
+        <UiSettingsItem type="toggle" label="Aide aux malvoyants" v-model:toggle="accessibility"
           icon-name="lets-icons:glasses-light" />
+        <UiSettingsItem type="select" label="Choix du propre" v-model:select="proper" :select-options="getPropers()"
+          icon-name="lets-icons:pin-alt-light" />
       </LayoutSettings>
 
       <!-- TODO -->
