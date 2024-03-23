@@ -112,6 +112,13 @@ async function getSearchFests() {
 
 }
 
+const martyrologeStore = useMartyrologeStore()
+
+function openMartyrologeFest(index: number) {
+  martyrologeStore.setMartyrologeFest(searchMartyrologeFests.value[index])
+  router.push('/martyrologe')
+}
+
 const searchContainer = ref<HTMLElement | null>(null)
 const scrollSearchPosition = ref(0)
 </script>
@@ -248,7 +255,7 @@ const scrollSearchPosition = ref(0)
                 </div>
               </li>
               <li v-for="(mFest, index) in searchMartyrologeFests">
-                <button type="button" class="flex flex-col items-stretch w-full gap-2 px-4 py-2" @click="() => null" v-wave>
+                <button type="button" class="flex flex-col items-stretch w-full gap-2 px-4 py-2" @click="() => openMartyrologeFest(index)" v-wave>
                   <span class="font-medium text-left text-secondary-800 line-clamp-1">{{ mFest.hrDate }}</span>
                   <span class="text-sm text-justify text-secondary-500">{{ mFest.mark }}</span>
                 </button>
