@@ -17,7 +17,15 @@ interface Fest {
 
 interface MapDayFest extends Map<string, Fest[]> {}
 
+interface MartyrologeFest {
+  id: number;
+  hrDate: string;
+  mark: string;
+  blockquote: string;
+}
+
 export {
   type Fest,
-  type MapDayFest
+  type MapDayFest,
+  type MartyrologeFest
 }

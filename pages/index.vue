@@ -77,6 +77,8 @@ const searchKeywords = ref<string>(searchStore.keywords)
 const searchYear = ref<number>(searchStore.year)
 const searchProper = ref<string>(useSettings().proper.value)
 const searchFests = ref(searchStore.fests)
+const searchInMartyrologe = ref(false)
+const searchMartyrologeFests = ref(searchStore.martyrologeFests)
 const searchFocus = ref(true)
 const displaySearchHistory = ref(true)
 
@@ -99,8 +101,15 @@ async function getSearchFests() {
 
   displaySearchHistory.value = false
 
-  const { error, fests: _fests } = await searchStore.getSearchFests(searchKeywords.value, searchYear.value, searchProper.value)
-  searchFests.value = _fests
+  if (!searchInMartyrologe.value) {
+    const { error, fests: _fests } = await searchStore.getSearchFests(searchKeywords.value, searchYear.value, searchProper.value)
+    searchFests.value = _fests
+  } else {
+    const { error, martyrologeFests: _mf } = await searchStore.getSearchMartyrologeFests(searchKeywords.value, searchYear.value)
+    searchMartyrologeFests.value = _mf
+    console.log('searchMartyrologeFests:', searchMartyrologeFests.value)
+  }
+
 }
 
 const searchContainer = ref<HTMLElement | null>(null)
@@ -143,7 +152,7 @@ const scrollSearchPosition = ref(0)
 
           <div class="p-4 shrink-0">
             <button type="button" v-wave
-              class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-gray cursor-pointer shadow-sm"
+              class="p-2 w-full h-[65px] max-h-[65px] flex justify-between items-center rounded-full overflow-hidden border border-secondary cursor-pointer shadow-sm"
               @click="() => { (fests.length > 0 && !festStore.isLoading) ? openFestPage(fests, index) : () => { } }">
               <span class="hidden">Fest informations</span>
               <x-skeleton v-if="fests.length < 1 || festStore.isLoading"
@@ -178,16 +187,21 @@ const scrollSearchPosition = ref(0)
               @focus="onSearchFocus()" @focusout="onSearchFocusOut()" />
             <div class="flex gap-2 justify-stretch">
               <x-select v-model="searchYear" label="Année" :options="searchStore.yearOptions"
-                @change="async () => !!searchKeywords ? await getSearchFests() : () => { }" class="flex-1" />
+                @change="() => !!searchKeywords ? getSearchFests() : null" class="flex-1" />
               <x-select v-model="searchProper" label="Propre" :options="searchStore.properOptions"
-                @change="async () => !!searchKeywords ? await getSearchFests() : () => { }" class="flex-1" />
+                @change="() => !!searchKeywords ? getSearchFests() : null" class="flex-1"
+                :disabled="searchInMartyrologe" />
             </div>
+            <x-checkbox v-model="searchInMartyrologe" @change="(v) => { v ? searchProper = 'roman' : null; getSearchFests() }"
+              label="Dans le Martyrologe Romain" color="primary" />
           </header>
 
           <!-- Search results -->
           <div class="flex flex-col max-h-full gap-2 overflow-hidden grow">
-            <ul ref="searchContainer" v-if="!displaySearchHistory && searchFests.length > 0 && !searchStore.isLoading"
-              class="max-h-full overflow-y-scroll divide-y divide-white shadow-inner rounded-3xl bg-gray-50">
+            <!-- Fests found -->
+            <ul ref="searchContainer"
+              v-if="!displaySearchHistory && !searchInMartyrologe && searchFests.length > 0 && !searchStore.isLoading"
+              class="max-h-full overflow-y-scroll divide-y divide-white shadow-inner rounded-3xl bg-secondary-50">
               <li class="flex justify-center p-2 text-xs text-secondary-400">
                 <div>{{ searchFests.length }} résultat{{ searchFests.length > 1 ? 's' : '' }}</div>
               </li>
@@ -203,15 +217,15 @@ const scrollSearchPosition = ref(0)
                     <span class="font-medium text-secondary-800 line-clamp-1">
                       {{ fest.title.split('-').slice(0, -1).join('-') }}
                     </span>
-                    <span class="text-xs text-gray-400">
+                    <span class="text-xs text-secondary-400">
                       {{ searchStore.formatSearchDate(fest.title.split('-').slice(-1).join('')) }}
                     </span>
-                    <span v-if="fest.pal" class="flex self-start px-1 bg-gray-400 rounded items-centers">
-                      <div class="text-xs font-medium text-center shadow text-gray-50">
+                    <span v-if="fest.pal" class="flex self-start px-1 rounded bg-secondary-400 items-centers">
+                      <div class="text-xs font-medium text-center shadow text-secondary-50">
                         Messe propre à certains lieux
                       </div>
                     </span>
-                    <span class="text-xs text-gray-500"
+                    <span class="text-xs text-secondary-500"
                       :class="{ 'line-clamp-2': !fest.pal, '!line-clamp-1': fest.pal }">
                       {{
       [fest.liturgicalTime, fest.celebration.slice(0, -2), `Classe ${fest.class}`, `Propre
@@ -225,41 +239,70 @@ const scrollSearchPosition = ref(0)
                 </button>
               </li>
             </ul>
+            <!-- Martyrologe fests found -->
+            <ul ref="searchContainer"
+              v-if="!displaySearchHistory && searchInMartyrologe && searchMartyrologeFests.length > 0 && !searchStore.isLoading"
+              class="max-h-full overflow-y-scroll divide-y divide-white shadow-inner rounded-3xl bg-secondary-50">
+              <li class="flex justify-center p-2 text-xs text-secondary-400">
+                <div>{{ searchMartyrologeFests.length }} résultat{{ searchMartyrologeFests.length > 1 ? 's' : '' }}
+                </div>
+              </li>
+              <li v-for="(mFest, index) in searchMartyrologeFests">
+                <button type="button" class="flex flex-col items-stretch w-full gap-2 px-4 py-2" @click="() => null" v-wave>
+                  <span class="font-medium text-left text-secondary-800 line-clamp-1">{{ mFest.hrDate }}</span>
+                  <span class="text-sm text-justify text-secondary-500">{{ mFest.mark }}</span>
+                </button>
+              </li>
+            </ul>
             <!-- No results -->
             <div
               v-if="!displaySearchHistory && !!searchKeywords && !searchFocus && searchFests.length < 1 && !searchStore.isLoading"
-              class="flex flex-col items-center justify-center h-full max-h-full p-4 overflow-y-scroll shadow-inner rounded-3xl bg-gray-50">
+              class="flex flex-col items-center justify-center h-full max-h-full p-4 overflow-y-scroll shadow-inner rounded-3xl bg-secondary-50">
               <IconCSS name="lets-icons:arhive-alt-big-duotone-line" />
               <span>Aucun résultat</span>
             </div>
             <!-- Loading skeleton -->
             <ul v-if="searchStore.isLoading"
-              class="max-h-full overflow-y-scroll divide-y divide-white shadow-inner rounded-3xl bg-gray-50">
-              <li v-for="i in 8">
-                <button type="button" class="flex items-stretch w-full justify-stretch" v-wave>
-                  <span class="p-3 shrink-0 aspect-square">
-                    <x-skeleton class="!rounded-full h-11 aspect-square" />
-                  </span>
-                  <span class="flex flex-col items-stretch py-2 pr-2 text-left justify-stretch grow">
-                    <span class="line-clamp-2">
-                      <x-skeleton />
+              class="max-h-full pt-8 overflow-y-scroll divide-y divide-white shadow-inner rounded-3xl bg-secondary-50">
+              <template v-if="!searchInMartyrologe">
+                <li v-for="i in 8">
+                  <button type="button" class="flex items-stretch w-full justify-stretch" v-wave>
+                    <span class="p-3 shrink-0 aspect-square">
+                      <x-skeleton class="!rounded-full h-11 aspect-square" />
                     </span>
-                    <span class="text-xs text-gray-400">
-                      <x-skeleton class="w-16 mt-1" />
+                    <span class="flex flex-col items-stretch py-2 pr-2 text-left justify-stretch grow">
+                      <span class="line-clamp-2">
+                        <x-skeleton />
+                      </span>
+                      <span class="text-xs text-secondary-400">
+                        <x-skeleton class="w-16 mt-1" />
+                      </span>
+                      <span class="text-xs text-secondary-500 line-clamp-2">
+                        <x-skeleton class="h-6 mt-1" />
+                      </span>
                     </span>
-                    <span class="text-xs text-gray-500 line-clamp-2">
-                      <x-skeleton class="h-6 mt-1" />
+                    <span class="flex items-center p-2 shrink-0">
+                      <IconCSS name="lets-icons:expand-right" :style="{ backgroundColor: '#d1d5db' }" />
                     </span>
-                  </span>
-                  <span class="flex items-center p-2 shrink-0">
-                    <IconCSS name="lets-icons:expand-right" :style="{ backgroundColor: '#d1d5db' }" />
-                  </span>
-                </button>
-              </li>
+                  </button>
+                </li>
+              </template>
+              <template v-else-if="searchInMartyrologe">
+                <li v-for="i in 8">
+                  <button type="button" class="flex flex-col items-stretch w-full gap-2 px-4 py-2" v-wave>
+                    <span class="text-xs text-secondary-400">
+                      <x-skeleton class="w-16 max-w-full" />
+                    </span>
+                    <span class="flex flex-col gap-2 text-xs text-secondary-400">
+                      <x-skeleton v-for="i in 3"/>
+                    </span>
+                  </button>
+                </li>
+              </template>
             </ul>
             <!-- Display history entries -->
             <ul v-if="displaySearchHistory && !searchStore.isLoading"
-              class="max-h-full overflow-y-scroll divide-y divide-white shadow-inner rounded-3xl bg-gray-50">
+              class="max-h-full overflow-y-scroll divide-y divide-white shadow-inner rounded-3xl bg-secondary-50">
               <li v-if="searchStore.history.length > 0" v-for="entry in searchStore.history">
                 <button type="button" class="flex items-stretch w-full justify-stretch"
                   @click="async () => { searchKeywords = entry; await getSearchFests() }" v-wave>

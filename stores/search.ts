@@ -1,6 +1,6 @@
 import { CapacitorHttp, type HttpResponse } from '@capacitor/core'
 import { defineStore } from 'pinia'
-import type { Fest } from '~/types/fest'
+import type { Fest, MartyrologeFest } from '~/types/fest'
 import { Preferences } from '@capacitor/preferences'
 
 export const useSearchStore = defineStore('SearchStore', () => {
@@ -11,6 +11,7 @@ export const useSearchStore = defineStore('SearchStore', () => {
     return { value: year, label: `${year}` }
   })
   const fests = ref([] as Fest[])
+  const martyrologeFests = ref([] as MartyrologeFest[])
   const isLoading = ref(false)
   const history = ref([] as string[])
   const proper = ref<string>('') // TODO: change by the one used by default in settings
@@ -120,6 +121,57 @@ export const useSearchStore = defineStore('SearchStore', () => {
     }
   }
 
+  async function getSearchMartyrologeFests(_keywords: string, _year: number) {
+    isLoading.value = true
+    keywords.value = _keywords.replace(' ', '+')
+    year.value = _year
+    proper.value = 'roman'
+
+    // Save history
+    _historyFIFO(_keywords)
+
+    const res = await CapacitorHttp.get({ url: `https://theochrone.fr/kalendarium/mot_clef?annee=${year.value}&recherche=${keywords.value}&plus=on&pal=true&martyrology=true&proper=${proper}#resultup` })
+
+    if (res.status !== 200) {
+      martyrologeFests.value = []
+      isLoading.value = false
+      return {
+        error: true,
+        martyrologeFests: martyrologeFests.value
+      }
+    }
+
+    martyrologeFests.value = await _martyrologeFestParser(res)
+
+    isLoading.value = false
+
+    return {
+      error: false,
+      martyrologeFests: martyrologeFests.value
+    }
+  }
+
+  async function _martyrologeFestParser(res: HttpResponse): Promise<MartyrologeFest[]> {
+    // Init virtual DOM from theochrone.fr
+    const body = new DOMParser().parseFromString(res.data, 'text/html').body
+    const container = body.querySelector('#resultup .container .row div')
+
+    // Get list of martyrologeFests
+    const _martyrologeFests = Array<MartyrologeFest>()
+    for (let i = 1; i < (container?.childElementCount || 0); i++) {
+      const _martyrologeFest: MartyrologeFest = {
+        id: i - 1,
+        hrDate: (container?.children[i].querySelector('.panel .panel-heading .panel-title .collapsed')?.innerHTML || ''),
+        blockquote: (container?.children[i].querySelector('#martyrology'+(i-1)+' blockquote')?.innerHTML || ''),
+        mark: (container?.children[i].querySelector('#martyrology'+(i-1)+' blockquote mark')?.innerHTML || '')
+      }
+
+      _martyrologeFests.push(_martyrologeFest)
+    }
+
+    return _martyrologeFests
+  }
+
   return {
     keywords,
     year,
@@ -130,6 +182,8 @@ export const useSearchStore = defineStore('SearchStore', () => {
     getSearchFests,
     isLoading,
     formatSearchDate,
-    history
+    history,
+    martyrologeFests,
+    getSearchMartyrologeFests
   }
 })
