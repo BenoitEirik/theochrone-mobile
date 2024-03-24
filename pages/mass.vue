@@ -38,6 +38,10 @@ watch(bodyMassRef, () => {
         e.preventDefault()
         useImageViewer().show(el.src, store.mass?.title || '')
       })
+      el.style.width = 'auto'
+      el.style.maxWidth = '100%'
+      el.style.maxHeight = '15rem'
+      el.style.marginInline = 'auto'
     })
   }
 }, { once: true })
@@ -53,13 +57,13 @@ watch(bodyMassRef, () => {
         <x-skeleton />
         <x-skeleton />
       </section>
-      <section class="flex flex-col gap-4 p-4">
+      <section class="flex flex-col gap-4">
         <h3 class="text-lg font-medium text-center text-secondary-800">Textes de la messe</h3>
         <table>
           <tbody>
             <tr v-for="i in 10">
-              <td><x-skeleton class="m-2" /></td>
-              <td><x-skeleton class="m-2" /></td>
+              <td><x-skeleton class="my-2 mr-2" /></td>
+              <td><x-skeleton class="my-2 ml-2" /></td>
             </tr>
           </tbody>
         </table>
