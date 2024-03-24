@@ -21,14 +21,22 @@ onBeforeMount(async () => {
   navStore.setTitle(store.mass?.title || '')
 })
 
-// Set action on cliking on all <a> from introibo.fr, to open in the integrated browser
 const bodyMassRef = ref<HTMLElement | null>(null)
 watch(bodyMassRef, () => {
   if (!!bodyMassRef.value) {
+    // Set action on cliking on anchors from introibo.fr, to open in the integrated browser
     bodyMassRef.value.querySelectorAll('a').forEach(el => {
       el.addEventListener('click', (e) => {
         e.preventDefault()
         Browser.open({ url: `http://introibo.fr/${el.href.split('/')[3]}`, toolbarColor: '#55acee' })
+      })
+    })
+
+    // Add possibility to watch images in the image viewer by clicking on images
+    bodyMassRef.value.querySelectorAll('img').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault()
+        useImageViewer().show(el.src, store.mass?.title || '')
       })
     })
   }
