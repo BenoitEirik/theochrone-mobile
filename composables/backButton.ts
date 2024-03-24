@@ -12,10 +12,15 @@ function setBack() {
   apply.value = () => useRouter().back()
 }
 
+function setCallback(cb: () => void) {
+  apply.value = cb
+}
+
 export const useBackButton = () => {
   return {
     apply,
     setExit,
-    setBack
+    setBack,
+    setCallback
   }
 }

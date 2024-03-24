@@ -16,6 +16,11 @@ function onSlideChange(index: number) {
   navStore.setTitle(festStore.slideFests[index].title)
 }
 
+function openMass(url: string) {
+  useMassStore().setUrl(url)
+  useRouter().push('/mass')
+}
+
 const imageViewer = useImageViewer()
 </script>
 
@@ -94,13 +99,13 @@ const imageViewer = useImageViewer()
 
             <button v-if="!!fest.massTextURL" type="button"
               class="flex items-stretch w-full border rounded-full shadow-sm border-gray"
-              @click="async () => await Browser.open({ url: fest.massTextURL, toolbarColor: '#55acee' })" v-wave>
+              @click="() => openMass(fest.massTextURL)" v-wave>
               <span class="h-full p-4 shrink-0 aspect-square">
                 <IconCSS name="lets-icons:book-open-alt-light" />
               </span>
               <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
                 <span class="line-clamp-1">Texte de la messe et de l'office</span>
-                <span class="text-gray-500 line-clamp-1">Sur introibo.fr</span>
+                <span class="text-gray-500 line-clamp-1">Fourni par introibo.fr</span>
               </span>
             </button>
           </div>
