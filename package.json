@@ -1,6 +1,6 @@
 {
   "name": "com.benoiteirik.theochrone",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Le Théochrone, un calendrier liturgique perpétuel selon le rit tridentin (missel de 1962).",
   "productName": "Theochrone",
   "author": "BenoitEirik <olafsergent@gmail.com>",
