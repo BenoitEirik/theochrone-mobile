@@ -263,7 +263,7 @@ const scrollSearchPosition = ref(0)
             </ul>
             <!-- No results -->
             <div
-              v-if="!displaySearchHistory && !!searchKeywords && !searchFocus && searchFests.length < 1 && !searchStore.isLoading"
+              v-if="!displaySearchHistory && !!searchKeywords && !searchFocus && ((!searchInMartyrologe && searchFests.length < 1) || ((searchInMartyrologe && searchMartyrologeFests.length < 1))) && !searchStore.isLoading"
               class="flex flex-col items-center justify-center h-full max-h-full p-4 overflow-y-scroll shadow-inner rounded-3xl bg-secondary-50">
               <IconCSS name="lets-icons:arhive-alt-big-duotone-line" />
               <span>Aucun résultat</span>
