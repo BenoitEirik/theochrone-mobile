@@ -131,7 +131,8 @@ const scrollSearchPosition = ref(0)
         <section class="flex flex-col items-stretch h-full max-h-full overflow-hidden">
           <VDatePicker v-model="date" is-required expanded borderless class="shrink-0" :attributes="calAttrs" />
 
-          <Swiper id="index-swiper" @swiper="(_swiper: any) => swiper = _swiper"
+          <div class="overflow-y-auto grow">
+            <Swiper id="index-swiper" @swiper="(_swiper: any) => swiper = _swiper"
             @slideChange="(s: any) => index = s.snapIndex"
             :modules="[SwiperZoom, SwiperEffectCoverflow, SwiperPagination]" slides-per-view="auto" effect="coverflow"
             :pagination="true" :coverflowEffect="{
@@ -140,7 +141,7 @@ const scrollSearchPosition = ref(0)
       depth: 200,
       modifier: 1,
       slideShadows: false,
-    }" :grab-cursor="true" :centered-slides="true" class="w-full grow"
+    }" :grab-cursor="true" :centered-slides="true" class="w-full h-full"
             bulletActiveClass="index-page-swiper-pagination-bullet-active">
             <SwiperSlide v-if="fests.length > 0 && !festStore.isLoading" v-for="fest in fests" :key="fest.id"
               class="p-2 pb-10 !flex items-center w-[70%] max-w-[70%] h-full max-h-full">
@@ -155,7 +156,8 @@ const scrollSearchPosition = ref(0)
                 <x-skeleton class="w-full h-full max-w-full max-h-full" />
               </div>
             </SwiperSlide>
-          </Swiper>
+            </Swiper>
+          </div>
 
           <div class="p-4 shrink-0">
             <button type="button" v-wave
@@ -199,7 +201,7 @@ const scrollSearchPosition = ref(0)
                 @change="() => !!searchKeywords ? getSearchFests() : null" class="flex-1"
                 :disabled="searchInMartyrologe" />
             </div>
-            <x-checkbox v-model="searchInMartyrologe" @change="(v) => { v ? searchProper = 'roman' : null; getSearchFests() }"
+            <x-checkbox v-model="searchInMartyrologe" @change="(v: boolean) => { v ? searchProper = 'roman' : null; getSearchFests() }"
               label="Dans le Martyrologe Romain" color="primary" />
           </header>
 
