@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
   modules: ['@nuxtjs/tailwindcss', ['@indielayer/ui/nuxt', {
     icons
-  }], 'nuxt-icon', '@pinia/nuxt', 'nuxt-swiper', 'nuxt-swiper','v-wave/nuxt'],
+  }], 'nuxt-icon', '@pinia/nuxt', 'nuxt-swiper', 'nuxt-swiper','v-wave/nuxt', '@nuxt/test-utils/module'],
   css: ['~/assets/css/tailwind.css','~/assets/scss/main.scss'],
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',

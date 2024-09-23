@@ -14,7 +14,8 @@
     "postinstall": "nuxt prepare",
     "ionic:build": "pnpm run generate",
     "ionic:serve": "pnpm run dev",
-    "cap:android-icon": "pnpm exec capacitor-assets generate --android --assetPath \"resources\" --iconBackgroundColor \"#ffffff\" --iconBackgroundColorDark \"#ffffff\""
+    "cap:android-icon": "pnpm exec capacitor-assets generate --android --assetPath \"resources\" --iconBackgroundColor \"#ffffff\" --iconBackgroundColorDark \"#ffffff\"",
+    "test": "pnpm vitest run"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.2",
@@ -30,6 +31,7 @@
     "@capacitor/text-zoom": "^6.0.2",
     "@pinia/nuxt": "^0.5.3",
     "@popperjs/core": "^2.11.8",
+    "jsdom": "^25.0.0",
     "nuxt": "^3.12.4",
     "nuxt-swiper": "^1.2.2",
     "sass": "^1.77.8",
@@ -42,14 +44,17 @@
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^6.1.2",
     "@indielayer/ui": "^1.8.4",
+    "@nuxt/test-utils": "^3.14.2",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@tailwindcss/typography": "^0.5.14",
+    "@vue/test-utils": "^2.4.6",
     "@vuepic/vue-datepicker": "^8.8.1",
     "@vueuse/core": "^10.11.1",
     "autoprefixer": "^10.4.20",
     "floating-vue": "^5.2.2",
     "nuxt-icon": "^0.6.10",
     "postcss": "^8.4.41",
-    "tailwindcss": "^3.4.10"
+    "tailwindcss": "^3.4.10",
+    "vitest": "^2.1.1"
   }
 }
