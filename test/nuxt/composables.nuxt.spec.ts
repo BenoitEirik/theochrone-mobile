@@ -2,6 +2,8 @@ import { vi, describe, it, expect, beforeEach, type Mock } from 'vitest'
 import { Preferences } from '@capacitor/preferences'
 import { TextZoom } from '@capacitor/text-zoom'
 import { useSettings } from '~/composables/settings'
+import { App } from '@capacitor/app'
+import { mockNuxtImport } from '@nuxt/test-utils/runtime'
 
 // Mock Capacitor Preferences & TextZoom modules
 vi.mock('@capacitor/preferences', () => ({
@@ -20,6 +22,15 @@ vi.mock('@capacitor/text-zoom', () => ({
 describe('useSettings', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+  })
+
+  it('should have right members', () => {
+    expect(Object.keys(useSettings()).sort()).toEqual([
+      'load',
+      'bootNotification',
+      'accessibility',
+      'proper'
+    ].sort())
   })
 
   it('should get readable values from preferences', async () => {
@@ -76,5 +87,71 @@ describe('useSettings', () => {
     const countRealSettings = Object.keys(settings).slice(1).length
     // Assert
     expect(countSettings).toEqual(countRealSettings)
+  })
+})
+
+vi.mock('@capacitor/app', () => ({
+  App: {
+    addListener: vi.fn(),
+    exitApp: vi.fn(),
+    setBack: vi.fn()
+  }
+}))
+
+// Mock the router
+const mockRouter = {
+  back: vi.fn()
+}
+mockNuxtImport('useRouter', () => {
+  return () => mockRouter
+})
+
+describe('backButton', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('should have right members', () => {
+    expect(Object.keys(useBackButton()).sort()).toEqual([
+      'apply',
+      'setExit',
+      'setBack',
+      'setCallback'
+    ].sort())
+  })
+
+  it('should exit the app', () => {
+    // Arrange
+    const { apply, setExit } = useBackButton()
+    // Act
+    setExit()
+    apply.value()
+    // Assert
+    expect(App.exitApp as Mock).toHaveBeenCalledOnce()
+  })
+
+  it('should back to previous page', () => {
+    const { apply, setBack } = useBackButton()
+    // ! We can't spyOn useRouter() directly because it's a constant value
+    const spyOnBack = vi.spyOn(mockRouter, 'back')
+    // Act
+    setBack()
+    apply.value()
+    // Assert
+    expect(spyOnBack).toHaveBeenCalledOnce()
+  })
+
+  it('should allow to set any callback', () => {
+    // Arrange
+    const { apply, setCallback } = useBackButton()
+    const mockCallback = {
+      myCallback: () => undefined
+    }
+    const spyOnCallback = vi.spyOn(mockCallback, 'myCallback')
+    // Act
+    setCallback(mockCallback.myCallback)
+    apply.value()
+    // Assert
+    expect(spyOnCallback).toHaveBeenCalledOnce()
   })
 })
