@@ -28,30 +28,30 @@ const imageViewer = useImageViewer()
   <nuxtLayout name="main" class="flex flex-col items-stretch">
     <Swiper id="fest-swiper" @swiper="(_swiper: any) => swiper = _swiper" :modules="[SwiperPagination]"
       :pagination="true" :initial-slide="festStore.slideIndex" @slideChange="(s: any) => onSlideChange(s.snapIndex)"
-      class="w-full h-full max-w-full max-h-full">
-      <SwiperSlide v-for="fest in fests" :key="fest.id" class="overflow-y-scroll touch-pan-y">
-        <section class="flex flex-col items-stretch gap-4 p-4 pt-0 pb-8 grow">
+      class="h-full max-h-full w-full max-w-full">
+      <SwiperSlide v-for="fest in fests" :key="fest.id" class="touch-pan-y overflow-y-scroll">
+        <section class="flex grow flex-col items-stretch gap-4 p-4 pb-8 pt-0">
           <header class="sticky top-0 z-10 pt-4">
-            <div class="absolute top-0 inset-x-0 bottom-[40%] bg-white -z-10" />
+            <div class="absolute inset-x-0 bottom-[40%] top-0 -z-10 bg-white" />
             <div
-              class="shadow-sm flex items-center h-[65px] max-h-[65px] gap-1 p-2 border rounded-full border-gray bg-white z-0">
+              class="border-gray z-0 flex h-[65px] max-h-[65px] items-center gap-1 rounded-full border bg-white p-2 shadow-sm">
               <img :src="getColorFestPicture(fest.color)" alt="Fest color"
-                class="h-full rounded-full shrink-0 aspect-square" />
-              <h2 class="font-medium text-center grow line-clamp-2">{{ fest.title.split('-')[0] }}</h2>
+                class="aspect-square h-full shrink-0 rounded-full" />
+              <h2 class="line-clamp-2 grow text-center font-medium">{{ fest.title.split('-')[0] }}</h2>
             </div>
           </header>
 
-          <div class="flex flex-col gap-4 p-4 shadow-inner rounded-3xl bg-gray-50">
-            <figure class="relative flex items-center justify-center w-full max-w-full h-60 max-h-60"
+          <div class="flex flex-col gap-4 rounded-3xl bg-gray-50 p-4 shadow-inner">
+            <figure class="relative flex h-60 max-h-60 w-full max-w-full items-center justify-center"
               @click="imageViewer.show(fest.img, fest.title)">
-              <img :src="fest.img" alt="Fest illustration" class="max-w-full max-h-full rounded" />
-              <div class="absolute bottom-0 right-0 rounded shadow-sm bg-gray-200/50">
+              <img :src="fest.img" alt="Fest illustration" class="max-h-full max-w-full rounded" />
+              <div class="absolute bottom-0 right-0 rounded bg-gray-200/50 shadow-sm">
                 <IconCSS name="lets-icons:full-screen-corner-light" :style="{ height: '1rem' }" />
               </div>
             </figure>
 
             <div v-if="fest.pal" class="flex items-center justify-center">
-              <div class="px-1 text-xs font-medium text-center bg-gray-400 rounded shadow text-gray-50">
+              <div class="rounded bg-gray-400 px-1 text-center text-xs font-medium text-gray-50 shadow">
                 Messe propre à certains lieux
               </div>
             </div>
@@ -98,14 +98,14 @@ const imageViewer = useImageViewer()
             </table>
 
             <button v-if="!!fest.massTextURL" type="button"
-              class="flex items-stretch w-full border rounded-full shadow-sm border-gray"
+              class="border-gray flex w-full items-stretch rounded-full border shadow-sm"
               @click="() => openMass(fest.massTextURL)" v-wave>
-              <span class="h-full p-4 shrink-0 aspect-square">
+              <span class="aspect-square h-full shrink-0 p-4">
                 <IconCSS name="lets-icons:book-open-alt-light" />
               </span>
-              <span class="flex flex-col items-stretch justify-center p-2 text-left grow">
+              <span class="flex grow flex-col items-stretch justify-center p-2 text-left">
                 <span class="line-clamp-1">Texte de la messe et de l'office</span>
-                <span class="text-gray-500 line-clamp-1">Fourni par introibo.fr</span>
+                <span class="line-clamp-1 text-gray-500">Fourni par introibo.fr</span>
               </span>
             </button>
           </div>

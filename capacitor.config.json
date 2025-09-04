@@ -3,7 +3,9 @@
   "appName": "Theochrone",
   "webDir": "dist",
   "server": {
-    "androidScheme": "https"
+    "androidScheme": "https",
+    "hostname": "0.0.0.0",
+    "cleartext": true
   },
   "plugins": {
     "SplashScreen": {
