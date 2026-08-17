@@ -20,16 +20,16 @@ watch(isShow, (newValue) => {
 
 <template>
   <figure v-if="isShow"
-    class="absolute left-1/2 top-1/2 flex h-screen max-h-screen w-screen max-w-full -translate-x-1/2 -translate-y-1/2 flex-col items-stretch overflow-hidden bg-black/90 text-white backdrop-blur-md">
+    class="fixed inset-0 flex h-dvh max-h-screen w-screen max-w-full flex-col items-stretch overflow-hidden bg-black/90 text-white backdrop-blur-md">
     <figcaption
-      class="flex h-[50px] max-h-[50px] shrink-0 items-center justify-stretch gap-2 overflow-hidden bg-primary-500 p-2">
+      class="flex min-h-[50px] w-full shrink-0 items-center justify-stretch gap-2 overflow-hidden p-2 pt-[calc(0.5rem+env(safe-area-inset-top,0px))]">
       <button type="button" class="shrink-0 cursor-pointer rounded-full p-2" v-wave @click="hide()">
         <IconCSS name="lets-icons:close-round" :style="{ backgroundColor: 'white' }" />
       </button>
       <h2 class="line-clamp-1 grow text-xl font-medium">{{ title }}</h2>
     </figcaption>
 
-    <div class="flex grow items-center justify-center p-4" @click="hide()">
+    <div class="flex grow items-center justify-center p-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]" @click="hide()">
       <img :src="url" alt="Fest picture" class="max-h-full max-w-full" @click.stop />
     </div>
   </figure>

@@ -26,3 +26,8 @@ logs
 .vscode/*
 !.vscode/settings.json
 !.vscode/tailwind.json
+
+# Security
+*.jks
+*.keystore
+*.pepk
