@@ -31,3 +31,5 @@ logs
 *.jks
 *.keystore
 *.pepk
+
+android/app/release/
