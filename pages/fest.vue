@@ -16,10 +16,11 @@ function onSlideChange(index: number) {
   navStore.setTitle(festStore.slideFests[index].title)
 }
 
-function openMass(url: string) {
-  useMassStore().setUrl(url)
-  useRouter().push('/mass')
-}
+// Was used for introibo.fr
+// function openMass(url: string) {
+//   useMassStore().setUrl(url)
+//   useRouter().push('/mass')
+// }
 
 const imageViewer = useImageViewer()
 </script>
@@ -97,15 +98,15 @@ const imageViewer = useImageViewer()
               </tbody>
             </table>
 
-            <button v-if="!!fest.massTextURL" type="button"
+            <button type="button"
               class="border-gray flex w-full items-stretch rounded-full border shadow-sm"
-              @click="() => openMass(fest.massTextURL)" v-wave>
+              @click="() => Browser.open({ url: 'https://missel.fr', toolbarColor: '#55acee' })" v-wave>
               <span class="aspect-square h-full shrink-0 p-4">
                 <IconCSS name="lets-icons:book-open-alt-light" />
               </span>
               <span class="flex grow flex-col items-stretch justify-center p-2 text-left">
                 <span class="line-clamp-1">Texte de la messe et de l'office</span>
-                <span class="line-clamp-1 text-gray-500">Fourni par introibo.fr</span>
+                <span class="line-clamp-1 text-gray-500">Fourni par missel.fr</span>
               </span>
             </button>
           </div>
