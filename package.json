@@ -12,8 +12,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "ionic:build": "pnpm run generate",
-    "ionic:serve": "pnpm run dev",
+    "ionic:serve": "nuxt dev . --host 0.0.0.0 --port 8100",
     "cap:android-icon": "pnpm exec capacitor-assets generate --android --assetPath \"resources\" --iconBackgroundColor \"#ffffff\" --iconBackgroundColorDark \"#ffffff\"",
     "test": "pnpm vitest run",
     "custom:dev": "pnpm exec cap run android --target=f96585a7 --live-reload --external --port=8100 --host=${1:-192.168.106.252} & pnpm exec pnpm ionic:serve --no-open --host=${1:-192.168.106.252} --port=8100"
